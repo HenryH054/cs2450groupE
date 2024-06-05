@@ -34,16 +34,16 @@ public class UVSim {
                     uvSim.store(operand);
                     break;
                 case 30:
-                    // code block
+                    uvSim.add(operand);
                     break;
                 case 31:
-                    // code block
+                    uvSim.subtract(operand);
                     break;
                 case 32:
-                    // code block
+                    uvSim.divide(operand);
                     break;
                 case 33:
-                    // code block
+                    uvSim.multiply(operand);
                     break;
                 case 40:
                     // code block
@@ -82,6 +82,21 @@ public class UVSim {
         memory[operand] = accumulator;
     }
 
+    public void add(int operand) {
+        accumulator += memory[operand];
+    }
+    
+    public void subtract(int operand) {
+        accumulator -= memory[operand];
+    }
+
+    public void divide(int operand) {
+        accumulator /= memory[operand];
+    }
+
+    public void multiply(int operand) {
+        accumulator *= memory[operand];
+    }
 
 }
 
