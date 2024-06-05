@@ -12,7 +12,7 @@ public class UVSim {
         UVSim uvSim = new UVSim();
         int instruction;
 
-        File file = new File("src/main/java/Test1.txt");
+        File file = new File("./src/main/java/Test1.txt");
         Scanner scannerFile = new Scanner(file);
 
         while (scannerFile.hasNextLine()) {
@@ -22,10 +22,10 @@ public class UVSim {
 
             switch(operation) {
                 case 10:
-                    // code block
+                    uvSim.read(operand);
                     break;
                 case 11:
-                    // code block
+                    uvSim.write(operand);
                     break;
                 case 20:
                     uvSim.load(operand);
@@ -34,16 +34,16 @@ public class UVSim {
                     uvSim.store(operand);
                     break;
                 case 30:
-                    // code block
+                    uvSim.add(operand);
                     break;
                 case 31:
-                    // code block
+                    uvSim.subtract(operand);
                     break;
                 case 32:
-                    // code block
+                    uvSim.divide(operand);
                     break;
                 case 33:
-                    // code block
+                    uvSim.multiply(operand);
                     break;
                 case 40:
                     // code block
@@ -61,7 +61,19 @@ public class UVSim {
                     // code block
             }
         }
+        scannerFile.close();
     }
+    
+    public void read(int operand) {
+        Scanner input = new Scanner(System.in);
+        memory[operand] = input.nextInt();
+        input.close();
+    }
+
+    public void write(int operand) {
+        System.out.println(memory[operand]);
+    }
+
     public void load(int operand) {
         accumulator = memory[operand];
     }
@@ -70,6 +82,21 @@ public class UVSim {
         memory[operand] = accumulator;
     }
 
+    public void add(int operand) {
+        accumulator += memory[operand];
+    }
+    
+    public void subtract(int operand) {
+        accumulator -= memory[operand];
+    }
+
+    public void divide(int operand) {
+        accumulator /= memory[operand];
+    }
+
+    public void multiply(int operand) {
+        accumulator *= memory[operand];
+    }
 
 }
 
