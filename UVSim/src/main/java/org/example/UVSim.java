@@ -12,7 +12,7 @@ public class UVSim {
         UVSim uvSim = new UVSim();
         int instruction;
 
-        File file = new File("src/main/java/Test1.txt");
+        File file = new File("./src/main/java/Test1.txt");
         Scanner scannerFile = new Scanner(file);
 
         while (scannerFile.hasNextLine()) {
@@ -22,10 +22,10 @@ public class UVSim {
 
             switch(operation) {
                 case 10:
-                    // code block
+                    uvSim.read(operand);
                     break;
                 case 11:
-                    // code block
+                    uvSim.write(operand);
                     break;
                 case 20:
                     uvSim.load(operand);
@@ -61,7 +61,19 @@ public class UVSim {
                     // code block
             }
         }
+        scannerFile.close();
     }
+    
+    public void read(int operand) {
+        Scanner input = new Scanner(System.in);
+        memory[operand] = input.nextInt();
+        input.close();
+    }
+
+    public void write(int operand) {
+        System.out.println(memory[operand]);
+    }
+
     public void load(int operand) {
         accumulator = memory[operand];
     }
