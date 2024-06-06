@@ -27,7 +27,7 @@ public class UVSim {
 
         // Execution loop
         while (uvSim.programCounter < 100) { // FC: Loop condition updated to use program counter
-            int instruction = uvSim.memory[uvSim.programCounter];
+            instruction = uvSim.memory[uvSim.programCounter];
             int operation = instruction / 100;
             int operand = instruction % 100;
 
