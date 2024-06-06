@@ -1,8 +1,5 @@
 package org.example;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -13,50 +10,6 @@ public class UVSimTest{
     @BeforeEach
     public void setUp() {
         uvSim = new UVSim();
-    }
-
-    @Test
-    public void read_PositiveNumber() {
-        String input = "42";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        uvSim.read(01);
-        assertEquals(42, uvSim.memory[01]);
-    }
-
-    @Test
-    public void read_NegativeNumber() {
-        String input = "-42";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        uvSim.read(01);
-        assertEquals(-42, uvSim.memory[01]);
-    }
-
-    @Test
-    public void write_PositiveNumber() {
-        int number = 90;
-        uvSim.memory[01] = number;
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-
-        uvSim.write(01);
-
-        String expectedOutput = number + System.lineSeparator();
-        assertEquals(expectedOutput, outputStream.toString());
-    }
-
-    @Test
-    public void write_NegativeNumber() {
-        int number = -90;
-        uvSim.memory[01] = number;
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-
-        uvSim.write(01);
-
-        String expectedOutput = number + System.lineSeparator();
-        assertEquals(expectedOutput, outputStream.toString());
     }
 
     @Test

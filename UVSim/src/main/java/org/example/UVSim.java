@@ -1,3 +1,4 @@
+
 package org.example;
 
 import java.io.File;
@@ -12,7 +13,9 @@ public class UVSim {
         UVSim uvSim = new UVSim();
         int instruction;
 
-        File file = new File("./src/main/java/Test1.txt");
+        
+        File file = new File(args[0]);
+
         Scanner scannerFile = new Scanner(file);
 
         while (scannerFile.hasNextLine()) {
@@ -63,8 +66,9 @@ public class UVSim {
         }
         scannerFile.close();
     }
-    
+
     public void read(int operand) {
+        System.out.println("Enter number:");
         Scanner input = new Scanner(System.in);
         memory[operand] = input.nextInt();
         input.close();
@@ -85,7 +89,7 @@ public class UVSim {
     public void add(int operand) {
         accumulator += memory[operand];
     }
-    
+
     public void subtract(int operand) {
         accumulator -= memory[operand];
     }
@@ -99,4 +103,3 @@ public class UVSim {
     }
 
 }
-
