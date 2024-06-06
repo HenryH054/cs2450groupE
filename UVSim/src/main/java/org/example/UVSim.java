@@ -91,7 +91,11 @@ public class UVSim {
     }
 
     public void divide(int operand) {
-        accumulator /= memory[operand];
+        if (memory[operand] != 0) {
+            accumulator /= memory[operand];
+        } else {
+            throw new ArithmeticException("Division by zero");
+        }
     }
 
     public void multiply(int operand) {
