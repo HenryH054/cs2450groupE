@@ -1,10 +1,11 @@
-package org.example;
+package test.java.org.example;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.example.UVSim;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class UVSimTest{

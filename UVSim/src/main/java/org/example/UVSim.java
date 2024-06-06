@@ -12,7 +12,11 @@ public class UVSim {
 
     public static void main(String[] args) throws FileNotFoundException {
         UVSim uvSim = new UVSim();
-        File file = new File("./src/main/java/Test1.txt");
+
+        int instruction;
+
+        File file = new File(args[0]);
+
         Scanner scannerFile = new Scanner(file);
 
         // Read all instructions into memory
@@ -82,6 +86,7 @@ public class UVSim {
 
     // I/O methods
     public void read(int operand) {
+        System.out.println("Enter number");
         Scanner input = new Scanner(System.in);
         memory[operand] = input.nextInt();
         input.close();
