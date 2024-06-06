@@ -107,4 +107,73 @@ public class UVSimTest{
 
         assertEquals(expectedValue, uvSim.memory[memoryLocation]);
     }
+
+        
+    @Test
+    public void add_Test_Positive() {
+        uvSim.memory[7] = 10;
+        uvSim.accumulator = 20;
+        uvSim.add(7);
+        assertEquals(30, uvSim.accumulator, "Accumulator should be 30 after adding 10");
+    }
+    
+    @Test
+    public void add_Test_Negative() {
+        uvSim.memory[8] = -15;
+        uvSim.accumulator = 25;
+        uvSim.add(8);
+        assertEquals(10, uvSim.accumulator, "Accumulator should be 10 after adding -15");
+    }
+
+    @Test
+    public void subtract_Test() {
+        uvSim.memory[8] = 5;
+        uvSim.accumulator = 20;
+        uvSim.subtract(8);
+        assertEquals(15, uvSim.accumulator, "Accumulator should be 15 after subtracting 5");
+    }
+    
+    @Test
+    public void subtract_Negative_Test() {
+        uvSim.memory[8] = -10;
+        uvSim.accumulator = 30;
+        uvSim.subtract(8);
+        assertEquals(40, uvSim.accumulator, "Accumulator should be 40 after subtracting -10 (effectively adding 10)");
+    }
+
+    @Test
+    public void divide_Test() {
+        uvSim.memory[9] = 5;
+        uvSim.accumulator = 20;
+        uvSim.divide(9);
+        assertEquals(4, uvSim.accumulator, "Accumulator should be 4 after dividing 20 by 5");
+    }
+    
+
+    @Test
+    public void divide_ByZero_Test() {
+        uvSim.memory[11] = 0;
+        uvSim.accumulator = 20;
+        try {
+            uvSim.divide(11);
+        } catch (ArithmeticException e) {
+            assertEquals("Division by zero", e.getMessage());
+        }
+    }
+
+    @Test
+    public void multiply_Positive_Test() {
+        uvSim.memory[10] = 4;
+        uvSim.accumulator = 5;
+        uvSim.multiply(10);
+        assertEquals(20, uvSim.accumulator, "Accumulator should be 20 after multiplying 5 by 4");
+    }
+    
+    @Test
+    public void multiply_Negative_Test() {
+        uvSim.memory[12] = -3;
+        uvSim.accumulator = 7;
+        uvSim.multiply(12);
+        assertEquals(-21, uvSim.accumulator, "Accumulator should be -21 after multiplying 7 by -3");
+    }
 }
