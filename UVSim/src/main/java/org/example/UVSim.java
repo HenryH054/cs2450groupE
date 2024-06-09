@@ -1,4 +1,3 @@
-
 package org.example;
 
 import java.io.File;
@@ -16,7 +15,7 @@ public class UVSim {
 
         int instruction;
 
-        File file = new File(args[0]);
+        File file = new File("UVSim/src/main/java/Test2.txt");
 
         Scanner scannerFile = new Scanner(file);
 
@@ -73,8 +72,22 @@ public class UVSim {
                     System.out.println("Invalid instruction: " + instruction);
             }
 
-            // FC: Increment program counter unless a branch or halt occurred
-            if (operation != 40 && operation != 41 && operation != 42 && operation != 43) {
+            boolean isBranchOperation = (operation == 40 || operation == 41 || operation == 42 || operation == 43);
+            boolean shouldIncrementPC = true;
+
+            if (isBranchOperation) {
+                if (operation == 40) {
+                    shouldIncrementPC = false;
+                } else if (operation == 41 && uvSim.accumulator < 0) {
+                    shouldIncrementPC = false;
+                } else if (operation == 42 && uvSim.accumulator == 0) {
+                    shouldIncrementPC = false;
+                } else if (operation == 43) {
+                    shouldIncrementPC = false;
+                }
+            }
+
+            if (shouldIncrementPC) {
                 uvSim.programCounter++;
             }
 
