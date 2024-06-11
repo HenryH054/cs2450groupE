@@ -15,7 +15,7 @@ public class UVSim {
 
         int instruction;
 
-        File file = new File("UVSim/src/main/java/Test2.txt");
+        File file = new File(args[0]);
 
         Scanner scannerFile = new Scanner(file);
 
@@ -99,10 +99,25 @@ public class UVSim {
         inputScanner.close();
     }
 
+    private static int truncateToFourDigits(int number) {
+        // Convert the number to a string
+        String numStr = String.valueOf(Math.abs(number));
+        String sign = number < 0 ? "-" : "";
+
+        // If the number has more than four digits, get the first four digits
+        if (numStr.length() > 4) {
+            numStr = numStr.substring(0, 4);
+        }
+
+        // Convert back to an integer and return
+        return Integer.parseInt(sign + numStr);
+    }
+
+
     // I/O methods
     public void read(int operand) {
         System.out.println("Enter a four digit number");
-        memory[operand] = inputScanner.nextInt();
+        memory[operand] = truncateToFourDigits(inputScanner.nextInt());;
     }
 
     public void write(int operand) {
@@ -115,7 +130,7 @@ public class UVSim {
     }
 
     public void store(int operand) {
-        memory[operand] = accumulator;
+        memory[operand] = truncateToFourDigits(accumulator);
     }
 
     // Arithmetic methods
