@@ -176,4 +176,49 @@ public class UVSimTest{
         uvSim.multiply(12);
         assertEquals(-21, uvSim.accumulator, "Accumulator should be -21 after multiplying 7 by -3");
     }
+    @Test
+    public void branch_Test() { // FC: Test for BRANCH operation
+        uvSim.programCounter = 0; // FC: Set program counter to 0
+        uvSim.branch(10); // FC: Execute BRANCH to location 10
+        assertEquals(10, uvSim.programCounter, "Program counter should be 10 after branching");
+    }
+
+    @Test
+    public void branchNeg_Test() { // FC: Test for BRANCHNEG operation
+        uvSim.programCounter = 0; // FC: Set program counter to 0
+        uvSim.accumulator = -5; // FC: Set accumulator to a negative value
+        uvSim.branchNeg(10); // FC: Execute BRANCHNEG to location 10
+        assertEquals(10, uvSim.programCounter, "Program counter should be 10 after branching on negative accumulator");
+    }
+
+    @Test
+    public void branchNeg_NotTaken_Test() { // FC: Test for BRANCHNEG not taken
+        uvSim.programCounter = 0; // FC: Set program counter to 0
+        uvSim.accumulator = 5; // FC: Set accumulator to a positive value
+        uvSim.branchNeg(10); // FC: Execute BRANCHNEG to location 10, but it should not be taken
+        assertEquals(0, uvSim.programCounter, "Program counter should not change after branching on positive accumulator");
+    }
+
+    @Test
+    public void branchZero_Test() { // FC: Test for BRANCHZERO operation
+        uvSim.programCounter = 0; // FC: Set program counter to 0
+        uvSim.accumulator = 0; // FC: Set accumulator to zero
+        uvSim.branchZero(10); // FC: Execute BRANCHZERO to location 10
+        assertEquals(10, uvSim.programCounter, "Program counter should be 10 after branching on zero accumulator");
+    }
+
+    @Test
+    public void branchZero_NotTaken_Test() { // FC: Test for BRANCHZERO not taken
+        uvSim.programCounter = 0; // FC: Set program counter to 0
+        uvSim.accumulator = 5; // FC: Set accumulator to a non-zero value
+        uvSim.branchZero(10); // FC: Execute BRANCHZERO to location 10, but it should not be taken
+        assertEquals(0, uvSim.programCounter, "Program counter should not change after branching on non-zero accumulator");
+    }
+
+    @Test
+    public void halt_Test() { // FC: Test for HALT operation
+        uvSim.programCounter = 0; // FC: Set program counter to 0
+        uvSim.halt(); // FC: Execute HALT
+        assertEquals(-1, uvSim.programCounter, "Program counter should be -1 after halting");
+    }
 }

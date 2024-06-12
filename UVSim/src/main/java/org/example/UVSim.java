@@ -1,4 +1,3 @@
-
 package org.example;
 
 import java.io.File;
@@ -9,6 +8,7 @@ public class UVSim {
     public int[] memory = new int[100];
     public int accumulator = 0;
     public int programCounter = 0; // FC: Added program counter
+    public static Scanner inputScanner = new Scanner(System.in); // Create the Scanner for user input
 
     public static void main(String[] args) throws FileNotFoundException {
         UVSim uvSim = new UVSim();
@@ -72,8 +72,22 @@ public class UVSim {
                     System.out.println("Invalid instruction: " + instruction);
             }
 
-            // FC: Increment program counter unless a branch or halt occurred
-            if (operation != 40 && operation != 41 && operation != 42 && operation != 43) {
+            boolean isBranchOperation = (operation == 40 || operation == 41 || operation == 42 || operation == 43);
+            boolean shouldIncrementPC = true;
+
+            if (isBranchOperation) {
+                if (operation == 40) {
+                    shouldIncrementPC = false;
+                } else if (operation == 41 && uvSim.accumulator < 0) {
+                    shouldIncrementPC = false;
+                } else if (operation == 42 && uvSim.accumulator == 0) {
+                    shouldIncrementPC = false;
+                } else if (operation == 43) {
+                    shouldIncrementPC = false;
+                }
+            }
+
+            if (shouldIncrementPC) {
                 uvSim.programCounter++;
             }
 
@@ -82,14 +96,28 @@ public class UVSim {
                 break;
             }
         }
+        inputScanner.close();
     }
+
+    private static int truncateToFourDigits(int number) {
+        // Convert the number to a string
+        String numStr = String.valueOf(Math.abs(number));
+        String sign = number < 0 ? "-" : "";
+
+        // If the number has more than four digits, get the first four digits
+        if (numStr.length() > 4) {
+            numStr = numStr.substring(0, 4);
+        }
+
+        // Convert back to an integer and return
+        return Integer.parseInt(sign + numStr);
+    }
+
 
     // I/O methods
     public void read(int operand) {
-        System.out.println("Enter number");
-        Scanner input = new Scanner(System.in);
-        memory[operand] = input.nextInt();
-        input.close();
+        System.out.println("Enter a four digit number");
+        memory[operand] = truncateToFourDigits(inputScanner.nextInt());;
     }
 
     public void write(int operand) {
@@ -102,7 +130,7 @@ public class UVSim {
     }
 
     public void store(int operand) {
-        memory[operand] = accumulator;
+        memory[operand] = truncateToFourDigits(accumulator);
     }
 
     // Arithmetic methods
