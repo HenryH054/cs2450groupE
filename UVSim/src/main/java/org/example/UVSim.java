@@ -8,7 +8,7 @@ public class UVSim {
     public int[] memory = new int[100];
     public int accumulator = 0;
     public int programCounter = 0; // FC: Added program counter
-    public static Scanner inputScanner = new Scanner(System.in); // Create the Scanner for user input
+    public Scanner inputScanner = new Scanner(System.in); // Create the Scanner for user input
 
     public static void main(String[] args) throws FileNotFoundException {
         UVSim uvSim = new UVSim();
@@ -96,7 +96,6 @@ public class UVSim {
                 break;
             }
         }
-        inputScanner.close();
     }
 
     private static int truncateToFourDigits(int number) {
