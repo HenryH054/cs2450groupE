@@ -1,4 +1,4 @@
-package org.example;
+package main.java.org.example.business;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +15,7 @@ public class UVSim {
 
         int instruction;
 
-        File file = new File(args[0]);
+        File file = new File("/Users/dj/Documents/GitHub/cs2450groupE/UVSim/src/main/java/Test2.txt");
 
         Scanner scannerFile = new Scanner(file);
 
