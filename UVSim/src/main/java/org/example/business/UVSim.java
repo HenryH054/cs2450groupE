@@ -174,4 +174,5 @@ public class UVSim {
         System.out.println("Program execution halted.");
         programCounter = -1; // FC: Set program counter to -1 to indicate halt
     }
+
 }
