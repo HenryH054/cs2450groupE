@@ -8,7 +8,12 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
+import main.java.org.example.business.UVSim;
+
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.example.TestNameLoggingExtension;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
