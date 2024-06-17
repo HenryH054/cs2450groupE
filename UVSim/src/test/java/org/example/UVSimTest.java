@@ -1,13 +1,24 @@
-package test.java.org.example;
+package org.example;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
 import main.java.org.example.business.UVSim;
 
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.example.TestNameLoggingExtension;
+
+
 import static org.junit.jupiter.api.Assertions.*;
+
+
+@ExtendWith(TestNameLoggingExtension.class)
 public class UVSimTest{
     private UVSim uvSim;
 
@@ -18,25 +29,40 @@ public class UVSimTest{
 
     @Test
     public void read_PositiveNumber() {
+        InputStream originalIn = System.in;
         String input = "42";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        uvSim.read(01);
-        assertEquals(42, uvSim.memory[01]);
+        try {
+            InputStream ioStream = new ByteArrayInputStream(input.getBytes());
+            uvSim.inputScanner = new Scanner(ioStream);
+            System.setIn(ioStream);
+            uvSim.read(01);
+            assertEquals(42, uvSim.memory[01]);
+        } finally {
+            System.setIn(originalIn);
+        }
     }
 
     @Test
     public void read_NegativeNumber() {
+        InputStream originalIn = System.in;
         String input = "-42";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        uvSim.read(01);
-        assertEquals(-42, uvSim.memory[01]);
+        try {
+            InputStream ioStream = new ByteArrayInputStream(input.getBytes());
+            uvSim.inputScanner = new Scanner(ioStream);
+            System.setIn(ioStream);
+            uvSim.read(01);
+            assertEquals(-42, uvSim.memory[01]);
+        }
+        finally {
+            System.setIn(originalIn);
+        }
     }
 
     @Test
     public void write_PositiveNumber() {
         int number = 90;
         uvSim.memory[01] = number;
-
+        PrintStream originial = System.out;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
@@ -44,13 +70,14 @@ public class UVSimTest{
 
         String expectedOutput = number + System.lineSeparator();
         assertEquals(expectedOutput, outputStream.toString());
+        System.setOut(originial);
     }
 
     @Test
     public void write_NegativeNumber() {
         int number = -90;
         uvSim.memory[01] = number;
-
+        PrintStream originial = System.out;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
@@ -58,6 +85,7 @@ public class UVSimTest{
 
         String expectedOutput = number + System.lineSeparator();
         assertEquals(expectedOutput, outputStream.toString());
+        System.setOut(originial);
     }
 
     @Test
@@ -135,9 +163,9 @@ public class UVSimTest{
     
     @Test
     public void subtract_Negative_Test() {
-        uvSim.memory[8] = -10;
+        uvSim.memory[9] = -10;
         uvSim.accumulator = 30;
-        uvSim.subtract(8);
+        uvSim.subtract(9);
         assertEquals(40, uvSim.accumulator, "Accumulator should be 40 after subtracting -10 (effectively adding 10)");
     }
 
