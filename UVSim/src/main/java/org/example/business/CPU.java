@@ -9,9 +9,13 @@ public class CPU {
     public Memory memory;
     private Scanner inputScanner = new Scanner(System.in);
     public int accumulator;
+    private ArithmeticOperations arithmeticOperations;
+    private BranchOperations branchOperations;
 
     public CPU (Memory mem){
         this.memory = mem;
+        this.arithmeticOperations = new ArithmeticOperations(this);
+        this.branchOperations = new BranchOperations(this);
     }
 
     private void execute() {
@@ -48,16 +52,16 @@ public class CPU {
             if (isMathOperation) {
                 switch(operation) {
                     case 30:
-                        add(operand);
+                        ArithmeticOperations.add(operand);
                         break;
                     case 31:
-                        subtract(operand);
+                        ArithmeticOperations.subtract(operand);
                         break;
                     case 32:
-                        divide(operand);
+                        ArithmeticOperations.divide(operand);
                         break;
                     case 33:
-                        multiply(operand);
+                        ArithmeticOperations.multiply(operand);
                         break;
                 }
             }
@@ -83,22 +87,22 @@ public class CPU {
         }
     }
 
-    public void add(int operand) {
-        accumulator += memory.getData(operand);
-    }
-    public void subtract(int operand) {
-        accumulator -= memory.getData(operand);
-    }
-    public void divide(int operand) {
-        if (memory.getData(operand) != 0) {
-            accumulator /= memory.getData(operand);
-        } else {
-            throw new ArithmeticException("Division by zero");
-        }
-    }
-    public void multiply(int operand) {
-        accumulator *= memory.getData(operand);
-    }
+    //public void add(int operand) {
+    //    accumulator += memory.getData(operand);
+    //}
+    //public void subtract(int operand) {
+    //    accumulator -= memory.getData(operand);
+    //}
+    //public void divide(int operand) {
+    //    if (memory.getData(operand) != 0) {
+    //        accumulator /= memory.getData(operand);
+    //    } else {
+    //        throw new ArithmeticException("Division by zero");
+    //    }
+    //}
+    //public void multiply(int operand) {
+    //    accumulator *= memory.getData(operand);
+    //}
 }
 
 //int instruction;
