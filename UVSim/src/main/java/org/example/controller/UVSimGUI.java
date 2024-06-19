@@ -1,6 +1,7 @@
-package org.example.controller;
+package main.java.org.example.controller;
 
-import org.example.business.UVSim;
+
+import main.java.org.example.business.CPU;
 import org.example.data.Memory;
 
 import javax.swing.*;
@@ -12,23 +13,25 @@ import java.util.Scanner;
 public class UVSimGUI extends JFrame {
     private Memory memory;
     private JFrame frame;
-    private UVSim uvSim;
+    private CPU cpu;
     private JPanel mainPanel;
     private JButton loadProgramButton;
     private JPanel panelTop;
     private JButton runProgram;
-    private JTextField textField1;
+    private JTextField inputField;
     private JButton submitButton;
     private JTextArea outputArea;
     private JLabel OutputLabel;
     private String filePath;
     private JScrollPane outputScrollPane;
 
+//    IOHandler ioHandler;
+
     public UVSimGUI() {
         memory = new Memory();
-        uvSim = new UVSim();
         frame = new JFrame("UV Sim");
-
+        cpu = new CPU(memory, this);
+//        ioHandler = new IOHandler(memory, this);
     }
 
     public void createAndShowGUI() {
@@ -40,12 +43,10 @@ public class UVSimGUI extends JFrame {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        submitButton.addActionListener(new ActionListener() {
+        runProgram.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String userInput = textField1.getText();
-                outputArea.append(userInput);
-                outputArea.append("\n");
+                runProgram();
             }
         });
         loadProgramButton.addActionListener(new ActionListener() {
@@ -75,9 +76,23 @@ public class UVSimGUI extends JFrame {
         }
     }
 
+    private void runProgram() {
+        cpu.execute();
+        appendOutput("Program executed.\n");
+    }
+
     public void appendOutput(String message) {
         outputArea.append(message + "\n");
     }
 
+
+    public int getInputField() {
+        String inputText = JOptionPane.showInputDialog("Please enter a four digit number: ");
+        while(!inputText.matches("\\d+")) {
+           inputText = JOptionPane.showInputDialog("Please enter a four digit number: ");
+        }
+
+        return Integer.parseInt(inputText);
+    }
 
 }

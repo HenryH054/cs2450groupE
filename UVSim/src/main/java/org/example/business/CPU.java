@@ -1,7 +1,9 @@
-package org.example.business;
+package main.java.org.example.business;
 
+import main.java.org.example.controller.UVSimGUI;
 import org.example.data.Memory;
-
+import org.example.business.ArithmeticOperations
+import org.example.business.BranchOperations;
 import java.util.Scanner;
 
 public class CPU {
@@ -9,16 +11,18 @@ public class CPU {
     public Memory memory;
     private Scanner inputScanner = new Scanner(System.in);
     public int accumulator;
-    private ArithmeticOperations arithmeticOperations;
+    private  ArithmeticOperations arithmeticOperations;
     private BranchOperations branchOperations;
+    UVSimGUI uvSimGUI;
 
-    public CPU (Memory mem){
+    public CPU (Memory mem, UVSimGUI uvSimGUI){
         this.memory = mem;
         this.arithmeticOperations = new ArithmeticOperations(this);
         this.branchOperations = new BranchOperations(this);
+        this.uvSimGUI = uvSimGUI;
     }
 
-    private void execute() {
+    public void execute() {
         Memory memory = this.memory;
         int instruction;
         // Execution loop
@@ -29,10 +33,10 @@ public class CPU {
 
             switch (operation) {
                 case 10:
-                    memory.read(operand, inputScanner);
+                    read(operand);
                     break;
                 case 11:
-                    memory.write(operand);
+                    write(operand);
                     break;
                 case 20:
                     accumulator = memory.getData(operand);
@@ -85,6 +89,33 @@ public class CPU {
                 programCounter++;
             }
         }
+    }
+
+    public void read(int index) {
+        uvSimGUI.appendOutput("Enter 4 digit number: ");
+        int digit = uvSimGUI.getInputField();
+        memory.setData(index, digit);
+    }
+
+    public void write(int index) {
+        uvSimGUI.appendOutput(String.valueOf(memory.getData(index)));
+    }
+
+    public void add(int operand) {
+        accumulator += memory.getData(operand);
+    }
+    public void subtract(int operand) {
+        accumulator -= memory.getData(operand);
+    }
+    public void divide(int operand) {
+        if (memory.getData(operand) != 0) {
+            accumulator /= memory.getData(operand);
+        } else {
+            throw new ArithmeticException("Division by zero");
+        }
+    }
+    public void multiply(int operand) {
+        accumulator *= memory.getData(operand);
     }
 
     //public void add(int operand) {

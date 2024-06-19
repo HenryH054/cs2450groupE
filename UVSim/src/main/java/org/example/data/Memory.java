@@ -16,23 +16,13 @@ public class Memory {
 //    LOAD = 20 Load a word from a specific location in memory into the accumulator.
 //    STORE = 21 Store a word from the accumulator into a specific location in memory.
 
-    public void writeFileToMemory(int address, int value) {
-        data[address] = value;
-    }
-
-    // I/O methods
-    public void read(int operand, Scanner inputScanner) {
-        System.out.println("Enter a four digit number");
-        data[operand] = truncateToFourDigits(inputScanner.nextInt());;
-    }
-
-    public void write(int address) {
-        System.out.println(data[address]);
+    public void writeFileToMemory(int index, int value) {
+        data[index] = value;
     }
 
     // Load/Store methods
-    public int getData(int operand) {
-        return data[operand];
+    public int getData(int index) {
+        return data[index];
     }
 
     public void setData(int operand, int value) {
