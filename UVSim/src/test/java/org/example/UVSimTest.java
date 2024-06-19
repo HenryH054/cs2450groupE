@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.data.*;
+import org.example.business.*;
+import org.example.controller.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -8,9 +11,6 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-
-import main.java.org.example.business.UVSim;
-
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.example.TestNameLoggingExtension;
 
@@ -24,19 +24,19 @@ public class UVSimTest{
 
     @BeforeEach
     public void setUp() {
-        uvSim = new UVSim();
     }
 
     @Test
     public void read_PositiveNumber() {
+        Memory memory = new Memory();
         InputStream originalIn = System.in;
         String input = "42";
         try {
             InputStream ioStream = new ByteArrayInputStream(input.getBytes());
-            uvSim.inputScanner = new Scanner(ioStream);
+            Scanner scanner = new Scanner(ioStream);
             System.setIn(ioStream);
-            uvSim.read(01);
-            assertEquals(42, uvSim.memory[01]);
+            memory.read(1, scanner);
+            assertEquals(42, memory.data[1]);
         } finally {
             System.setIn(originalIn);
         }
@@ -44,14 +44,15 @@ public class UVSimTest{
 
     @Test
     public void read_NegativeNumber() {
+        Memory memory = new Memory();
         InputStream originalIn = System.in;
         String input = "-42";
         try {
             InputStream ioStream = new ByteArrayInputStream(input.getBytes());
-            uvSim.inputScanner = new Scanner(ioStream);
+            Scanner scanner = new Scanner(ioStream);
             System.setIn(ioStream);
-            uvSim.read(01);
-            assertEquals(-42, uvSim.memory[01]);
+            memory.read(1, scanner);
+            assertEquals(-42, memory.data[1]);
         }
         finally {
             System.setIn(originalIn);
@@ -60,130 +61,141 @@ public class UVSimTest{
 
     @Test
     public void write_PositiveNumber() {
+        Memory memory = new Memory();
         int number = 90;
-        uvSim.memory[01] = number;
-        PrintStream originial = System.out;
+        memory.data[1] = number;
+        PrintStream original = System.out;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        uvSim.write(01);
+        memory.write(1);
 
         String expectedOutput = number + System.lineSeparator();
         assertEquals(expectedOutput, outputStream.toString());
-        System.setOut(originial);
+        System.setOut(original);
     }
 
     @Test
     public void write_NegativeNumber() {
+        Memory memory = new Memory();
         int number = -90;
-        uvSim.memory[01] = number;
-        PrintStream originial = System.out;
+        memory.data[1] = number;
+        PrintStream original = System.out;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        uvSim.write(01);
+        memory.write(1);
 
         String expectedOutput = number + System.lineSeparator();
         assertEquals(expectedOutput, outputStream.toString());
-        System.setOut(originial);
+        System.setOut(original);
     }
 
     @Test
     public void load_LoadPositiveNumber_LoadsFromMemoryLocation() {
+        UVSim uvsim = new UVSim();
         int expectedValue = 1234;
-        uvSim.accumulator = 0;
+        uvsim.cpu.accumulator = 0;
         int memoryLocation = 10;
+        uvsim.memory.setData(memoryLocation, expectedValue);
+        uvsim.memory.load(memoryLocation);
 
-        uvSim.memory[memoryLocation] = expectedValue;
-        uvSim.load(memoryLocation);
-
-        assertEquals(expectedValue, uvSim.accumulator);
+        assertEquals(expectedValue, uvsim.cpu.accumulator);
     }
 
     @Test
     public void load_LoadNegativeNumber_LoadsNumberToAccumulator() {
+        UVSim uvsim = new UVSim();
         int expectedValue = -4321;
-        uvSim.accumulator = 0;
+        uvsim.cpu.accumulator = 0;
         int memoryLocation = 10;
 
-        uvSim.memory[memoryLocation] = expectedValue;
-        uvSim.load(memoryLocation);
+        uvsim.memory.setData(memoryLocation, expectedValue);
+        uvsim.load(memoryLocation);
 
-        assertEquals(expectedValue, uvSim.accumulator);
+        assertEquals(expectedValue, uvsim.cpu.accumulator);
     }
 
     @Test
     public void store_StoreNegativeNumber_StoresNumberToMemoryLocation() {
+        UVSim uvsim = new UVSim();
         int expectedValue = -4321;
-        uvSim.accumulator = expectedValue;
+        uvsim.cpu.accumulator = expectedValue;
         int memoryLocation = 10;
 
-        uvSim.memory[memoryLocation] = uvSim.accumulator;
-        uvSim.store(memoryLocation);
+        uvsim.memory.setData(memoryLocation, uvsim.cpu.accumulator);
+        uvsim.memory.store(memoryLocation);
 
-        assertEquals(expectedValue, uvSim.memory[memoryLocation]);
+        assertEquals(expectedValue, uvsim.memory.data[memoryLocation]);
     }
 
     @Test
     public void store_StorePositiveNumber_StoresNumberToMemoryLocation() {
+        UVSim uvsim = new UVSim();
         int expectedValue = 1234;
-        uvSim.accumulator = expectedValue;
+        uvsim.cpu.accumulator = expectedValue;
         int memoryLocation = 10;
 
-        uvSim.memory[memoryLocation] = uvSim.accumulator;
-        uvSim.store(memoryLocation);
+        uvsim.memory.setData(memoryLocation, uvsim.cpu.accumulator);
+        uvSim.memory.store(memoryLocation);
 
-        assertEquals(expectedValue, uvSim.memory[memoryLocation]);
+        assertEquals(expectedValue, uvsim.memory.data[memoryLocation]);
     }
 
         
     @Test
     public void add_Test_Positive() {
-        uvSim.memory[7] = 10;
-        uvSim.accumulator = 20;
-        uvSim.add(7);
-        assertEquals(30, uvSim.accumulator, "Accumulator should be 30 after adding 10");
+        UVSim uvsim = new UVSim();
+        uvsim.memory.data[7] = 10;
+        uvsim.cpu.accumulator = 20;
+        uvsim.cpu.add(7);
+        assertEquals(30, uvSim.cpu.accumulator, "Accumulator should be 30 after adding 10");
     }
     
     @Test
     public void add_Test_Negative() {
-        uvSim.memory[8] = -15;
-        uvSim.accumulator = 25;
-        uvSim.add(8);
-        assertEquals(10, uvSim.accumulator, "Accumulator should be 10 after adding -15");
+        UVSim uvsim = new UVSim();
+        uvsim.memory.data[8] = -15;
+        uvsim.cpu.accumulator = 25;
+        uvsim.cpu.add(8);
+        assertEquals(10, uvsim.cpu.accumulator, "Accumulator should be 10 after adding -15");
     }
 
     @Test
     public void subtract_Test() {
-        uvSim.memory[8] = 5;
-        uvSim.accumulator = 20;
-        uvSim.subtract(8);
-        assertEquals(15, uvSim.accumulator, "Accumulator should be 15 after subtracting 5");
+        UVSim uvsim = new UVSim();
+        uvsim.memory.data[8] = 5;
+        uvsim.cpu.accumulator = 20;
+        uvsim.cpu.subtract(8);
+        assertEquals(15, uvsim.cpu.accumulator, "Accumulator should be 15 after subtracting 5");
     }
     
     @Test
     public void subtract_Negative_Test() {
-        uvSim.memory[9] = -10;
-        uvSim.accumulator = 30;
-        uvSim.subtract(9);
-        assertEquals(40, uvSim.accumulator, "Accumulator should be 40 after subtracting -10 (effectively adding 10)");
+        UVSim uvsim = new UVSim();
+        uvsim.memory.data[9] = -10;
+        uvsim.cpu.accumulator = 30;
+        uvsim.cpu.subtract(9);
+        assertEquals(40, uvsim.cpu.accumulator, "Accumulator should be 40 after subtracting -10 (effectively adding 10)");
     }
 
     @Test
     public void divide_Test() {
-        uvSim.memory[9] = 5;
-        uvSim.accumulator = 20;
-        uvSim.divide(9);
-        assertEquals(4, uvSim.accumulator, "Accumulator should be 4 after dividing 20 by 5");
+        UVSim uvsim = new UVSim();
+        uvsim.memory.data[9] = 5;
+        uvsim.cpu.accumulator = 20;
+        uvsim.cpu.divide(9);
+        assertEquals(4, uvsim.cpu.accumulator, "Accumulator should be 4 after dividing 20 by 5");
     }
     
 
     @Test
     public void divide_ByZero_Test() {
-        uvSim.memory[11] = 0;
-        uvSim.accumulator = 20;
+        UVSim uvsim = new UVSim();
+        uvsim.memory.data[11] = 0;
+        uvsim.cpu.accumulator = 20;
         try {
-            uvSim.divide(11);
+            uvSim.cpu.divide(11);
         } catch (ArithmeticException e) {
             assertEquals("Division by zero", e.getMessage());
         }
@@ -191,23 +203,26 @@ public class UVSimTest{
 
     @Test
     public void multiply_Positive_Test() {
-        uvSim.memory[10] = 4;
-        uvSim.accumulator = 5;
-        uvSim.multiply(10);
-        assertEquals(20, uvSim.accumulator, "Accumulator should be 20 after multiplying 5 by 4");
+        UVSim uvsim = new UVSim();
+        uvsim.memory.data[10] = 4;
+        uvsim.cpu.accumulator = 5;
+        uvsim.cpu.multiply(10);
+        assertEquals(20, uvsim.cpu.accumulator, "Accumulator should be 20 after multiplying 5 by 4");
     }
     
     @Test
     public void multiply_Negative_Test() {
-        uvSim.memory[12] = -3;
-        uvSim.accumulator = 7;
-        uvSim.multiply(12);
-        assertEquals(-21, uvSim.accumulator, "Accumulator should be -21 after multiplying 7 by -3");
+        UVSim uvsim = new UVSim();
+        uvsim.memory.data[12] = -3;
+        uvsim.cpu.accumulator = 7;
+        uvsim.cpu.multiply(12);
+        assertEquals(-21, uvsim.cpu.accumulator, "Accumulator should be -21 after multiplying 7 by -3");
     }
     @Test
     public void branch_Test() { // FC: Test for BRANCH operation
-        uvSim.programCounter = 0; // FC: Set program counter to 0
-        uvSim.branch(10); // FC: Execute BRANCH to location 10
+        UVSim uvsim = new UVSim();
+        uvsim.cpu.programCounter = 0; // FC: Set program counter to 0
+        uvsim.cpu.branch(10); // FC: Execute BRANCH to location 10
         assertEquals(10, uvSim.programCounter, "Program counter should be 10 after branching");
     }
 

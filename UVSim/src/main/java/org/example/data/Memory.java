@@ -1,9 +1,9 @@
-package main.java.org.example.data;
+package org.example.data;
 
 import java.util.Scanner;
 
 public class Memory {
-    private int[] data;
+    public int[] data;
 
     public Memory() {
         this.data = new int[100];

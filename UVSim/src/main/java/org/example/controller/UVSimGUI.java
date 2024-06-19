@@ -1,7 +1,7 @@
-package main.java.org.example.controller;
+package org.example.controller;
 
-import main.java.org.example.business.UVSim;
-import main.java.org.example.data.Memory;
+import org.example.business.UVSim;
+import org.example.data.Memory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
