@@ -1,5 +1,7 @@
 package org.example.business;
 
+import main.java.org.example.business.CPU;
+
 public class ArithmeticOperations {
     private CPU cpu;
 
