@@ -1,5 +1,6 @@
-package org.example.business;
+package main.java.org.example.business;
 
+import main.java.org.example.controller.UVSimGUI;
 import org.example.data.Memory;
 
 import java.util.Scanner;
@@ -9,12 +10,14 @@ public class CPU {
     public Memory memory;
     private Scanner inputScanner = new Scanner(System.in);
     public int accumulator;
+    UVSimGUI uvSimGUI;
 
-    public CPU (Memory mem){
+    public CPU (Memory mem, UVSimGUI uvSimGUI){
         this.memory = mem;
+        this.uvSimGUI = uvSimGUI;
     }
 
-    private void execute() {
+    public void execute() {
         Memory memory = this.memory;
         int instruction;
         // Execution loop
@@ -25,10 +28,10 @@ public class CPU {
 
             switch (operation) {
                 case 10:
-                    memory.read(operand, inputScanner);
+                    read(operand);
                     break;
                 case 11:
-                    memory.write(operand);
+                    write(operand);
                     break;
                 case 20:
                     accumulator = memory.getData(operand);
@@ -83,6 +86,16 @@ public class CPU {
         }
     }
 
+    public void read(int index) {
+        uvSimGUI.appendOutput("Enter 4 digit number: ");
+        int digit = uvSimGUI.getInputField();
+        memory.setData(index, digit);
+    }
+
+    public void write(int index) {
+        uvSimGUI.appendOutput(String.valueOf(memory.getData(index)));
+    }
+
     public void add(int operand) {
         accumulator += memory.getData(operand);
     }
@@ -99,6 +112,7 @@ public class CPU {
     public void multiply(int operand) {
         accumulator *= memory.getData(operand);
     }
+
 }
 
 //int instruction;
