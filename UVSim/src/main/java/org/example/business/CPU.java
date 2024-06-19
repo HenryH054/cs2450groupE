@@ -2,7 +2,8 @@ package main.java.org.example.business;
 
 import main.java.org.example.controller.UVSimGUI;
 import org.example.data.Memory;
-
+import org.example.business.ArithmeticOperations
+import org.example.business.BranchOperations;
 import java.util.Scanner;
 
 public class CPU {
@@ -10,10 +11,14 @@ public class CPU {
     public Memory memory;
     private Scanner inputScanner = new Scanner(System.in);
     public int accumulator;
+    private  ArithmeticOperations arithmeticOperations;
+    private BranchOperations branchOperations;
     UVSimGUI uvSimGUI;
 
     public CPU (Memory mem, UVSimGUI uvSimGUI){
         this.memory = mem;
+        this.arithmeticOperations = new ArithmeticOperations(this);
+        this.branchOperations = new BranchOperations(this);
         this.uvSimGUI = uvSimGUI;
     }
 
@@ -51,16 +56,16 @@ public class CPU {
             if (isMathOperation) {
                 switch(operation) {
                     case 30:
-                        add(operand);
+                        ArithmeticOperations.add(operand);
                         break;
                     case 31:
-                        subtract(operand);
+                        ArithmeticOperations.subtract(operand);
                         break;
                     case 32:
-                        divide(operand);
+                        ArithmeticOperations.divide(operand);
                         break;
                     case 33:
-                        multiply(operand);
+                        ArithmeticOperations.multiply(operand);
                         break;
                 }
             }
@@ -113,6 +118,22 @@ public class CPU {
         accumulator *= memory.getData(operand);
     }
 
+    //public void add(int operand) {
+    //    accumulator += memory.getData(operand);
+    //}
+    //public void subtract(int operand) {
+    //    accumulator -= memory.getData(operand);
+    //}
+    //public void divide(int operand) {
+    //    if (memory.getData(operand) != 0) {
+    //        accumulator /= memory.getData(operand);
+    //    } else {
+    //        throw new ArithmeticException("Division by zero");
+    //    }
+    //}
+    //public void multiply(int operand) {
+    //    accumulator *= memory.getData(operand);
+    //}
 }
 
 //int instruction;
