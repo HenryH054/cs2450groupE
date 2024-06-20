@@ -86,6 +86,11 @@ public class CPU {
         }
     }
 
+    public void reset() {
+        accumulator = 0;
+        programCounter = 0;
+    }
+
     public void add(int operand) {
         accumulator += memory.getData(operand);
     }
