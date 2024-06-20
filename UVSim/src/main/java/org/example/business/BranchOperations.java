@@ -1,4 +1,4 @@
-package org.example.business;
+package main.java.org.example.business;
 
 import main.java.org.example.business.CPU;
 

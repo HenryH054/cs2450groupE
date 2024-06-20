@@ -2,24 +2,21 @@ package main.java.org.example.business;
 
 import main.java.org.example.controller.UVSimGUI;
 import org.example.data.Memory;
-import org.example.business.ArithmeticOperations
-import org.example.business.BranchOperations;
-import java.util.Scanner;
+import org.example.business.ArithmeticOperations;
 
 public class CPU {
     public int programCounter;
     public Memory memory;
-    private Scanner inputScanner = new Scanner(System.in);
     public int accumulator;
     private  ArithmeticOperations arithmeticOperations;
     private BranchOperations branchOperations;
-    UVSimGUI uvSimGUI;
+    private IOHandler ioHandler;
 
-    public CPU (Memory mem, UVSimGUI uvSimGUI){
+    public CPU (Memory mem, IOHandler ioHandler){
         this.memory = mem;
         this.arithmeticOperations = new ArithmeticOperations(this);
         this.branchOperations = new BranchOperations(this);
-        this.uvSimGUI = uvSimGUI;
+        this.ioHandler = ioHandler;
     }
 
     public void execute() {
@@ -33,10 +30,10 @@ public class CPU {
 
             switch (operation) {
                 case 10:
-                    read(operand);
+                    ioHandler.read(operand);
                     break;
                 case 11:
-                    write(operand);
+                    ioHandler.write(operand);
                     break;
                 case 20:
                     accumulator = memory.getData(operand);
@@ -56,16 +53,16 @@ public class CPU {
             if (isMathOperation) {
                 switch(operation) {
                     case 30:
-                        ArithmeticOperations.add(operand);
+                        arithmeticOperations.add(operand);
                         break;
                     case 31:
-                        ArithmeticOperations.subtract(operand);
+                        arithmeticOperations.subtract(operand);
                         break;
                     case 32:
-                        ArithmeticOperations.divide(operand);
+                        arithmeticOperations.divide(operand);
                         break;
                     case 33:
-                        ArithmeticOperations.multiply(operand);
+                        arithmeticOperations.multiply(operand);
                         break;
                 }
             }
@@ -91,15 +88,14 @@ public class CPU {
         }
     }
 
-    public void read(int index) {
-        uvSimGUI.appendOutput("Enter 4 digit number: ");
-        int digit = uvSimGUI.getInputField();
-        memory.setData(index, digit);
-    }
-
-    public void write(int index) {
-        uvSimGUI.appendOutput(String.valueOf(memory.getData(index)));
-    }
+//    public void read(int index) {
+//        int digit = uvSimGUI.getInputField();
+//        memory.setData(index, digit);
+//    }
+//
+//    public void write(int index) {
+//        uvSimGUI.appendOutput(String.valueOf(memory.getData(index)));
+//    }
 
     public void add(int operand) {
         accumulator += memory.getData(operand);
