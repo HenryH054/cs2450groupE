@@ -1,0 +1,60 @@
+﻿Damon Morgan
+SRS Document
+
+
+Functional:
+1. The system shall allow the user to load a BasicML program from a text file by selecting the “load program” button in the GUI and selecting the file in the pop up window.
+
+
+2. The system shall provide a button to execute the loaded BasicML program by selecting the “run program” button in the GUI.
+
+
+3. The system shall provide an input field for user input.
+
+
+4. The system shall provide an output area to display results and messages.
+
+
+5. The system shall provide buttons to load and run programs.
+
+
+6. The system shall increment the program counter after executing an instruction, except for branch and halt instructions
+
+
+7. The system shall truncate any instruction to four digits before loading it into memory.
+
+
+8. The system shall clear the memory and reset the accumulator and program counter when a new program is loaded.
+
+
+9. The system shall add a value from memory to the accumulator when an ADD instruction is executed.
+
+
+10. The system shall subtract a value from memory from the accumulator when a SUBTRACT instruction is executed.
+
+
+11. The system shall divide the accumulator by a value from memory when a DIVIDE instruction is executed.
+
+
+12. The system shall multiply the accumulator by a value from memory when a MULTIPLY instruction is executed.
+
+
+13. The system shall display output to the user when a WRITE instruction is executed.
+
+
+14. The system shall allow the user to input data when a READ instruction is executed
+
+
+15. The system shall provide an in-app help section or documentation that explains each BasicML instruction and its usage.
+
+
+
+
+Non-Functional
+1. The program must be written in Java
+
+
+2. The system shall be designed to handle potential future expansions, such as supporting additional instructions or larger memory sizes.
+
+
+3. The system shall be able to run on different operating systems, including Windows, macOS, and Linux, without requiring significant modifications.
