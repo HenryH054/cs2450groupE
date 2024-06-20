@@ -30,6 +30,15 @@
               <text value="Run program"/>
             </properties>
           </component>
+          <component id="dfc8f" class="javax.swing.JButton" binding="resetProgramButton">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="Reset"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <grid id="e6849" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

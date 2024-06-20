@@ -42,4 +42,10 @@ public class Memory {
         // Convert back to an integer and return
         return Integer.parseInt(sign + numStr);
     }
+
+    public void clear() {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = 0;
+        }
+    }
 }

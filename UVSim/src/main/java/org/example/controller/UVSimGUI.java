@@ -1,6 +1,4 @@
 package main.java.org.example.controller;
-
-
 import main.java.org.example.business.CPU;
 import main.java.org.example.business.IOHandler;
 import org.example.data.Memory;
@@ -21,20 +19,36 @@ public class UVSimGUI extends JFrame {
     private JTextArea outputArea;
     private IOHandler ioHandler;
     private JPanel panelTop;
+    private JButton resetProgramButton;
 
     public UVSimGUI() {
         memory = new Memory();
         frame = new JFrame("UV Sim");
         ioHandler = new IOHandler(memory, this);
         cpu = new CPU(memory, ioHandler);
+        resetProgramButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetProgram();
+            }
+        });
+    }
+
+
+    private void resetProgram() {
+        memory.clear();
+        cpu.reset();
+        outputArea.setText("");
+        appendOutput("Program reset.\n");
     }
 
     public void createAndShowGUI() {
         JOptionPane.showMessageDialog(null,
                 "Welcome to the UV Sim!\n" +
                         "Click the Load program button to load a program file from your local machine.\n" +
-                "Click the run program button to run the program from the file\n" +
-                "When prompted enter a 4 digit instruction.");
+                        "Click the run program button to run the program from the file\n" +
+                        "When prompted enter a 4 digit instruction.\n\n" +
+                        "To reset the simulator and run a new program, click the reset button");
         outputArea.setEditable(false);
         frame.setContentPane(mainPanel);
         frame.setTitle("UVSIM");
