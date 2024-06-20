@@ -11,13 +11,22 @@ public class IOHandler {
         this.uvSimGUI = uvSimGUI;
     }
 
-     //I/O methods
     public void read(int index) {
-        System.out.println("Enter a four digit number");
-        memory.setData(index, 3);
+        int digit = uvSimGUI.getInputField();
+        memory.setData(index, digit);
     }
 
     public void write(int index) {
-        System.out.println(memory.getData(index));
+        uvSimGUI.appendOutput(String.valueOf(memory.getData(index)));
     }
+
+     //I/O methods
+//    public void read(int index) {
+//        System.out.println("Enter a four digit number");
+//        memory.setData(index, 3);
+//    }
+//
+//    public void write(int index) {
+//        System.out.println(memory.getData(index));
+//    }
 }

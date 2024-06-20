@@ -2,6 +2,7 @@ package main.java.org.example.controller;
 
 
 import main.java.org.example.business.CPU;
+import main.java.org.example.business.IOHandler;
 import org.example.data.Memory;
 
 import javax.swing.*;
@@ -16,22 +17,19 @@ public class UVSimGUI extends JFrame {
     private CPU cpu;
     private JPanel mainPanel;
     private JButton loadProgramButton;
-    private JPanel panelTop;
     private JButton runProgram;
-    private JTextField inputField;
-    private JButton submitButton;
     private JTextArea outputArea;
+    private IOHandler ioHandler;
+    private JPanel panelTop;
     private JLabel OutputLabel;
-    private String filePath;
-    private JScrollPane outputScrollPane;
-
-//    IOHandler ioHandler;
 
     public UVSimGUI() {
         memory = new Memory();
         frame = new JFrame("UV Sim");
-        cpu = new CPU(memory, this);
-//        ioHandler = new IOHandler(memory, this);
+        ioHandler = new IOHandler(memory, this);
+        cpu = new CPU(memory, ioHandler);
+
+
     }
 
     public void createAndShowGUI() {
