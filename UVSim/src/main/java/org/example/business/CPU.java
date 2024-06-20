@@ -1,8 +1,6 @@
 package main.java.org.example.business;
 
-import main.java.org.example.controller.UVSimGUI;
 import org.example.data.Memory;
-import org.example.business.ArithmeticOperations;
 
 public class CPU {
     public int programCounter;
@@ -87,15 +85,6 @@ public class CPU {
             }
         }
     }
-
-//    public void read(int index) {
-//        int digit = uvSimGUI.getInputField();
-//        memory.setData(index, digit);
-//    }
-//
-//    public void write(int index) {
-//        uvSimGUI.appendOutput(String.valueOf(memory.getData(index)));
-//    }
 
     public void add(int operand) {
         accumulator += memory.getData(operand);

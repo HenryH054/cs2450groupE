@@ -1,0 +1,26 @@
+﻿Merged SRS Henry & Damon
+
+
+1. The system shall provide a button to execute the loaded BasicML program by selecting the “run program” button in the GUI.
+2. The system shall allow the user to load a BasicML program from a text file by selecting the “load program” button in the GUI and selecting the file in the pop-up window.
+3. The system shall load a BasicML program into memory starting at location 00.
+4. The system shall provide an input field for user input.
+5. The system shall provide an output area to display results and messages.
+6. The system shall allow the user to input data when a READ (10) instruction is executed.
+7. The system shall display output to the user when a WRITE (11) instruction is executed.
+8. The system shall increment the program counter after executing an instruction, except for branch and halt instructions.
+9. The system shall truncate any instruction to four digits before loading it into memory.
+10. The system shall handle each BasicML instruction and data word as a signed four-digit integer.
+11. The system shall add a value from memory to the accumulator when an ADD (30) instruction is executed.
+12. The system shall subtract a value from memory from the accumulator when a SUBTRACT (31) instruction is executed.
+13. The system shall divide the accumulator by a value from memory when a DIVIDE (32) instruction is executed.
+14. The system shall multiply the accumulator by a value from memory when a MULTIPLY (33) instruction is executed.
+15. The system shall provide buttons to load and run programs.
+
+
+
+
+Non-Functional
+1. The program must be written in Java.
+2. The system shall be designed to handle potential future expansions, such as supporting additional instructions or larger memory sizes.
+3. The system shall be compatible with Windows, macOS, and Linux operating systems to ensure accessibility for all users regardless of their computer platform.
