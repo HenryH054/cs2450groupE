@@ -21,23 +21,25 @@ public class UVSimGUI extends JFrame {
     private JTextArea outputArea;
     private IOHandler ioHandler;
     private JPanel panelTop;
-    private JLabel OutputLabel;
 
     public UVSimGUI() {
         memory = new Memory();
         frame = new JFrame("UV Sim");
         ioHandler = new IOHandler(memory, this);
         cpu = new CPU(memory, ioHandler);
-
-
     }
 
     public void createAndShowGUI() {
+        JOptionPane.showMessageDialog(null,
+                "Welcome to the UV Sim!\n" +
+                        "Click the Load program button to load a program file from your local machine.\n" +
+                "Click the run program button to run the program from the file\n" +
+                "When prompted enter a 4 digit instruction.");
         outputArea.setEditable(false);
         frame.setContentPane(mainPanel);
-        frame.setTitle("UVSim GUI app");
+        frame.setTitle("UVSIM");
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setSize(370,200);
+        frame.setSize(300,200);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
@@ -82,7 +84,6 @@ public class UVSimGUI extends JFrame {
     public void appendOutput(String message) {
         outputArea.append(message + "\n");
     }
-
 
     public int getInputField() {
         String inputText = JOptionPane.showInputDialog("Please enter a four digit number: ");
