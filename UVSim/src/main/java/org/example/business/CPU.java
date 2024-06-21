@@ -3,9 +3,9 @@ package main.java.org.example.business;
 import org.example.data.Memory;
 
 public class CPU {
-    public int programCounter;
-    public Memory memory;
-    public int accumulator;
+    private int programCounter;
+    private Memory memory;
+    private int accumulator;
     private  ArithmeticOperations arithmeticOperations;
     private BranchOperations branchOperations;
     private IOHandler ioHandler;
@@ -15,6 +15,30 @@ public class CPU {
         this.arithmeticOperations = new ArithmeticOperations(this);
         this.branchOperations = new BranchOperations(this);
         this.ioHandler = ioHandler;
+    }
+
+    public int getProgramCounter() {
+        return programCounter;
+    }
+
+    public void setProgramCounter(int programCounter) {
+        this.programCounter = programCounter;
+    }
+
+    public int getAccumulator() {
+        return accumulator;
+    }
+
+    public void setAccumulator(int accumulator) {
+        this.accumulator = accumulator;
+    }
+
+    public Memory getMemory() {
+        return memory;
+    }
+
+    public void setMemory(Memory memory) {
+        this.memory = memory;
     }
 
     public void execute() {
