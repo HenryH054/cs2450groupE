@@ -19,14 +19,4 @@ public class IOHandler {
     public void write(int index) {
         uvSimGUI.appendOutput(String.valueOf(memory.getData(index)));
     }
-
-     //I/O methods
-//    public void read(int index) {
-//        System.out.println("Enter a four digit number");
-//        memory.setData(index, 3);
-//    }
-//
-//    public void write(int index) {
-//        System.out.println(memory.getData(index));
-//    }
 }

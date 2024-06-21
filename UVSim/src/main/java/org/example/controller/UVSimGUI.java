@@ -34,7 +34,6 @@ public class UVSimGUI extends JFrame {
         });
     }
 
-
     private void resetProgram() {
         memory.clear();
         cpu.reset();
