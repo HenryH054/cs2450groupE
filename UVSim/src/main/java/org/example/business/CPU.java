@@ -40,8 +40,7 @@ public class CPU {
                     memory.setData(operand, accumulator);
                     break;
                 case 43: // FC: HALT operation
-                    System.out.println("Program execution halted.");
-                    programCounter = -1;
+                    branchOperations.halt();
                     break;
                 default:
                     System.out.println("Invalid instruction: " + instruction);
@@ -70,12 +69,13 @@ public class CPU {
 
             if (isBranchOperation) {
                 if (operation == 40) {
+                    branchOperation.branch(operand);
                     shouldIncrementPC = false;
                 } else if (operation == 41 && accumulator < 0) {
+                    branchOperation.branchNeg(operand);
                     shouldIncrementPC = false;
                 } else if (operation == 42 && accumulator == 0) {
-                    shouldIncrementPC = false;
-                } else if (operation == 43) {
+                    branchOperation.branchZero(operand);
                     shouldIncrementPC = false;
                 }
             }
@@ -91,7 +91,7 @@ public class CPU {
         programCounter = 0;
     }
 
-    public void add(int operand) {
+    /*public void add(int operand) {
         accumulator += memory.getData(operand);
     }
     public void subtract(int operand) {
@@ -106,7 +106,7 @@ public class CPU {
     }
     public void multiply(int operand) {
         accumulator *= memory.getData(operand);
-    }
+    }*/
 
     //public void add(int operand) {
     //    accumulator += memory.getData(operand);
