@@ -1,9 +1,11 @@
 package main.java.org.example.controller;
+
 import main.java.org.example.business.CPU;
 import main.java.org.example.business.IOHandler;
 import org.example.data.Memory;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -15,7 +17,7 @@ public class UVSimGUI extends JFrame {
     private CPU cpu;
     private JPanel mainPanel;
     private JButton loadProgramButton;
-    private JButton runProgram;
+    private JButton runProgramButton;
     private JTextArea outputArea;
     private IOHandler ioHandler;
     private JPanel panelTop;
@@ -26,6 +28,45 @@ public class UVSimGUI extends JFrame {
         frame = new JFrame("UV Sim");
         ioHandler = new IOHandler(memory, this);
         cpu = new CPU(memory, ioHandler);
+
+        mainPanel = new JPanel();
+        loadProgramButton = new JButton("Load Program");
+        runProgramButton = new JButton("Run Program");
+        outputArea = new JTextArea();
+        resetProgramButton = new JButton("Reset Program");
+
+        mainPanel.setLayout(new BorderLayout());
+
+        JPanel topPanel = new JPanel(new FlowLayout());
+        topPanel.add(loadProgramButton);
+        topPanel.add(runProgramButton);
+        topPanel.add(resetProgramButton);
+
+        JScrollPane scrollPane = new JScrollPane(outputArea);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+
+        frame.setContentPane(mainPanel);
+        frame.setTitle("UVSIM");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        loadProgramButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadProgram();
+            }
+        });
+
+        runProgramButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runProgram();
+            }
+        });
+
         resetProgramButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -34,41 +75,11 @@ public class UVSimGUI extends JFrame {
         });
     }
 
-
     private void resetProgram() {
         memory.clear();
         cpu.reset();
         outputArea.setText("");
         appendOutput("Program reset.\n");
-    }
-
-    public void createAndShowGUI() {
-        JOptionPane.showMessageDialog(null,
-                "Welcome to the UV Sim!\n" +
-                        "Click the Load program button to load a program file from your local machine.\n" +
-                        "Click the run program button to run the program from the file\n" +
-                        "When prompted enter a 4 digit instruction.\n\n" +
-                        "To reset the simulator and run a new program, click the reset button");
-        outputArea.setEditable(false);
-        frame.setContentPane(mainPanel);
-        frame.setTitle("UVSIM");
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setSize(300,200);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
-        runProgram.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runProgram();
-            }
-        });
-        loadProgramButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadProgram();
-            }
-        });
     }
 
     private void loadProgram() {
@@ -101,11 +112,18 @@ public class UVSimGUI extends JFrame {
 
     public int getInputField() {
         String inputText = JOptionPane.showInputDialog("Please enter a four digit number: ");
-        while(!inputText.matches("\\d+")) {
-           inputText = JOptionPane.showInputDialog("Please enter a four digit number: ");
+        while (!inputText.matches("\\d{4}")) {
+            inputText = JOptionPane.showInputDialog("Please enter a four digit number: ");
         }
-
         return Integer.parseInt(inputText);
     }
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new UVSimGUI();
+            }
+        });
+    }
 }
