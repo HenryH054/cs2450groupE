@@ -64,7 +64,7 @@ public class CPU {
                     memory.setData(operand, accumulator);
                     break;
                 case 43: // FC: HALT operation
-                    branchOperations.halt();
+//                    branchOperations.halt();
                     break;
                 default:
                     System.out.println("Invalid instruction: " + instruction);
