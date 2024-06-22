@@ -79,7 +79,7 @@ public class UVSimGUI extends JFrame {
                 int i = 0;
                 while (scanner.hasNextInt() && i < 100) {
                     int instruction = scanner.nextInt();
-                    memory.writeFileToMemory(i, instruction);
+                    memory.setData(i, instruction);
                     i++;
                 }
                 appendOutput("Program loaded successfully.\n");
@@ -105,6 +105,9 @@ public class UVSimGUI extends JFrame {
         }
 
         return Integer.parseInt(inputText);
+    }
+    public void setInputField(int inputField) {
+
     }
 
 }
