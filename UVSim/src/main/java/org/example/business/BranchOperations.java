@@ -8,23 +8,23 @@ public class BranchOperations {
     }
 
     public void branch(int operand) {
-        cpu.programCounter = operand;
+        cpu.setProgramCounter(operand);
     }
 
     public void branchNeg(int operand) {
-        if (cpu.accumulator < 0) {
-            cpu.programCounter = operand;
+        if (cpu.getAccumulator() < 0) {
+            cpu.setProgramCounter(operand);
         }
     }
 
     public void branchZero(int operand) {
-        if (cpu.accumulator == 0) {
-            cpu.programCounter = operand;
+        if (cpu.getAccumulator() == 0) {
+            cpu.setProgramCounter(operand);
         }
     }
 
     public void halt() {
         System.out.println("Program execution halted.");
-        cpu.programCounter = -1;
+        cpu.setProgramCounter(-1);
     }
 }
