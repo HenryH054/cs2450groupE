@@ -93,13 +93,13 @@ public class CPU {
 
             if (isBranchOperation) {
                 if (operation == 40) {
-                    branchOperation.branch(operand);
+                    branchOperations.branch(operand);
                     shouldIncrementPC = false;
                 } else if (operation == 41 && accumulator < 0) {
-                    branchOperation.branchNeg(operand);
+                    branchOperations.branchNeg(operand);
                     shouldIncrementPC = false;
                 } else if (operation == 42 && accumulator == 0) {
-                    branchOperation.branchZero(operand);
+                    branchOperations.branchZero(operand);
                     shouldIncrementPC = false;
                 }
             }
