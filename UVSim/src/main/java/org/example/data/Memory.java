@@ -1,7 +1,5 @@
 package org.example.data;
 
-import java.util.Scanner;
-
 public class Memory {
     public int[] data;
 
@@ -17,7 +15,7 @@ public class Memory {
         data[operand] = truncateToFourDigits(value);
     }
 
-    private static int truncateToFourDigits(int number) {
+    private int truncateToFourDigits(int number) {
         // Convert the number to a string
         String numStr = String.valueOf(Math.abs(number));
         String sign = number < 0 ? "-" : "";

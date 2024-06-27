@@ -46,28 +46,29 @@ public class CPU {
         int instruction;
         // Execution loop
         while (programCounter < 100 && programCounter >= 0) { // FC: Loop condition updated to use program counter
-            instruction = memory.getData(programCounter);
+            instruction = Math.abs(memory.getData(programCounter));
             int operation = instruction / 100;
             int operand = instruction % 100;
 
             switch (operation) {
                 case 10:
+                    //READ = 10 Read a word from the keyboard into a specific location in memory.
                     ioHandler.read(operand);
                     break;
                 case 11:
+                    //WRITE = 11 Write a word from a specific location in memory to screen.
                     ioHandler.write(operand);
                     break;
                 case 20:
-                    accumulator = memory.getData(operand);
+                    //LOAD = 20 Load a word from a specific location in memory into the accumulator.
+                    load(operand);
                     break;
                 case 21:
-                    memory.setData(operand, accumulator);
-                    break;
-                case 43: // FC: HALT operation
-                    branchOperations.halt();
+                    //STORE = 21 Store a word from the accumulator into a specific location in memory.
+                    store(operand, accumulator);
                     break;
                 default:
-                    System.out.println("Invalid instruction: " + instruction);
+//                    System.out.println("Invalid instruction: " + instruction);
             }
 
             boolean isMathOperation = (operation == 30 || operation == 31 || operation == 32 || operation == 33);
@@ -88,6 +89,10 @@ public class CPU {
                 }
             }
 
+//            BRANCH = 40 Branch to a specific location in memory
+//            BRANCHNEG = 41 Branch to a specific location in memory if the accumulator is negative.
+//            BRANCHZERO = 42 Branch to a specific location in memory if the accumulator is zero.
+//            HALT = 43 Stop the program
             boolean isBranchOperation = (operation == 40 || operation == 41 || operation == 42 || operation == 43);
             boolean shouldIncrementPC = true;
 
@@ -101,11 +106,18 @@ public class CPU {
                 } else if (operation == 42 && accumulator == 0) {
                     branchOperations.branchZero(operand);
                     shouldIncrementPC = false;
+                } else if (operation == 43) {
+                    branchOperations.halt();
                 }
             }
 
             if (shouldIncrementPC) {
                 programCounter++;
+            }
+
+            // FC: If halted, break the loop
+            if (programCounter == -1) {
+                break;
             }
         }
     }
@@ -113,6 +125,14 @@ public class CPU {
     public void reset() {
         accumulator = 0;
         programCounter = 0;
+    }
+
+    private void load(int operand) {
+        accumulator = memory.getData(operand);
+    }
+
+    private void store(int operand, int accumulator) {
+        memory.setData(operand, accumulator);
     }
 
     /*public void add(int operand) {
