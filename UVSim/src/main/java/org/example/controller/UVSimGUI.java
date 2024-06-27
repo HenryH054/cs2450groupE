@@ -99,9 +99,9 @@ public class UVSimGUI extends JFrame {
     }
 
     public int getInputField() {
-        String inputText = JOptionPane.showInputDialog("Please enter a four digit number: ");
-        while(!inputText.matches("\\d+")) {
-           inputText = JOptionPane.showInputDialog("Please enter a four digit number: ");
+        String inputText = JOptionPane.showInputDialog("Please enter a four digit instruction: ");
+        while(!inputText.matches("^[-]?\\d{4}$")) {
+           inputText = JOptionPane.showInputDialog("Please enter a four digit instruction: ");
         }
 
         return Integer.parseInt(inputText);
