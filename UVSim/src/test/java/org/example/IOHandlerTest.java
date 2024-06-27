@@ -28,7 +28,7 @@ class IOHandlerTest {
         int index = 5;
         int expectedValue = 1234;
         when(uvSimGUI.getInputField()).thenReturn(expectedValue);
-        
+
         ioHandler.read(index);
 
         // Assert
