@@ -25,7 +25,6 @@ class IOHandlerTest {
 
     @Test
     public void testRead() {
-        // Arrange
         int index = 5;
         int expectedValue = 1234;
         when(uvSimGUI.getInputField()).thenReturn(expectedValue);
