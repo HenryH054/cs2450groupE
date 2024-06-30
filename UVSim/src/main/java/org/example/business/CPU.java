@@ -6,7 +6,7 @@ public class CPU {
     private int programCounter;
     private Memory memory;
     private int accumulator;
-    private  ArithmeticOperations arithmeticOperations;
+    private ArithmeticOperations arithmeticOperations;
     private BranchOperations branchOperations;
     private IOHandler ioHandler;
 
@@ -108,6 +108,7 @@ public class CPU {
                     shouldIncrementPC = false;
                 } else if (operation == 43) {
                     branchOperations.halt();
+                    shouldIncrementPC = false;
                 }
             }
 
