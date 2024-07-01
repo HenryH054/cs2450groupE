@@ -48,6 +48,7 @@ class UVSimGUITest {
         window.button(JButtonMatcher.withText("Run Program")).click();
         window.textBox("outputArea").requireText("Program executed.\n\n");
     }
+
     @Test
     @GUITest
     public void testResetProgramButton() {

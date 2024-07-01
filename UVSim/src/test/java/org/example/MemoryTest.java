@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Unit tests for the Memory class.
- * @author Damn Morgan
+ * @author Damon Morgan
  */
 class MemoryTest {
 
