@@ -7,7 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.example.data.Memory;
 import static org.mockito.Mockito.*;
 
-
+/**
+ * Unit tests for the IOHandler class.
+ * @author Damon Morgan
+ */
 class IOHandlerTest {
     private Memory memory;
     private UVSimGUI uvSimGUI;

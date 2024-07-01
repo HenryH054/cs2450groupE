@@ -14,8 +14,10 @@ import java.io.File;
 import java.util.Scanner;
 
 /**
+ * UVSimGUI is the main graphical user interface for the UVSim application.
+ * It allows users to load, run, and reset programs.
  *
- * @author dj
+ * @author Damon Morgan
  */
 public class UVSimGUI extends javax.swing.JFrame {
 
@@ -80,6 +82,7 @@ public class UVSimGUI extends javax.swing.JFrame {
 
         outputArea.setColumns(20);
         outputArea.setRows(5);
+        outputArea.setName("outputArea");
         jScrollPane1.setViewportView(outputArea);
 
         jLabel1.setBackground(new java.awt.Color(204, 51, 0));
@@ -150,10 +153,18 @@ public class UVSimGUI extends javax.swing.JFrame {
         resetProgram();
     }//GEN-LAST:event_resetProgramButtonActionPerformed
 
+    /**
+     * Appends a message to the output area.
+     *
+     * @param message the message to append
+     */
     public void appendOutput(String message) {
         outputArea.append(message + "\n");
     }
 
+    /**
+     * Displays the GUI.
+     */
     public void createAndShowGUI() {
         JOptionPane.showMessageDialog(null,
                 "Welcome to the UV Sim!\n"
@@ -174,18 +185,35 @@ public class UVSimGUI extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Prompts the user for a four-digit instruction.
+     *
+     * @return the inputted instruction
+     */
     public int getInputField() {
-        String inputText = JOptionPane.showInputDialog("Please enter a four digit instruction: ");
+        String inputText = inputDialog();
         while (!inputText.matches("^[-]?\\d{4}$")) {
-            inputText = JOptionPane.showInputDialog("Please enter a four digit instruction: ");
+            inputText = inputDialog();
         }
 
         return Integer.parseInt(inputText);
     }
 
+    private static String inputDialog() {
+        return JOptionPane.showInputDialog(
+                "Please enter a four-digit instruction:\n" +
+                        "- Use '-' for negative numbers\n" +
+                        "- Positive numbers do not need a sign"
+        );
+    }
+
+    /**
+     * Loads a program from a file into memory.
+     */
     private void loadProgram() {
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(mainPanel);
+        System.out.println("returnValue: " + returnValue);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             try (Scanner scanner = new Scanner(selectedFile)) {
@@ -202,11 +230,17 @@ public class UVSimGUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Runs the loaded program.
+     */
     private void runProgram() {
         cpu.execute();
         appendOutput("Program executed.\n");
     }
 
+    /**
+     * Resets the simulator.
+     */
     private void resetProgram() {
         memory.clear();
         cpu.reset();
