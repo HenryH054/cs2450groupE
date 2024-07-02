@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package main.java.org.example.controller;
+package org.example.presentation;
 
 
-import main.java.org.example.business.CPU;
-import main.java.org.example.business.IOHandler;
+import org.example.business.CPU;
+import org.example.business.IOHandler;
 import org.example.data.Memory;
 
 import javax.swing.*;
@@ -26,7 +26,7 @@ public class UVSimGUI extends javax.swing.JFrame {
     private Memory memory;
 
     /**
-     * Creates new form UVSimGUI
+     * Constructor for UVSimGUI
      */
     public UVSimGUI() {
         memory = new Memory();
@@ -82,32 +82,30 @@ public class UVSimGUI extends javax.swing.JFrame {
 
         outputArea.setColumns(20);
         outputArea.setRows(5);
-        outputArea.setName("outputArea");
         jScrollPane1.setViewportView(outputArea);
 
         jLabel1.setBackground(new java.awt.Color(204, 51, 0));
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel1.setText("                          UVSIM");
+        jLabel1.setText("    UVSIM");
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
                         .addComponent(loadProgramButton)
                         .addGap(18, 18, 18)
-                        .addComponent(runProgramButton)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(runProgramButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(resetProgramButton)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

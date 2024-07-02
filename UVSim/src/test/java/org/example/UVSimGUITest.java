@@ -7,7 +7,7 @@ import org.assertj.swing.fixture.FrameFixture;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import main.java.org.example.controller.UVSimGUI;
+import org.example.presentation.UVSimGUI;
 
 /**
  * Unit tests for the UVSimGUI class.

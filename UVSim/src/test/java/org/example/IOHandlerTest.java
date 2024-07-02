@@ -1,7 +1,7 @@
-package test.java.org.example;
+package org.example;
 
-import main.java.org.example.business.IOHandler;
-import main.java.org.example.controller.UVSimGUI;
+import org.example.business.IOHandler;
+import org.example.presentation.UVSimGUI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.example.data.Memory;

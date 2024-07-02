@@ -1,6 +1,6 @@
 package main.java.org.example.business;
 
-import main.java.org.example.controller.UVSimGUI;
+import org.example.presentation.UVSimGUI;
 
 /**
  * Entry point for the UVSim application.

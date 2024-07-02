@@ -25,11 +25,6 @@
             <artifactId>assertj-swing</artifactId>
             <version>3.17.1</version>
         </dependency>
-        <dependency>
-            <artifactId>junit</artifactId>
-            <groupId>junit</groupId>
-            <version>4.11</version>
-        </dependency>
     </dependencies>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
