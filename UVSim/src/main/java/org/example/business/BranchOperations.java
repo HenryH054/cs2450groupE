@@ -1,4 +1,5 @@
-package main.java.org.example.business;
+package org.example.business;
+import org.example.business.CPU;
 
 public class BranchOperations {
     private CPU cpu;

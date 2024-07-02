@@ -1,6 +1,9 @@
-package main.java.org.example.business;
+package org.example.business;
 
 import org.example.data.Memory;
+import org.example.business.BranchOperations;
+import org.example.business.ArithmeticOperations;
+import org.example.business.IOHandler;
 
 public class CPU {
     private int programCounter;
@@ -10,7 +13,7 @@ public class CPU {
     private BranchOperations branchOperations;
     private IOHandler ioHandler;
 
-    public CPU (Memory mem, IOHandler ioHandler){
+    public CPU(Memory mem, IOHandler ioHandler) {
         this.memory = mem;
         this.arithmeticOperations = new ArithmeticOperations(this);
         this.branchOperations = new BranchOperations(this);
@@ -49,6 +52,7 @@ public class CPU {
             instruction = Math.abs(memory.getData(programCounter));
             int operation = instruction / 100;
             int operand = instruction % 100;
+            System.out.println("getAccumulator: " + getAccumulator());
 
             switch (operation) {
                 case 10:
@@ -67,13 +71,11 @@ public class CPU {
                     //STORE = 21 Store a word from the accumulator into a specific location in memory.
                     store(operand, accumulator);
                     break;
-                default:
-//                    System.out.println("Invalid instruction: " + instruction);
             }
 
             boolean isMathOperation = (operation == 30 || operation == 31 || operation == 32 || operation == 33);
             if (isMathOperation) {
-                switch(operation) {
+                switch (operation) {
                     case 30:
                         arithmeticOperations.add(operand);
                         break;
@@ -135,111 +137,4 @@ public class CPU {
     private void store(int operand, int accumulator) {
         memory.setData(operand, accumulator);
     }
-
-    /*public void add(int operand) {
-        accumulator += memory.getData(operand);
-    }
-    public void subtract(int operand) {
-        accumulator -= memory.getData(operand);
-    }
-    public void divide(int operand) {
-        if (memory.getData(operand) != 0) {
-            accumulator /= memory.getData(operand);
-        } else {
-            throw new ArithmeticException("Division by zero");
-        }
-    }
-    public void multiply(int operand) {
-        accumulator *= memory.getData(operand);
-    }*/
-
-    //public void add(int operand) {
-    //    accumulator += memory.getData(operand);
-    //}
-    //public void subtract(int operand) {
-    //    accumulator -= memory.getData(operand);
-    //}
-    //public void divide(int operand) {
-    //    if (memory.getData(operand) != 0) {
-    //        accumulator /= memory.getData(operand);
-    //    } else {
-    //        throw new ArithmeticException("Division by zero");
-    //    }
-    //}
-    //public void multiply(int operand) {
-    //    accumulator *= memory.getData(operand);
-    //}
 }
-
-//int instruction;
-//// Execution loop
-//        while (uvSim.programCounter < 100) { // FC: Loop condition updated to use program counter
-//instruction = uvSim.memory[uvSim.programCounter];
-//int operation = instruction / 100;
-//int operand = instruction % 100;
-//
-//            switch (operation) {
-//        case 10:
-//        uvSim.read(operand);
-//                    break;
-//                            case 11:
-//                            uvSim.write(operand);
-//                    break;
-//                            case 20:
-//                            uvSim.load(operand);
-//                    break;
-//                            case 21:
-//                            uvSim.store(operand);
-//                    break;
-//                            case 30:
-//                            uvSim.add(operand);
-//                    break;
-//                            case 31:
-//                            uvSim.subtract(operand);
-//                    break;
-//                            case 32:
-//                            uvSim.divide(operand);
-//                    break;
-//                            case 33:
-//                            uvSim.multiply(operand);
-//                    break;
-//                            case 40: // FC: BRANCH operation
-//                            uvSim.branch(operand);
-//                    break;
-//                            case 41: // FC: BRANCHNEG operation
-//                            uvSim.branchNeg(operand);
-//                    break;
-//                            case 42: // FC: BRANCHZERO operation
-//                            uvSim.branchZero(operand);
-//                    break;
-//                            case 43: // FC: HALT operation
-//                            uvSim.halt();
-//                    break;
-//default:
-//        System.out.println("Invalid instruction: " + instruction);
-//            }
-//
-//boolean isBranchOperation = (operation == 40 || operation == 41 || operation == 42 || operation == 43);
-//boolean shouldIncrementPC = true;
-//
-//            if (isBranchOperation) {
-//        if (operation == 40) {
-//shouldIncrementPC = false;
-//        } else if (operation == 41 && uvSim.accumulator < 0) {
-//shouldIncrementPC = false;
-//        } else if (operation == 42 && uvSim.accumulator == 0) {
-//shouldIncrementPC = false;
-//        } else if (operation == 43) {
-//shouldIncrementPC = false;
-//        }
-//        }
-//
-//        if (shouldIncrementPC) {
-//uvSim.programCounter++;
-//        }
-//
-//        // FC: If halted, break the loop
-//        if (uvSim.programCounter == -1) {
-//        break;
-//        }
-//        }

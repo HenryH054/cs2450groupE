@@ -1,6 +1,6 @@
-package main.java.org.example.business;
+package org.example.business;
 
-import main.java.org.example.controller.UVSimGUI;
+import org.example.presentation.UVSimGUI;
 
 /**
  * Handles input and output operations for the UVSim application.
