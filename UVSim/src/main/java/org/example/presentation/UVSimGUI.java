@@ -11,6 +11,8 @@ import org.example.data.Memory;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -209,23 +211,41 @@ public class UVSimGUI extends javax.swing.JFrame {
      * Loads a program from a file into memory.
      */
     private void loadProgram() {
+        InstructionWindow instructionWindow = new InstructionWindow();
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(mainPanel);
-        System.out.println("returnValue: " + returnValue);
+
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            try (Scanner scanner = new Scanner(selectedFile)) {
-                int i = 0;
-                while (scanner.hasNextInt() && i < 100) {
-                    int instruction = scanner.nextInt();
-                    memory.setData(i, instruction);
-                    i++;
-                }
-                appendOutput("Program loaded successfully.\n");
-            } catch (Exception e) {
-                appendOutput("Error loading program: " + e.getMessage() + "\n");
+            List<Integer> instructions = getIntegers(selectedFile);
+
+            // append text to instructionWindow
+            for (int j = 0; j < 100 && j < instructions.size(); j++) {
+                int instruction = instructions.get(j);
+                instructionWindow.appendText(instruction + "\n");
+            }
+
+            //  set data in memory
+            for (int i = 0; i < 100 && i < instructions.size(); i++) {
+                int instruction = instructions.get(i);
+                memory.setData(i, instruction);
             }
         }
+        instructionWindow.setVisible(true);
+    }
+
+    private List<Integer> getIntegers(File selectedFile) {
+        List<Integer> instructions = new ArrayList<>();
+
+        try (Scanner scnr = new Scanner(selectedFile)) {
+            while (scnr.hasNextInt()) {
+                instructions.add(scnr.nextInt());
+            }
+            appendOutput("Program saved successfully.\n");
+        } catch (Exception e) {
+            appendOutput("Error loading program: " + e.getMessage() + "\n");
+        }
+        return instructions;
     }
 
     /**
