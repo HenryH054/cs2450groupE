@@ -98,4 +98,18 @@ class MemoryTest {
 
         assertThat(memory.getData(index)).isEqualTo(expectedValue);
     }
+
+    @Test
+    public void testSetDataIndexOutOfBounds() {
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            memory.setData(100, 1234); // Index out of bounds
+        });
+    }
+
+    @Test
+    public void testGetDataIndexOutOfBounds() {
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            memory.getData(100); // Index out of bounds
+        });
+    }
 }

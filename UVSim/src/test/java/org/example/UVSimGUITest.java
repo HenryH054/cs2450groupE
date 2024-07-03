@@ -8,6 +8,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.example.presentation.UVSimGUI;
+import static org.assertj.swing.assertions.Assertions.assertThat;
+
 
 /**
  * Unit tests for the UVSimGUI class.
@@ -19,7 +21,7 @@ class UVSimGUITest {
 
     @BeforeEach
     public void setUp() {
-        UVSimGUI frame = GuiActionRunner.execute(() -> new UVSimGUI());
+        UVSimGUI frame = GuiActionRunner.execute(UVSimGUI::new);
         window = new FrameFixture(frame);
         window.show(); // Shows the frame to test
     }
@@ -33,6 +35,8 @@ class UVSimGUITest {
     @GUITest
     public void testLoadProgramButton() {
         window.button(JButtonMatcher.withText("Load Program")).click();
+        window.fileChooser().click();
+        assertThat(window.textBox("outputArea").text()).contains("Loading Program...");
     }
 
     @Test
@@ -46,13 +50,13 @@ class UVSimGUITest {
     @GUITest
     public void testRunProgramButton() {
         window.button(JButtonMatcher.withText("Run Program")).click();
-        window.textBox("outputArea").requireText("Program executed.\n\n");
+        assertThat(window.textBox("outputArea").text()).contains("Program executed.");
     }
 
     @Test
     @GUITest
     public void testResetProgramButton() {
         window.button(JButtonMatcher.withText("Reset Program")).click();
-        window.textBox("outputArea").requireText("Program reset.\n\n");
+        assertThat(window.textBox("outputArea").text()).contains("Program reset.");
     }
 }

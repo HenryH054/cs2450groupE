@@ -35,6 +35,18 @@ public class UVSimGUI extends javax.swing.JFrame {
         initComponents();
     }
 
+    public CPU getCpu() {
+        return cpu;
+    }
+
+    public IOHandler getIoHandler() {
+        return ioHandler;
+    }
+
+    public Memory getMemory() {
+        return memory;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,6 +94,7 @@ public class UVSimGUI extends javax.swing.JFrame {
 
         outputArea.setColumns(20);
         outputArea.setRows(5);
+        outputArea.setName("outputArea");
         jScrollPane1.setViewportView(outputArea);
 
         jLabel1.setBackground(new java.awt.Color(204, 51, 0));
@@ -143,6 +156,7 @@ public class UVSimGUI extends javax.swing.JFrame {
 
     private void loadProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadProgramButtonActionPerformed
         // TODO add your handling code here:
+        appendOutput("Loading Program...");
         loadProgram();
     }//GEN-LAST:event_loadProgramButtonActionPerformed
 
