@@ -1,9 +1,6 @@
 package org.example.business;
 
 import org.example.data.Memory;
-import org.example.business.BranchOperations;
-import org.example.business.ArithmeticOperations;
-import org.example.business.IOHandler;
 
 public class CPU {
     private int programCounter;
@@ -52,7 +49,6 @@ public class CPU {
             instruction = Math.abs(memory.getData(programCounter));
             int operation = instruction / 100;
             int operand = instruction % 100;
-            System.out.println("getAccumulator: " + getAccumulator());
 
             switch (operation) {
                 case 10:
