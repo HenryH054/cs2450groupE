@@ -176,27 +176,44 @@ public class UVSimGUI extends javax.swing.JFrame {
 
             List<Integer> instructions = getInstructions(selectedFile);
 
-            createAndShowInstructionWindow(path, instructions);
+            createAndShowEditWindow(path, instructions);
 
             appendOutput("Program loaded successfully.\n");
 
         }
     }
 
+    /**
+     * Writes the given instructions to memory.
+     *
+     * @param instructions the list of instructions to write
+     */
     public void writeToMemory(List<Integer> instructions) {
-        for (int i = 0; i < instructions.size(); i++) {
+        for (int i = 0; i < 100 && i < instructions.size(); i++) {
             memory.setData(i, instructions.get(i));
         }
     }
 
-    public void createAndShowInstructionWindow(String path, List<Integer> instructions) {
-        InstructionWindow instructionWindow = new InstructionWindow();
-        instructionWindow.setUvSimGUI(this);
-        instructionWindow.setVisible(true);
-        instructionWindow.setFilePath(path);
-        instructionWindow.appendInstructions(instructions);
+    /**
+     * Creates and shows the instruction window with the given file path and instructions.
+     *
+     * @param path the file path of the program
+     * @param instructions the list of instructions
+     */
+    public void createAndShowEditWindow(String path, List<Integer> instructions) {
+        EditWindow editWindow = new EditWindow();
+        editWindow.setUvSimGUI(this);
+        editWindow.setVisible(true);
+        editWindow.setFilePath(path);
+        editWindow.appendInstructions(instructions);
     }
 
+    /**
+     * Retrieves instructions from the specified file.
+     *
+     * @param file the file to read instructions from
+     * @return the list of instructions
+     */
     public List<Integer> getInstructions(File file) {
         List<Integer> instructions = new ArrayList<>();
         try (Scanner scnr = new Scanner(file)) {

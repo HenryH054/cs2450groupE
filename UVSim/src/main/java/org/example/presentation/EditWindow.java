@@ -15,18 +15,23 @@ import java.util.List;
  *
  * @author Damon Morgan
  */
-public class InstructionWindow extends javax.swing.JFrame {
+public class EditWindow extends javax.swing.JFrame {
     private String filePath;
     private UVSimGUI uvSimGUI;
 
     /**
      * Creates new form InstructionWindow
      */
-    public InstructionWindow() {
+    public EditWindow() {
         filePath = "instructions.txt";
         initComponents();
     }
 
+    /**
+     * Sets the UVSimGUI instance for this window.
+     *
+     * @param uvSimGUI the UVSimGUI instance
+     */
     public void setUvSimGUI(UVSimGUI uvSimGUI) {
         this.uvSimGUI = uvSimGUI;
     }
@@ -115,6 +120,9 @@ public class InstructionWindow extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
 
+    /**
+     * Saves the instructions from the text area to the file.
+     */
     private void saveInstructions() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(this.filePath))) {
             bw.write(textArea.getText());
@@ -122,15 +130,29 @@ public class InstructionWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /**
+     * Loads instructions from the file into memory.
+     */
     private void loadInstructionsIntoMemory() {
         List<Integer> instructions = uvSimGUI.getInstructions(new File(filePath));
         uvSimGUI.writeToMemory(instructions);
     }
 
+    /**
+     * Appends the given text to the text area.
+     *
+     * @param text the text to append
+     */
     public void appendText(String text) {
         textArea.append(text);
     }
 
+    /**
+     * Appends a list of instructions to the text area.
+     *
+     * @param instructions the list of instructions to append
+     */
     public void appendInstructions(List<Integer> instructions) {
         // append text to instructionWindow
         for (int j = 0; j < 100 && j < instructions.size(); j++) {
@@ -139,6 +161,11 @@ public class InstructionWindow extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Sets the file path for saving instructions.
+     *
+     * @param filePath the file path
+     */
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }

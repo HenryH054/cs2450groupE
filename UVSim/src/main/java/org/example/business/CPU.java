@@ -49,7 +49,6 @@ public class CPU {
             instruction = Math.abs(memory.getData(programCounter));
             int operation = instruction / 100;
             int operand = instruction % 100;
-
             switch (operation) {
                 case 10:
                     //READ = 10 Read a word from the keyboard into a specific location in memory.
