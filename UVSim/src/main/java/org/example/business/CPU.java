@@ -3,6 +3,7 @@ package org.example.business;
 import org.example.data.Memory;
 
 public class CPU {
+    private int num;
     private int programCounter;
     private Memory memory;
     private int accumulator;

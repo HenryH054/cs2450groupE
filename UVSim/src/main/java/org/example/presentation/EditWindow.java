@@ -112,25 +112,23 @@ public class EditWindow extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(259, 259, 259)
-                                        .addComponent(jLabel3))
-                                    .addComponent(saveChangesCheckBox)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(259, 259, 259)
+                                .addComponent(jLabel3))
+                            .addComponent(saveChangesCheckBox)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(129, 129, 129)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,7 +171,7 @@ public class EditWindow extends javax.swing.JFrame {
     /**
      * Saves the instructions from the text area to the file.
      */
-    private void saveInstructions() {
+    public void saveInstructions() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(this.filePath))) {
             bw.write(textArea.getText());
         } catch (IOException e) {
@@ -184,7 +182,7 @@ public class EditWindow extends javax.swing.JFrame {
     /**
      * Loads instructions from the file into memory.
      */
-    private void loadInstructionsIntoMemory() {
+    public void loadInstructionsIntoMemory() {
         List<Integer> instructions = uvSimGUI.getInstructions(new File(filePath));
         uvSimGUI.writeToMemory(instructions);
     }
@@ -218,6 +216,14 @@ public class EditWindow extends javax.swing.JFrame {
      */
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public String getTextAreaText() {
+        return textArea.getText();
+    }
+
+    public JTextArea getTextArea() {
+        return textArea;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
