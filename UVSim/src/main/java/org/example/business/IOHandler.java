@@ -1,5 +1,6 @@
 package org.example.business;
 
+import org.example.data.Memory;
 import org.example.presentation.UVSimGUI;
 
 /**
@@ -7,16 +8,15 @@ import org.example.presentation.UVSimGUI;
  * @author Damon Morgan
  */
 public class IOHandler {
-    org.example.data.Memory memory;
-    UVSimGUI uvSimGUI;
+    private Memory memory;
+    private UVSimGUI uvSimGUI;
 
     /**
      * Constructs an IOHandler with the specified memory and GUI.
      *
      * @param memory the memory to interact with
-     * @param uvSimGUI the GUI to interact with
      */
-    public IOHandler(org.example.data.Memory memory, UVSimGUI uvSimGUI) {
+    public IOHandler(Memory memory, UVSimGUI uvSimGUI) {
         this.memory = memory;
         this.uvSimGUI = uvSimGUI;
     }

@@ -1,9 +1,9 @@
 package org.example.business;
 
 import org.example.data.Memory;
+import org.example.presentation.UVSimGUI;
 
 public class CPU {
-    private int num;
     private int programCounter;
     private Memory memory;
     private int accumulator;
@@ -11,11 +11,11 @@ public class CPU {
     private BranchOperations branchOperations;
     private IOHandler ioHandler;
 
-    public CPU(Memory mem, IOHandler ioHandler) {
-        this.memory = mem;
+    public CPU(UVSimGUI uvSimGUI) {
+        this.memory = new Memory();
         this.arithmeticOperations = new ArithmeticOperations(this);
         this.branchOperations = new BranchOperations(this);
-        this.ioHandler = ioHandler;
+        this.ioHandler = new IOHandler(memory, uvSimGUI);
     }
 
     public int getProgramCounter() {
@@ -57,7 +57,7 @@ public class CPU {
                     break;
                 case 11:
                     //WRITE = 11 Write a word from a specific location in memory to screen.
-                    ioHandler.write(operand);
+                   ioHandler.write(operand);
                     break;
                 case 20:
                     //LOAD = 20 Load a word from a specific location in memory into the accumulator.

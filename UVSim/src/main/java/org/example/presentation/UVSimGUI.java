@@ -24,18 +24,21 @@ import java.util.Scanner;
 public class UVSimGUI extends javax.swing.JFrame {
 
     private CPU cpu;
-    private IOHandler ioHandler;
-    private Memory memory;
-    private int instruction;
 
     /**
      * Constructor for UVSimGUI
      */
     public UVSimGUI() {
-        memory = new Memory();
-        ioHandler = new IOHandler(memory, this);
-        cpu = new CPU(memory, ioHandler);
+        cpu = new CPU(this);
         initComponents();
+    }
+
+    public void setCpu(CPU cpu) {
+        this.cpu = cpu;
+    }
+
+    public JTextArea getOutputArea() {
+        return outputArea;
     }
 
     /**
@@ -104,7 +107,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
+    void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
         // TODO add your handling code here:
         runProgram();
     }//GEN-LAST:event_runProgramButtonActionPerformed
@@ -114,7 +117,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         loadProgram();
     }//GEN-LAST:event_loadProgramButtonActionPerformed
 
-    private void resetProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetProgramButtonActionPerformed
+    void resetProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetProgramButtonActionPerformed
         // TODO add your handling code here:
         resetProgram();
     }//GEN-LAST:event_resetProgramButtonActionPerformed
@@ -127,8 +130,6 @@ public class UVSimGUI extends javax.swing.JFrame {
     public void appendOutput(String message) {
         outputArea.append(message + "\n");
     }
-
-
 
     /**
      * Displays the GUI.
@@ -190,7 +191,7 @@ public class UVSimGUI extends javax.swing.JFrame {
      */
     public void writeToMemory(List<Integer> instructions) {
         for (int i = 0; i < 100 && i < instructions.size(); i++) {
-            memory.setData(i, instructions.get(i));
+            cpu.getMemory().setData(i, instructions.get(i));
         }
     }
 
@@ -238,12 +239,11 @@ public class UVSimGUI extends javax.swing.JFrame {
      * Resets the simulator.
      */
     private void resetProgram() {
-        memory.clear();
+        cpu.getMemory().clear();
         cpu.reset();
         outputArea.setText("");
         appendOutput("Program reset.\n");
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
