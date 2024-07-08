@@ -1,5 +1,4 @@
 package org.example.business;
-import org.example.business.CPU;
 
 public class ArithmeticOperations {
     private final CPU cpu;

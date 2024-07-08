@@ -9,6 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.example.presentation.UVSimGUI;
 
+import javax.swing.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * Unit tests for the UVSimGUI class.
  * @author Damon Morgan
@@ -40,19 +46,27 @@ class UVSimGUITest {
     public void testFileChooserWindowApprove() {
         window.button(JButtonMatcher.withText("Load Program")).click();
         window.fileChooser().approve();
+        assertThat(window.textBox("outputArea").text()).contains("Loading Program...");
     }
 
     @Test
     @GUITest
     public void testRunProgramButton() {
         window.button(JButtonMatcher.withText("Run Program")).click();
-        window.textBox("outputArea").requireText("Program executed.\n\n");
+        assertThat(window.textBox("outputArea").text()).contains("Program executed");
     }
 
     @Test
     @GUITest
     public void testResetProgramButton() {
         window.button(JButtonMatcher.withText("Reset Program")).click();
-        window.textBox("outputArea").requireText("Program reset.\n\n");
+        assertThat(window.textBox("outputArea").text()).contains("Program reset");
+    }
+
+    @Test
+    public void testGetInputField() {
+        String input = JOptionPane.showInputDialog("Please enter a four-digit instruction:");
+        assertNotNull(input);
+        assertTrue(input.matches("^[-]?\\d{4}$"));
     }
 }

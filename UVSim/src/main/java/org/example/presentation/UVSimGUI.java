@@ -11,6 +11,8 @@ import org.example.data.Memory;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -22,17 +24,21 @@ import java.util.Scanner;
 public class UVSimGUI extends javax.swing.JFrame {
 
     private CPU cpu;
-    private IOHandler ioHandler;
-    private Memory memory;
 
     /**
      * Constructor for UVSimGUI
      */
     public UVSimGUI() {
-        memory = new Memory();
-        ioHandler = new IOHandler(memory, this);
-        cpu = new CPU(memory, ioHandler);
+        cpu = new CPU(this);
         initComponents();
+    }
+
+    public void setCpu(CPU cpu) {
+        this.cpu = cpu;
+    }
+
+    public JTextArea getOutputArea() {
+        return outputArea;
     }
 
     /**
@@ -82,6 +88,7 @@ public class UVSimGUI extends javax.swing.JFrame {
 
         outputArea.setColumns(20);
         outputArea.setRows(5);
+        outputArea.setName("outputArea");
         jScrollPane1.setViewportView(outputArea);
 
         jLabel1.setBackground(new java.awt.Color(204, 51, 0));
@@ -90,63 +97,29 @@ public class UVSimGUI extends javax.swing.JFrame {
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(loadProgramButton)
-                        .addGap(18, 18, 18)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(runProgramButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(resetProgramButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(runProgramButton)
-                    .addComponent(loadProgramButton)
-                    .addComponent(resetProgramButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        mainPanelLayout.setHorizontalGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(mainPanelLayout.createSequentialGroup().addContainerGap().addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1).addGroup(mainPanelLayout.createSequentialGroup().addComponent(loadProgramButton).addGap(18, 18, 18).addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(runProgramButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)).addGap(18, 18, 18).addComponent(resetProgramButton).addGap(0, 0, Short.MAX_VALUE))).addContainerGap()));
+        mainPanelLayout.setVerticalGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(mainPanelLayout.createSequentialGroup().addContainerGap(12, Short.MAX_VALUE).addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(runProgramButton).addComponent(loadProgramButton).addComponent(resetProgramButton)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
+    void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
         // TODO add your handling code here:
         runProgram();
     }//GEN-LAST:event_runProgramButtonActionPerformed
 
-    private void loadProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadProgramButtonActionPerformed
+    void loadProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadProgramButtonActionPerformed
         // TODO add your handling code here:
+        outputArea.setText("Loading Program...");
         loadProgram();
     }//GEN-LAST:event_loadProgramButtonActionPerformed
 
-    private void resetProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetProgramButtonActionPerformed
+    void resetProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetProgramButtonActionPerformed
         // TODO add your handling code here:
         resetProgram();
     }//GEN-LAST:event_resetProgramButtonActionPerformed
@@ -164,22 +137,14 @@ public class UVSimGUI extends javax.swing.JFrame {
      * Displays the GUI.
      */
     public void createAndShowGUI() {
-        JOptionPane.showMessageDialog(null,
-                "Welcome to the UV Sim!\n"
-                + "Click the Load program button to load a program file from your local machine.\n"
-                + "Click the run program button to run the program from the file\n"
-                + "When prompted enter a 4 digit instruction.\n\n"
-                + "To reset the simulator and run a new program, click the reset button");
+        JOptionPane.showMessageDialog(null, "Welcome to the UV Sim!\n" + "Click the Load program button to load a program file from your local machine.\n" + "Click the run program button to run the program from the file\n" + "When prompted enter a 4 digit instruction.\n\n" + "To reset the simulator and run a new program, click the reset button");
         outputArea.setEditable(false);
         setContentPane(mainPanel);
         setTitle("UVSIM");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-        appendOutput("Welcome to UVSIM!\nA software simlulator that interprets BasicML\n\n"
-                + "Step 1: Click the \"Load Program\" button to load the program\n"
-                + "Step 2: Click the \"Run Program\" button to run the program\n"
-                + "Step 3: Click the \"Reset Program\" button to reset the simulator\nand run a new program\n");
+        appendOutput("Welcome to UVSIM!\nA software simlulator that interprets BasicML\n\n" + "Step 1: Click the \"Load Program\" button to load the program\n" + "Step 2: Click the \"Run Program\" button to run the program\n" + "Step 3: Click the \"Reset Program\" button to reset the simulator\nand run a new program\n");
 
     }
 
@@ -198,11 +163,7 @@ public class UVSimGUI extends javax.swing.JFrame {
     }
 
     private static String inputDialog() {
-        return JOptionPane.showInputDialog(
-                "Please enter a four-digit instruction:\n" +
-                        "- Use '-' for negative numbers\n" +
-                        "- Positive numbers do not need a sign"
-        );
+        return JOptionPane.showInputDialog("Please enter a four-digit instruction:\n" + "- Use '-' for negative numbers\n" + "- Positive numbers do not need a sign");
     }
 
     /**
@@ -211,21 +172,61 @@ public class UVSimGUI extends javax.swing.JFrame {
     private void loadProgram() {
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(mainPanel);
-        System.out.println("returnValue: " + returnValue);
+
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            try (Scanner scanner = new Scanner(selectedFile)) {
-                int i = 0;
-                while (scanner.hasNextInt() && i < 100) {
-                    int instruction = scanner.nextInt();
-                    memory.setData(i, instruction);
-                    i++;
-                }
-                appendOutput("Program loaded successfully.\n");
-            } catch (Exception e) {
-                appendOutput("Error loading program: " + e.getMessage() + "\n");
-            }
+            String path = selectedFile.getAbsolutePath();
+
+            List<Integer> instructions = getInstructions(selectedFile);
+
+            createAndShowEditWindow(path, instructions);
+
+            appendOutput("Program loaded successfully.\n");
+
         }
+    }
+
+    /**
+     * Writes the given instructions to memory.
+     *
+     * @param instructions the list of instructions to write
+     */
+    public void writeToMemory(List<Integer> instructions) {
+        for (int i = 0; i < 100 && i < instructions.size(); i++) {
+            cpu.getMemory().setData(i, instructions.get(i));
+        }
+    }
+
+    /**
+     * Creates and shows the instruction window with the given file path and instructions.
+     *
+     * @param path the file path of the program
+     * @param instructions the list of instructions
+     */
+    public void createAndShowEditWindow(String path, List<Integer> instructions) {
+        EditWindow editWindow = new EditWindow();
+        editWindow.setUvSimGUI(this);
+        editWindow.setVisible(true);
+        editWindow.setFilePath(path);
+        editWindow.appendInstructions(instructions);
+    }
+
+    /**
+     * Retrieves instructions from the specified file.
+     *
+     * @param file the file to read instructions from
+     * @return the list of instructions
+     */
+    public List<Integer> getInstructions(File file) {
+        List<Integer> instructions = new ArrayList<>();
+        try (Scanner scnr = new Scanner(file)) {
+            while (scnr.hasNextInt()) {
+                instructions.add(scnr.nextInt());
+            }
+        } catch (Exception e) {
+            appendOutput("Error reading instructions: " + e.getMessage() + "\n");
+        }
+        return instructions;
     }
 
     /**
@@ -240,12 +241,11 @@ public class UVSimGUI extends javax.swing.JFrame {
      * Resets the simulator.
      */
     private void resetProgram() {
-        memory.clear();
+        cpu.getMemory().clear();
         cpu.reset();
         outputArea.setText("");
         appendOutput("Program reset.\n");
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

@@ -1,9 +1,7 @@
 package org.example.business;
 
 import org.example.data.Memory;
-import org.example.business.BranchOperations;
-import org.example.business.ArithmeticOperations;
-import org.example.business.IOHandler;
+import org.example.presentation.UVSimGUI;
 
 public class CPU {
     private int programCounter;
@@ -13,11 +11,11 @@ public class CPU {
     private BranchOperations branchOperations;
     private IOHandler ioHandler;
 
-    public CPU(Memory mem, IOHandler ioHandler) {
-        this.memory = mem;
+    public CPU(UVSimGUI uvSimGUI) {
+        this.memory = new Memory();
         this.arithmeticOperations = new ArithmeticOperations(this);
         this.branchOperations = new BranchOperations(this);
-        this.ioHandler = ioHandler;
+        this.ioHandler = new IOHandler(memory, uvSimGUI);
     }
 
     public int getProgramCounter() {
@@ -52,8 +50,6 @@ public class CPU {
             instruction = Math.abs(memory.getData(programCounter));
             int operation = instruction / 100;
             int operand = instruction % 100;
-            System.out.println("getAccumulator: " + getAccumulator());
-
             switch (operation) {
                 case 10:
                     //READ = 10 Read a word from the keyboard into a specific location in memory.
@@ -61,7 +57,7 @@ public class CPU {
                     break;
                 case 11:
                     //WRITE = 11 Write a word from a specific location in memory to screen.
-                    ioHandler.write(operand);
+                   ioHandler.write(operand);
                     break;
                 case 20:
                     //LOAD = 20 Load a word from a specific location in memory into the accumulator.

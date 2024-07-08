@@ -4,13 +4,14 @@ package org.example.data;
  * @author Damon Morgan
  */
 public class Memory {
-    public int[] data;
+    private int[] data;
+    public final static int SIZE = 100;
 
     /**
      * Constructs a Memory object with a fixed size array of 100 elements.
      */
     public Memory() {
-        this.data = new int[100];
+        this.data = new int[SIZE];
     }
 
     /**

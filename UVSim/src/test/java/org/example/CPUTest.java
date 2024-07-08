@@ -18,7 +18,7 @@ public class CPUTest {
         UVSimGUI gui = new UVSimGUI();
         Memory mem = new Memory();
         IOHandler io = new IOHandler(mem, gui);
-        cpu = new CPU(mem, io);
+        cpu = new CPU(gui);
     }
 
     @Test
