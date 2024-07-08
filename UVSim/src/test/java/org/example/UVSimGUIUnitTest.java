@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -34,10 +36,17 @@ public class UVSimGUIUnitTest {
     }
 
     @Test
-    public void testGetInputField() {
-        String input = JOptionPane.showInputDialog("Please enter a four-digit instruction:");
-        assertNotNull(input);
-        assertTrue(input.matches("^[-]?\\d{4}$"));
+    public void testLoadProgram() {
+        // Mock file chooser to return a specific file
+        JFileChooser mockFileChooser = mock(JFileChooser.class);
+        when(mockFileChooser.showOpenDialog(any())).thenReturn(JFileChooser.APPROVE_OPTION);
+        when(mockFileChooser.getSelectedFile()).thenReturn(new File("test_program.txt"));
+
+        // Simulate the load button action
+        uvSimGUI.loadProgramButtonActionPerformed(null);
+
+        // Verify if the program loads and the output area is updated
+        assertTrue(uvSimGUI.getOutputArea().getText().contains("Program loaded successfully."));
     }
 
 }

@@ -88,6 +88,7 @@ public class UVSimGUI extends javax.swing.JFrame {
 
         outputArea.setColumns(20);
         outputArea.setRows(5);
+        outputArea.setName("outputArea");
         jScrollPane1.setViewportView(outputArea);
 
         jLabel1.setBackground(new java.awt.Color(204, 51, 0));
@@ -112,8 +113,9 @@ public class UVSimGUI extends javax.swing.JFrame {
         runProgram();
     }//GEN-LAST:event_runProgramButtonActionPerformed
 
-    private void loadProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadProgramButtonActionPerformed
+    void loadProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadProgramButtonActionPerformed
         // TODO add your handling code here:
+        outputArea.setText("Loading Program...");
         loadProgram();
     }//GEN-LAST:event_loadProgramButtonActionPerformed
 
