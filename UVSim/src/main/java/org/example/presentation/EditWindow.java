@@ -205,8 +205,6 @@ public class EditWindow extends javax.swing.JFrame {
         jScrollPane1.getVerticalScrollBar().setValue(0);
     }//GEN-LAST:event_scrollToTopButtonActionPerformed
 
-
-
     /**
      * Saves the instructions from the text area to the file.
      */
