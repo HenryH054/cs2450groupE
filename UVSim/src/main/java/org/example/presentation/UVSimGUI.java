@@ -10,7 +10,9 @@ import org.example.business.IOHandler;
 import org.example.data.Memory;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -193,7 +195,13 @@ public class UVSimGUI extends javax.swing.JFrame {
      */
     public void writeToMemory(List<String> instructions) {
         for (int i = 0; i < 100 && i < instructions.size(); i++) {
-            cpu.getMemory().setData(i, Integer.parseInt(instructions.get(i)));
+            try{
+                int instruction = Integer.parseInt(instructions.get(i));
+                cpu.getMemory().setData(i, instruction);
+            }catch(NumberFormatException e){
+                this.appendOutput("Invalid instruction:\n" + instructions.get(i) + " is either too large or incorrect input\nPlease try again.");
+            }
+
         }
     }
 

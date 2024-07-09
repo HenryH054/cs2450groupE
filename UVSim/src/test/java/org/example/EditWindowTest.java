@@ -1,5 +1,6 @@
 //package org.example;
 //
+//import org.example.business.CPU;
 //import org.example.presentation.EditWindow;
 //import org.example.presentation.UVSimGUI;
 //import org.junit.jupiter.api.BeforeEach;
@@ -22,8 +23,10 @@
 //
 //    @BeforeEach
 //    public void setUp() {
-//        editWindow = new EditWindow();
 //        uvSimGUI = mock(UVSimGUI.class);
+//        CPU cpu = new CPU(uvSimGUI);
+//        editWindow = new EditWindow(cpu);
+//
 //        editWindow.setUvSimGUI(uvSimGUI);
 //    }
 //

@@ -52,6 +52,7 @@ public class EditWindow extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
+        textArea.setCaretPosition(0);
         doneButton = new javax.swing.JButton();
         saveChangesCheckBox = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
@@ -173,18 +174,16 @@ public class EditWindow extends javax.swing.JFrame {
         // Print each line
         int i = 0;
         for (String line : lines) {
-            instructions.add(line.substring(0,4));
+            instructions.add(line);
             System.out.println("line: " + i + ": " + line);
             i++;
         }
-        uvSimGUI.writeToMemory(instructions);
-        saveInstructions();
 
         if(saveChangesCheckBox.isSelected()) {
-
+            uvSimGUI.writeToMemory(instructions);
+            saveInstructions();
 
         }
-//        loadInstructionsIntoMemory();
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
 
@@ -192,9 +191,7 @@ public class EditWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_saveChangesCheckBoxActionPerformed
 
-    /**
-     * Saves the instructions from the text area to the file.
-     */
+
 //    public void saveInstructions() {
 //        try (BufferedWriter bw = new BufferedWriter(new FileWriter(this.filePath))) {
 //            bw.write(textArea.getText());
@@ -214,29 +211,26 @@ public class EditWindow extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Saves the instructions from the text area to the file.
+     */
     public void saveInstructions() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath))) {
             for (int i = 0; i < cpu.getMemory().size(); i++) {
                 int data = cpu.getMemory().getData(i);
                 String item = String.valueOf(data);
-                if(data > 0) {
+                if (item.charAt(0) == '-' || data == 0) {
                     writer.write(item);
                     writer.newLine();
+                } else {
+                    writer.write("+" + item);
+                    writer.newLine();
                 }
-
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    /**
-     * Loads instructions from the file into memory.
-     */
-//    public void loadInstructionsIntoMemory() {
-//        List<Integer> instructions = uvSimGUI.getInstructions(new File(filePath));
-//        uvSimGUI.writeToMemory(instructions);
-//    }
 
     /**
      * Appends the given text to the text area.
@@ -256,7 +250,12 @@ public class EditWindow extends javax.swing.JFrame {
         // append text to instructionWindow
         for (int j = 0; j < 100 && j < instructions.size(); j++) {
             int instruction = instructions.get(j);
-            appendText(instruction + "\n");
+            if(instruction > 0) {
+                textArea.append("+" + instruction + "\n");
+            }else{
+                textArea.append(instruction + "\n");
+            }
+
         }
     }
 
