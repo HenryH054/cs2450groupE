@@ -191,9 +191,9 @@ public class UVSimGUI extends javax.swing.JFrame {
      *
      * @param instructions the list of instructions to write
      */
-    public void writeToMemory(List<Integer> instructions) {
+    public void writeToMemory(List<String> instructions) {
         for (int i = 0; i < 100 && i < instructions.size(); i++) {
-            cpu.getMemory().setData(i, instructions.get(i));
+            cpu.getMemory().setData(i, Integer.parseInt(instructions.get(i)));
         }
     }
 
@@ -204,7 +204,7 @@ public class UVSimGUI extends javax.swing.JFrame {
      * @param instructions the list of instructions
      */
     public void createAndShowEditWindow(String path, List<Integer> instructions) {
-        EditWindow editWindow = new EditWindow();
+        EditWindow editWindow = new EditWindow(cpu);
         editWindow.setUvSimGUI(this);
         editWindow.setVisible(true);
         editWindow.setFilePath(path);

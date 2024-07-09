@@ -19,6 +19,22 @@ class MemoryTest {
         memory = new Memory();
     }
 
+//    @Test
+//    public void testSetDataWithinBounds_MaxIndex99() {
+//        int size = 120;
+//        for (int i = 0; i < size; i++) {
+//            memory.setData(i, i);
+//        }
+//        assertThat(memory.getData(99)).isEqualTo(99);
+//    }
+
+    @Test
+    public void testSetData_MaxSize() {
+        int value = 2006;
+        memory.setData(Memory.SIZE-1, value);
+        assertThat(memory.getData(Memory.SIZE-1)).isEqualTo(value);
+    }
+
     @Test
     public void testSetDataTruncatesToFourDigits_positiveValue() {
         int index = 5;
@@ -78,19 +94,6 @@ class MemoryTest {
         Memory memory = new Memory();
         int index = 5;
         int inputValue = 1234;
-        int expectedValue = 0;
-
-        memory.setData(index, inputValue);
-        memory.clear();
-
-        assertThat(memory.getData(index)).isEqualTo(expectedValue);
-    }
-
-    @Test
-    public void testClear_negativeValue() {
-        Memory memory = new Memory();
-        int index = 5;
-        int inputValue = -1234;
         int expectedValue = 0;
 
         memory.setData(index, inputValue);

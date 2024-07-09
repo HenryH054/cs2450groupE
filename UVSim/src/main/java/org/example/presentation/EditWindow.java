@@ -4,11 +4,14 @@
  */
 package org.example.presentation;
 
+import org.example.business.CPU;
+
 import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +21,14 @@ import java.util.List;
 public class EditWindow extends javax.swing.JFrame {
     private String filePath;
     private UVSimGUI uvSimGUI;
+    private CPU cpu;
 
     /**
      * Creates new form InstructionWindow
      */
-    public EditWindow() {
+    public EditWindow(CPU cpu) {
         filePath = "instructions.txt";
+        this.cpu = cpu;
         initComponents();
     }
 
@@ -156,11 +161,30 @@ public class EditWindow extends javax.swing.JFrame {
 
     private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println(textArea.getText());
-        if(saveChangesCheckBox.isSelected()) {
-            saveInstructions();
+        //System.out.println(textArea.getText());
+        List<String > instructions = new ArrayList<>();
+
+        // Get the entire text
+        String text = textArea.getText();
+
+        // Split the text into lines
+        String[] lines = text.split("\\n");
+
+        // Print each line
+        int i = 0;
+        for (String line : lines) {
+            instructions.add(line);
+            System.out.println("line: " + i + ": " + line);
+            i++;
         }
-        loadInstructionsIntoMemory();
+        uvSimGUI.writeToMemory(instructions);
+        saveInstructions();
+
+        if(saveChangesCheckBox.isSelected()) {
+
+
+        }
+//        loadInstructionsIntoMemory();
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
 
@@ -171,9 +195,36 @@ public class EditWindow extends javax.swing.JFrame {
     /**
      * Saves the instructions from the text area to the file.
      */
+//    public void saveInstructions() {
+//        try (BufferedWriter bw = new BufferedWriter(new FileWriter(this.filePath))) {
+//            bw.write(textArea.getText());
+//        } catch (IOException e) {
+//            JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
+
+    public void saveInstructions(List<String> instructions) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath))) {
+            for (String item : instructions) {
+                writer.write(item);
+                writer.newLine(); // Move to the next line
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void saveInstructions() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(this.filePath))) {
-            bw.write(textArea.getText());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath))) {
+            for (int i = 0; i < cpu.getMemory().size(); i++) {
+                int data = cpu.getMemory().getData(i);
+                String item = String.valueOf(data);
+                if(data > 0) {
+                    writer.write(item);
+                    writer.newLine();
+                }
+
+            }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -182,10 +233,10 @@ public class EditWindow extends javax.swing.JFrame {
     /**
      * Loads instructions from the file into memory.
      */
-    public void loadInstructionsIntoMemory() {
-        List<Integer> instructions = uvSimGUI.getInstructions(new File(filePath));
-        uvSimGUI.writeToMemory(instructions);
-    }
+//    public void loadInstructionsIntoMemory() {
+//        List<Integer> instructions = uvSimGUI.getInstructions(new File(filePath));
+//        uvSimGUI.writeToMemory(instructions);
+//    }
 
     /**
      * Appends the given text to the text area.
