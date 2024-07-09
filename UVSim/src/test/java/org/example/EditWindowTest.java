@@ -1,35 +1,60 @@
-//package org.example;
-//
-//import org.example.business.CPU;
-//import org.example.presentation.EditWindow;
-//import org.example.presentation.UVSimGUI;
-//import org.junit.jupiter.api.BeforeEach;
-//
-//import java.io.File;
-//import java.io.IOException;
-//import java.nio.file.Files;
-//import java.nio.file.Paths;
-//import java.util.List;
-//import org.junit.jupiter.api.Test;
-//
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.mockito.Mockito.*;
-//
-//public class EditWindowTest {
-//
-//    private EditWindow editWindow;
-//    private UVSimGUI uvSimGUI;
-//
-//    @BeforeEach
-//    public void setUp() {
-//        uvSimGUI = mock(UVSimGUI.class);
-//        CPU cpu = new CPU(uvSimGUI);
-//        editWindow = new EditWindow(cpu);
-//
-//        editWindow.setUvSimGUI(uvSimGUI);
-//    }
-//
+package org.example;
+
+import org.example.business.CPU;
+import org.example.presentation.EditWindow;
+import org.example.presentation.UVSimGUI;
+import org.junit.jupiter.api.BeforeEach;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
+
+public class EditWindowTest {
+
+    private File tempFile;
+    private EditWindow editWindow;
+
+    @BeforeEach
+    public void setUp() throws IOException {
+        tempFile = File.createTempFile("instructions", ".txt");
+        tempFile.deleteOnExit();
+        editWindow = new EditWindow(new CPU(new UVSimGUI()));
+        editWindow.setFilePath(tempFile.getAbsolutePath());
+    }
+
+    @Test
+    public void testSaveInstructionsToFile() throws IOException {
+        List<String> instructions = new ArrayList<>();
+        instructions.add("+1000");
+        instructions.add("-2000");
+
+        EditWindow editWindowSpy = spy(editWindow);
+
+        editWindowSpy.saveInstructions(instructions);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(tempFile))) {
+            String line;
+            List<String> fileContents = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                fileContents.add(line);
+            }
+
+            assertTrue(fileContents.contains("+1000"));
+            assertTrue(fileContents.contains("-2000"));
+        }
+    }
+
 //    @Test
 //    public void testAppendText() {
 //        String text = "Hello, world!";
@@ -71,4 +96,4 @@
 //        editWindow.loadInstructionsIntoMemory();
 //        verify(uvSimGUI, times(1)).writeToMemory(instructions);
 //    }
-//}
+}

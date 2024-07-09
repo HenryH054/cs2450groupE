@@ -52,7 +52,6 @@ public class EditWindow extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
-        textArea.setCaretPosition(0);
         doneButton = new javax.swing.JButton();
         saveChangesCheckBox = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
@@ -66,6 +65,7 @@ public class EditWindow extends javax.swing.JFrame {
         textArea.setColumns(20);
         textArea.setRows(5);
         jScrollPane1.setViewportView(textArea);
+        textArea.setCaretPosition(0);
 
         doneButton.setText("Done");
         doneButton.addActionListener(new java.awt.event.ActionListener() {
