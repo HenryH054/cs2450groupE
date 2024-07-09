@@ -173,7 +173,7 @@ public class EditWindow extends javax.swing.JFrame {
         // Print each line
         int i = 0;
         for (String line : lines) {
-            instructions.add(line);
+            instructions.add(line.substring(0,4));
             System.out.println("line: " + i + ": " + line);
             i++;
         }
