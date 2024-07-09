@@ -4,11 +4,13 @@
  */
 package org.example.presentation;
 
+import org.example.business.CPU;
+
 import javax.swing.*;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +20,14 @@ import java.util.List;
 public class EditWindow extends javax.swing.JFrame {
     private String filePath;
     private UVSimGUI uvSimGUI;
+    private CPU cpu;
 
     /**
      * Creates new form InstructionWindow
      */
-    public EditWindow() {
+    public EditWindow(CPU cpu) {
         filePath = "instructions.txt";
+        this.cpu = cpu;
         initComponents();
     }
 
@@ -54,6 +58,7 @@ public class EditWindow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        scrollToTopButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,6 +112,13 @@ public class EditWindow extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        scrollToTopButton.setText("Scroll to top");
+        scrollToTopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scrollToTopButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,7 +135,9 @@ public class EditWindow extends javax.swing.JFrame {
                             .addComponent(saveChangesCheckBox)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(doneButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(scrollToTopButton, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(129, 129, 129)
@@ -137,17 +151,18 @@ public class EditWindow extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(doneButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saveChangesCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(scrollToTopButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)))
+                        .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -156,11 +171,28 @@ public class EditWindow extends javax.swing.JFrame {
 
     private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println(textArea.getText());
-        if(saveChangesCheckBox.isSelected()) {
-            saveInstructions();
+        //System.out.println(textArea.getText());
+        List<String > instructions = new ArrayList<>();
+
+        // Get the entire text
+        String text = textArea.getText();
+
+        // Split the text into lines
+        String[] lines = text.split("\\n");
+
+        // Print each line
+        int i = 0;
+        for (String line : lines) {
+            instructions.add(line);
+            System.out.println("line: " + i + ": " + line);
+            i++;
         }
-        loadInstructionsIntoMemory();
+
+        if(saveChangesCheckBox.isSelected()) {
+            uvSimGUI.writeToMemory(instructions);
+            saveInstructions();
+
+        }
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
 
@@ -168,23 +200,30 @@ public class EditWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_saveChangesCheckBoxActionPerformed
 
+    private void scrollToTopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scrollToTopButtonActionPerformed
+        // TODO add your handling code here:
+        jScrollPane1.getVerticalScrollBar().setValue(0);
+    }//GEN-LAST:event_scrollToTopButtonActionPerformed
+
     /**
      * Saves the instructions from the text area to the file.
      */
     public void saveInstructions() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(this.filePath))) {
-            bw.write(textArea.getText());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath))) {
+            for (int i = 0; i < cpu.getMemory().size(); i++) {
+                int data = cpu.getMemory().getData(i);
+                String item = String.valueOf(data);
+                if (item.charAt(0) == '-' || data == 0) {
+                    writer.write(item);
+                    writer.newLine();
+                } else {
+                    writer.write("+" + item);
+                    writer.newLine();
+                }
+            }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    /**
-     * Loads instructions from the file into memory.
-     */
-    public void loadInstructionsIntoMemory() {
-        List<Integer> instructions = uvSimGUI.getInstructions(new File(filePath));
-        uvSimGUI.writeToMemory(instructions);
     }
 
     /**
@@ -205,7 +244,12 @@ public class EditWindow extends javax.swing.JFrame {
         // append text to instructionWindow
         for (int j = 0; j < 100 && j < instructions.size(); j++) {
             int instruction = instructions.get(j);
-            appendText(instruction + "\n");
+            if(instruction > 0) {
+                textArea.append("+" + instruction + "\n");
+            }else{
+                textArea.append(instruction + "\n");
+            }
+
         }
     }
 
@@ -235,6 +279,7 @@ public class EditWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JCheckBox saveChangesCheckBox;
+    private javax.swing.JButton scrollToTopButton;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }
