@@ -19,14 +19,14 @@ class MemoryTest {
         memory = new Memory();
     }
 
-//    @Test
-//    public void testSetDataWithinBounds_MaxIndex99() {
-//        int size = 120;
-//        for (int i = 0; i < size; i++) {
-//            memory.setData(i, i);
-//        }
-//        assertThat(memory.getData(99)).isEqualTo(99);
-//    }
+    @Test
+    public void testSetDataWithinBounds_MaxIndex99() {
+        int size = 120;
+        for (int i = 0; i < size; i++) {
+            memory.setData(i, i);
+        }
+        assertThat(memory.getData(99)).isEqualTo(99);
+    }
 
     @Test
     public void testSetData_MaxSize() {

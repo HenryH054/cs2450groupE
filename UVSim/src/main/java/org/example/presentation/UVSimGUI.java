@@ -199,7 +199,7 @@ public class UVSimGUI extends javax.swing.JFrame {
                 int instruction = Integer.parseInt(instructions.get(i));
                 cpu.getMemory().setData(i, instruction);
             }catch(NumberFormatException e){
-                this.appendOutput("Invalid instruction:\n" + instructions.get(i) + " is either too large or incorrect input\nPlease try again.");
+                this.appendOutput("Invalid instruction:\n" + instructions.get(i) + " is either too large or an incorrect input\nPlease try again.");
             }
 
         }
