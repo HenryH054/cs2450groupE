@@ -1,4 +1,4 @@
-package main.java.org.example.business;
+package org.example.business;
 
 import org.example.presentation.UVSimGUI;
 
