@@ -6,13 +6,9 @@ package org.example.presentation;
 
 
 import org.example.business.CPU;
-import org.example.business.IOHandler;
-import org.example.data.Memory;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -164,6 +160,11 @@ public class UVSimGUI extends javax.swing.JFrame {
         return Integer.parseInt(inputText);
     }
 
+    /**
+     * Opens an input dialog for the user to enter a four-digit instruction.
+     *
+     * @return the inputted instruction as a string
+     */
     private static String inputDialog() {
         return JOptionPane.showInputDialog("Please enter a four-digit instruction:\n" + "- Use '-' for negative numbers\n" + "- Positive numbers do not need a sign");
     }
@@ -189,19 +190,31 @@ public class UVSimGUI extends javax.swing.JFrame {
     }
 
     /**
-     * Writes the given instructions to memory.
+     * Writes the given instructions to memory from a list of Strings..
      *
      * @param instructions the list of instructions to write
      */
-    public void writeToMemory(List<String> instructions) {
+    public void writeToMemoryFromStringList(List<String> instructions) {
         for (int i = 0; i < 100 && i < instructions.size(); i++) {
             try{
                 int instruction = Integer.parseInt(instructions.get(i));
                 cpu.getMemory().setData(i, instruction);
             }catch(NumberFormatException e){
-                this.appendOutput("Invalid instruction:\n" + instructions.get(i) + " is either too large or an incorrect input\nPlease try again.");
+                this.appendOutput("Invalid instruction:\n" + instructions.get(i) + " is either too large or an incorrect input\nPlease enter a four digit number.");
             }
 
+        }
+    }
+
+    /**
+     * Writes the given instructions to memory from a list of integers.
+     *
+     * @param instructions the list of instructions to write
+     */
+    public void writeToMemoryFromIntegerList(List<Integer> instructions) {
+        for (int i = 0; i < 100 && i < instructions.size(); i++) {
+                int instruction = instructions.get(i);
+                cpu.getMemory().setData(i, instruction);
         }
     }
 
@@ -228,8 +241,12 @@ public class UVSimGUI extends javax.swing.JFrame {
     public List<Integer> getInstructions(File file) {
         List<Integer> instructions = new ArrayList<>();
         try (Scanner scnr = new Scanner(file)) {
-            while (scnr.hasNextInt()) {
-                instructions.add(scnr.nextInt());
+            while (scnr.hasNext()) {
+                if(scnr.hasNextInt()){
+                    instructions.add(scnr.nextInt());
+                }else{
+                    scnr.nextLine();
+                }
             }
         } catch (Exception e) {
             appendOutput("Error reading instructions: " + e.getMessage() + "\n");

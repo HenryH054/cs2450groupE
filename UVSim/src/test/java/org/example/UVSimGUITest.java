@@ -11,12 +11,13 @@ import org.example.presentation.UVSimGUI;
 
 import javax.swing.*;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Unit tests for the UVSimGUI class.
+ * Tests for the UVSimGUI class.
  * @author Damon Morgan
  */
 class UVSimGUITest {

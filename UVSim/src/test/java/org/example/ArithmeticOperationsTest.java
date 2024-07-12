@@ -1,8 +1,6 @@
 package org.example;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
-
 import org.example.business.ArithmeticOperations;
 import org.example.business.CPU;
 import org.example.data.Memory;

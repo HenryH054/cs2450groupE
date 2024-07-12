@@ -1,6 +1,6 @@
-﻿Merged SRS Henry & Damon
+﻿Requirements Documentation
 
-
+Functional:
 1. The system shall provide a button to execute the loaded BasicML program by selecting the “run program” button in the GUI.
 2. The system shall allow the user to load a BasicML program from a text file by selecting the “load program” button in the GUI and selecting the file in the pop-up window.
 3. The system shall load a BasicML program into memory starting at location 00.
@@ -17,10 +17,20 @@
 14. The system shall multiply the accumulator by a value from memory when a MULTIPLY (33) instruction is executed.
 15. The system shall provide buttons to load and run programs.
 
-
+Updates:
+16. The system shall allow users to view and edit the loaded program through an edit window.
+17. The system shall provide a "Save changes" checkbox, allowing users to persist modifications made to program instructions when closing the edit window.
+18. The system shall provide a "Done" button in the edit window that, when clicked, closes the edit window and applies any saved changes to the program instructions in memory.
+19. The system shall provide a "Scroll to top" button in the edit window, allowing users to quickly navigate to the beginning of the instruction list.
+20. The system shall limit the number of instructions to a maximum of 100, automatically truncating any excess instructions when saving or running the program.
 
 
 Non-Functional
 1. The program must be written in Java.
-2. The system shall be designed to handle potential future expansions, such as supporting additional instructions or larger memory sizes.
-3. The system shall be compatible with Windows, macOS, and Linux operating systems to ensure accessibility for all users regardless of their computer platform.
+2. The system shall be designed to allow the addition of new instruction types without requiring changes to the main program loop or memory management code.
+3. The system shall be compatible with Windows, macOS, and Linux operating systems.
+
+Updates:
+4: The system shall provide scrolling functionality for the output area and edit window to accommodate longer programs or output.
+5: The system shall use a consistent color scheme and layout for the GUI components.
+6. The system shall display a warning message in the edit window, notifying users that instructions exceeding the 100-instruction limit will be removed.
