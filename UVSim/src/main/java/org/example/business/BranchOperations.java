@@ -13,15 +13,11 @@ public class BranchOperations {
     }
 
     public void branchNeg(int operand) {
-        if (cpu.getAccumulator() < 0) {
             cpu.setProgramCounter(operand);
-        }
     }
 
     public void branchZero(int operand) {
-        if (cpu.getAccumulator() == 0) {
             cpu.setProgramCounter(operand);
-        }
     }
 
     public void halt() {

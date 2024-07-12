@@ -87,10 +87,6 @@ public class CPU {
                 }
             }
 
-//            BRANCH = 40 Branch to a specific location in memory
-//            BRANCHNEG = 41 Branch to a specific location in memory if the accumulator is negative.
-//            BRANCHZERO = 42 Branch to a specific location in memory if the accumulator is zero.
-//            HALT = 43 Stop the program
             boolean isBranchOperation = (operation == 40 || operation == 41 || operation == 42 || operation == 43);
             boolean shouldIncrementPC = true;
 
