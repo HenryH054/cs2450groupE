@@ -1,87 +1,68 @@
-package org.example;
+package org.example.business;
 
-import org.example.business.IOHandler;
-import org.example.presentation.UVSimGUI;
-import org.example.data.Memory;
-import org.example.business.CPU;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.*;
 
 
-@ExtendWith(TestNameLoggingExtension.class)
-public class BranchOperationsTest {
-    private CPU cpu;
+class BranchOperationsTest {
+
+    @Mock
+    private CPU mockCpu;
+
+    private BranchOperations branchOperations;
 
     @BeforeEach
     public void setUp() {
-        UVSimGUI gui = new UVSimGUI();
-        Memory mem = new Memory();
-        IOHandler io = new IOHandler(mem, gui);
-        cpu = new CPU(gui);
+        MockitoAnnotations.openMocks(this);
+        branchOperations = new BranchOperations(mockCpu);
     }
 
     @Test
-    public void branch() {
-        Memory mem = new Memory();
-        mem.setData(0, 4010);
-        mem.setData(5, 9999);
-        mem.setData(4, 2005);
-        mem.setData(10, 4300);
-        cpu.setMemory(mem);
-        cpu.setProgramCounter(0);
-        cpu.execute();
-        assert(cpu.getAccumulator() != 9999);
+    public void testBranch() {
+        int operand = 100;
+        branchOperations.branch(operand);
+        verify(mockCpu).setProgramCounter(operand);
     }
+
     @Test
-    public void branchNeg() {
-        Memory mem = new Memory();
-        mem.setData(0, 4110);
-        mem.setData(5, 9999);
-        mem.setData(4, 2005);
-        mem.setData(10, 4300);
-        cpu.setMemory(mem);
-        cpu.setProgramCounter(0);
-        cpu.setAccumulator(-1);
-        cpu.execute();
-        assert(cpu.getAccumulator() != 9999);
+    public void testBranchNeg() {
+        when(mockCpu.getAccumulator()).thenReturn(-1);
+        int operand = 100;
+        branchOperations.branchNeg(operand);
+        verify(mockCpu).setProgramCounter(operand);
     }
+
     @Test
-    public void branchNegFalse() {
-        Memory mem = new Memory();
-        mem.setData(0, 4110);
-        mem.setData(5, 9999);
-        mem.setData(4, 2005);
-        mem.setData(10, 4300);
-        cpu.setMemory(mem);
-        cpu.setProgramCounter(0);
-        cpu.setAccumulator(0);
-        cpu.execute();
-        assert(cpu.getAccumulator() == 9999);
+    public void testBranchNegNotTaken() {
+        when(mockCpu.getAccumulator()).thenReturn(1);
+        int operand = 100;
+        branchOperations.branchNeg(operand);
+        verify(mockCpu, never()).setProgramCounter(anyInt());
     }
+
     @Test
-    public void branchZero() {
-        Memory mem = new Memory();
-        mem.setData(0, 4210);
-        mem.setData(5, 9999);
-        mem.setData(4, 2005);
-        mem.setData(10, 4300);
-        cpu.setMemory(mem);
-        cpu.setProgramCounter(0);
-        cpu.setAccumulator(0);
-        cpu.execute();
-        assert(cpu.getAccumulator() != 9999);
+    public void testBranchZero() {
+        when(mockCpu.getAccumulator()).thenReturn(0);
+        int operand = 100;
+        branchOperations.branchZero(operand);
+        verify(mockCpu).setProgramCounter(operand);
     }
+
     @Test
-    public void branchZeroFalse() {
-        Memory mem = new Memory();
-        mem.setData(0, 4210);
-        mem.setData(5, 9999);
-        mem.setData(4, 2005);
-        mem.setData(10, 4300);
-        cpu.setMemory(mem);
-        cpu.setProgramCounter(1);
-        cpu.execute();
-        assert(cpu.getAccumulator() == 9999);
+    public void testBranchZeroNotTaken() {
+        when(mockCpu.getAccumulator()).thenReturn(1);
+        int operand = 100;
+        branchOperations.branchZero(operand);
+        verify(mockCpu, never()).setProgramCounter(anyInt());
+    }
+
+    @Test
+    public void testHalt() {
+        branchOperations.halt();
+        verify(mockCpu).setProgramCounter(-1);
     }
 }
