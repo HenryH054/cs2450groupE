@@ -6,11 +6,21 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests for the UVSimGUI class.
+ * @author Damon Morgan
+ */
 public class UVSimGUIUnitTest {
 
     private UVSimGUI uvSimGUI;
@@ -36,17 +46,79 @@ public class UVSimGUIUnitTest {
     }
 
     @Test
-    public void testLoadProgram() {
-        // Mock file chooser to return a specific file
-        JFileChooser mockFileChooser = mock(JFileChooser.class);
-        when(mockFileChooser.showOpenDialog(any())).thenReturn(JFileChooser.APPROVE_OPTION);
-        when(mockFileChooser.getSelectedFile()).thenReturn(new File("test_program.txt"));
+    public void testGetInstructionsFromFile() throws IOException {
+        UVSimGUI uvSimGUI = spy(new UVSimGUI());
+        Random rnd = new Random();
 
-        // Simulate the load button action
-        uvSimGUI.loadProgramButtonActionPerformed(null);
+        File tempFile = File.createTempFile("instructions", ".txt");
+        List<Integer> expectedInstructions = new ArrayList<>();
 
-        // Verify if the program loads and the output area is updated
-        assertTrue(uvSimGUI.getOutputArea().getText().contains("Program loaded successfully."));
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile))) {
+            for (int i = 0; i < 100; i++) {
+                int random4Digit = 1000 + rnd.nextInt(9000);
+                expectedInstructions.add(random4Digit);
+                bw.write(String.valueOf(random4Digit));
+                bw.newLine();
+            }
+        }
+
+        List<Integer> actualInstructions = uvSimGUI.getInstructions(tempFile);
+
+        assertEquals(100, actualInstructions.size());
+        for (int i = 0; i < 100; i++) {
+            assertEquals(expectedInstructions.get(i), actualInstructions.get(i));
+        }
+    }
+
+    @Test
+    public void testGetInstructionsFromFile_NegativeValues() throws IOException {
+        UVSimGUI uvSimGUI = spy(new UVSimGUI());
+        Random rnd = new Random();
+
+        File tempFile = File.createTempFile("instructions", ".txt");
+        List<Integer> expectedInstructions = new ArrayList<>();
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile))) {
+            for (int i = 0; i < 100; i++) {
+                int random4Digit = 1000 + rnd.nextInt(9000) * -1;
+                expectedInstructions.add(random4Digit);
+                bw.write(String.valueOf(random4Digit));
+                bw.newLine();
+            }
+        }
+
+        List<Integer> actualInstructions = uvSimGUI.getInstructions(tempFile);
+
+        assertEquals(100, actualInstructions.size());
+        for (int i = 0; i < 100; i++) {
+            assertEquals(expectedInstructions.get(i), actualInstructions.get(i));
+        }
+    }
+
+    @Test
+    public void testGetInstructionsFromEmptyFile() throws IOException {
+        File tempFile = File.createTempFile("empty", ".txt");
+
+        List<Integer> instructions = uvSimGUI.getInstructions(tempFile);
+
+        assertTrue(instructions.isEmpty());
+    }
+
+    @Test
+    public void testGetInstructionsFromFileWithNonNumericData() throws IOException {
+        File tempFile = File.createTempFile("non_numeric", ".txt");
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile))) {
+            bw.write("abcd");
+            bw.newLine();
+            bw.write("1234");
+            bw.newLine();
+            bw.write("xyz");
+        }
+
+        List<Integer> instructions = uvSimGUI.getInstructions(tempFile);
+
+        assertEquals(1, instructions.size());
+        assertEquals(Integer.valueOf(1234), instructions.getFirst());
     }
 
 }

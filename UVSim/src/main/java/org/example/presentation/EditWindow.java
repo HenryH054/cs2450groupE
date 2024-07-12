@@ -7,9 +7,7 @@ package org.example.presentation;
 import org.example.business.CPU;
 
 import javax.swing.*;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,27 +169,15 @@ public class EditWindow extends javax.swing.JFrame {
 
     private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
         // TODO add your handling code here:
-        //System.out.println(textArea.getText());
-        List<String > instructions = new ArrayList<>();
-
-        // Get the entire text
-        String text = textArea.getText();
-
-        // Split the text into lines
-        String[] lines = text.split("\\n");
-
-        // Print each line
-        int i = 0;
-        for (String line : lines) {
-            instructions.add(line);
-            System.out.println("line: " + i + ": " + line);
-            i++;
-        }
+        List<String> instructions = extractInstructionsFromTextArea();
 
         if(saveChangesCheckBox.isSelected()) {
-            uvSimGUI.writeToMemory(instructions);
+            uvSimGUI.writeToMemoryFromStringList(instructions);
             saveInstructions();
-
+        }else{
+            List<Integer> list = uvSimGUI.getInstructions(new File(filePath));
+            uvSimGUI.writeToMemoryFromIntegerList(list);
+            saveInstructions();
         }
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
@@ -262,12 +248,34 @@ public class EditWindow extends javax.swing.JFrame {
         this.filePath = filePath;
     }
 
-    public String getTextAreaText() {
-        return textArea.getText();
+    /**
+     * Retrieves text from the text area.
+     *
+     * @return the list of instructions
+     */
+    private List<String> extractInstructionsFromTextArea() {
+        List<String > instructions = new ArrayList<>();
+
+        String text = textArea.getText();
+
+        String[] lines = text.split("\\n");
+
+        int i = 0;
+        for (String line : lines) {
+            instructions.add(line);
+            System.out.println("line: " + i + ": " + line);
+            i++;
+        }
+        return instructions;
     }
 
-    public JTextArea getTextArea() {
-        return textArea;
+    /**
+     * Gets the text from the text area.
+     *
+     * @return the text from the text area
+     */
+    public String getTextAreaText() {
+        return textArea.getText();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

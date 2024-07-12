@@ -3,6 +3,7 @@ package test.java.org.example;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.example.data.Memory;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -19,14 +20,14 @@ class MemoryTest {
         memory = new Memory();
     }
 
-//    @Test
-//    public void testSetDataWithinBounds_MaxIndex99() {
-//        int size = 120;
-//        for (int i = 0; i < size; i++) {
-//            memory.setData(i, i);
-//        }
-//        assertThat(memory.getData(99)).isEqualTo(99);
-//    }
+    @Test
+    public void testSetDataWithinBounds_MaxIndex99() {
+        int size = 120;
+        for (int i = 0; i < size; i++) {
+            memory.setData(i, i);
+        }
+        assertThat(memory.getData(99)).isEqualTo(99);
+    }
 
     @Test
     public void testSetData_MaxSize() {
@@ -39,7 +40,7 @@ class MemoryTest {
     public void testSetDataTruncatesToFourDigits_positiveValue() {
         int index = 5;
         int inputValue = 123456;
-        int expectedValue = 1234; // Expecting the first four digits
+        int expectedValue = 1234;
 
         memory.setData(index, inputValue);
 
@@ -50,7 +51,7 @@ class MemoryTest {
     public void testSetDataTruncatesToFourDigits_negativeValue() {
         int index = 5;
         int inputValue = -123456;
-        int expectedValue = -1234; // Expecting the first four digits
+        int expectedValue = -1234;
 
         memory.setData(index, inputValue);
 
@@ -61,7 +62,7 @@ class MemoryTest {
     public void testSetDataHandlesNegativeValue() {
         int index = 5;
         int inputValue = -123456;
-        int expectedValue = -1234; // Expecting the first four digits with the negative sign
+        int expectedValue = -1234;
 
         memory.setData(index, inputValue);
 
@@ -90,15 +91,15 @@ class MemoryTest {
     }
 
     @Test
-    public void testClear_positiveValue() {
-        Memory memory = new Memory();
-        int index = 5;
-        int inputValue = 1234;
-        int expectedValue = 0;
+    public void testClear() {
+        for (int i = 0; i < 100; i++) {
+            memory.setData(i, i);
+        }
 
-        memory.setData(index, inputValue);
+        assertThat(memory.getData(Memory.SIZE-1)).isEqualTo(99);
+
         memory.clear();
 
-        assertThat(memory.getData(index)).isEqualTo(expectedValue);
+        assertThat(memory.getData(Memory.SIZE-1)).isEqualTo(0);
     }
 }
