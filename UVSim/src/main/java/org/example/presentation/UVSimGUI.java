@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package org.example.presentation;
-
 
 import org.example.business.CPU;
 
@@ -58,9 +53,11 @@ public class UVSimGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        mainPanel.setBackground(new java.awt.Color(255, 255, 0));
+        // Change the main panel background to the specified dark green
+        mainPanel.setBackground(new java.awt.Color(76, 114, 29)); // Dark green background #4C721D
 
-        loadProgramButton.setBackground(new java.awt.Color(204, 255, 255));
+        // Change the buttons' background to white
+        loadProgramButton.setBackground(java.awt.Color.WHITE); // White background
         loadProgramButton.setText("Load Program");
         loadProgramButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,7 +65,7 @@ public class UVSimGUI extends javax.swing.JFrame {
             }
         });
 
-        runProgramButton.setBackground(new java.awt.Color(204, 255, 255));
+        runProgramButton.setBackground(java.awt.Color.WHITE); // White background
         runProgramButton.setText("Run Program");
         runProgramButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,7 +73,7 @@ public class UVSimGUI extends javax.swing.JFrame {
             }
         });
 
-        resetProgramButton.setBackground(new java.awt.Color(204, 255, 255));
+        resetProgramButton.setBackground(java.awt.Color.WHITE); // White background
         resetProgramButton.setText("Reset Program");
         resetProgramButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,7 +86,8 @@ public class UVSimGUI extends javax.swing.JFrame {
         outputArea.setName("outputArea");
         jScrollPane1.setViewportView(outputArea);
 
-        jLabel1.setBackground(new java.awt.Color(204, 51, 0));
+        // Change the label's text color to white for better contrast
+        jLabel1.setForeground(java.awt.Color.WHITE); // White text color
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel1.setText("    UVSIM");
 
@@ -104,7 +102,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
         // TODO add your handling code here:
@@ -135,15 +133,21 @@ public class UVSimGUI extends javax.swing.JFrame {
      * Displays the GUI.
      */
     public void createAndShowGUI() {
-        JOptionPane.showMessageDialog(null, "Welcome to the UV Sim!\n" + "Click the Load program button to load a program file from your local machine.\n" + "Click the run program button to run the program from the file\n" + "When prompted enter a 4 digit instruction.\n\n" + "To reset the simulator and run a new program, click the reset button");
+        JOptionPane.showMessageDialog(null, "Welcome         to the UV Sim!\n" +
+                "Click the Load program button to load a program file from your local machine.\n" +
+                "Click the run program button to run the program from the file\n" +
+                "When prompted enter a 4 digit instruction.\n\n" +
+                "To reset the simulator and run a new program, click the reset button");
         outputArea.setEditable(false);
         setContentPane(mainPanel);
         setTitle("UVSIM");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-        appendOutput("Welcome to UVSIM!\nA software simlulator that interprets BasicML\n\n" + "Step 1: Click the \"Load Program\" button to load the program\n" + "Step 2: Click the \"Run Program\" button to run the program\n" + "Step 3: Click the \"Reset Program\" button to reset the simulator\nand run a new program\n");
-
+        appendOutput("Welcome to UVSIM!\nA software simulator that interprets BasicML\n\n" +
+                "Step 1: Click the \"Load Program\" button to load the program\n" +
+                "Step 2: Click the \"Run Program\" button to run the program\n" +
+                "Step 3: Click the \"Reset Program\" button to reset the simulator\nand run a new program\n");
     }
 
     /**
@@ -166,7 +170,9 @@ public class UVSimGUI extends javax.swing.JFrame {
      * @return the inputted instruction as a string
      */
     private static String inputDialog() {
-        return JOptionPane.showInputDialog("Please enter a four-digit instruction:\n" + "- Use '-' for negative numbers\n" + "- Positive numbers do not need a sign");
+        return JOptionPane.showInputDialog("Please enter a four-digit instruction:\n" +
+                "- Use '-' for negative numbers\n" +
+                "- Positive numbers do not need a sign");
     }
 
     /**
@@ -185,7 +191,6 @@ public class UVSimGUI extends javax.swing.JFrame {
             createAndShowEditWindow(path, instructions);
 
             appendOutput("Program loaded successfully.\n");
-
         }
     }
 
@@ -196,13 +201,13 @@ public class UVSimGUI extends javax.swing.JFrame {
      */
     public void writeToMemoryFromStringList(List<String> instructions) {
         for (int i = 0; i < 100 && i < instructions.size(); i++) {
-            try{
+            try {
                 int instruction = Integer.parseInt(instructions.get(i));
                 cpu.getMemory().setData(i, instruction);
-            }catch(NumberFormatException e){
-                this.appendOutput("Invalid instruction:\n" + instructions.get(i) + " is either too large or an incorrect input\nPlease enter a four digit number.");
+            } catch (NumberFormatException e) {
+                this.appendOutput("Invalid instruction:\n" +
+                        instructions.get(i) + " is either too large or an incorrect input\nPlease enter a four digit number.");
             }
-
         }
     }
 
@@ -213,8 +218,8 @@ public class UVSimGUI extends javax.swing.JFrame {
      */
     public void writeToMemoryFromIntegerList(List<Integer> instructions) {
         for (int i = 0; i < 100 && i < instructions.size(); i++) {
-                int instruction = instructions.get(i);
-                cpu.getMemory().setData(i, instruction);
+            int instruction = instructions.get(i);
+            cpu.getMemory().setData(i, instruction);
         }
     }
 
@@ -242,9 +247,9 @@ public class UVSimGUI extends javax.swing.JFrame {
         List<Integer> instructions = new ArrayList<>();
         try (Scanner scnr = new Scanner(file)) {
             while (scnr.hasNext()) {
-                if(scnr.hasNextInt()){
+                if (scnr.hasNextInt()) {
                     instructions.add(scnr.nextInt());
-                }else{
+                } else {
                     scnr.nextLine();
                 }
             }
@@ -272,7 +277,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         appendOutput("Program reset.\n");
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton loadProgramButton;
@@ -280,5 +285,5 @@ public class UVSimGUI extends javax.swing.JFrame {
     private javax.swing.JTextArea outputArea;
     private javax.swing.JButton resetProgramButton;
     private javax.swing.JButton runProgramButton;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration
 }
