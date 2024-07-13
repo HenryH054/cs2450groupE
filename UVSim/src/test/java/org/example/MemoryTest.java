@@ -21,19 +21,22 @@ class MemoryTest {
     }
 
     @Test
-    public void testSetDataWithinBounds_MaxIndex99() {
-        int size = 120;
-        for (int i = 0; i < size; i++) {
-            memory.setData(i, i);
-        }
-        assertThat(memory.getData(99)).isEqualTo(99);
-    }
-
-    @Test
     public void testSetData_MaxSize() {
         int value = 2006;
         memory.setData(Memory.SIZE-1, value);
         assertThat(memory.getData(Memory.SIZE-1)).isEqualTo(value);
+    }
+
+    @Test
+    public void testSetData_LargestPositiveInteger() {
+        memory.setData(10, 999999);
+        assertThat(memory.getData(10)).isEqualTo(9999);
+    }
+
+    @Test
+    public void testSetData_SmallestNegativeInteger() {
+        memory.setData(10, -999999);
+        assertThat(memory.getData(10)).isEqualTo(-9999);
     }
 
     @Test
