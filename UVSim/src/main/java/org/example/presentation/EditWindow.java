@@ -7,18 +7,21 @@ package org.example.presentation;
 import org.example.business.CPU;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author Damon Morgan
+ * @author Damon Morgan, Ernesto Felix
  */
 public class EditWindow extends javax.swing.JFrame {
     private String filePath;
     private UVSimGUI uvSimGUI;
     private CPU cpu;
+    private JPopupMenu popupMenu;
 
     /**
      * Creates new form InstructionWindow
@@ -27,6 +30,7 @@ public class EditWindow extends javax.swing.JFrame {
         filePath = "instructions.txt";
         this.cpu = cpu;
         initComponents();
+        addPopupMenu();
     }
 
     /**
@@ -190,6 +194,40 @@ public class EditWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         jScrollPane1.getVerticalScrollBar().setValue(0);
     }//GEN-LAST:event_scrollToTopButtonActionPerformed
+
+    /**
+     * By Ernesto Felix
+     * Adds a popup menu with Cut, Copy, and Paste functionality to the text area.
+     */
+    private void addPopupMenu() {
+        popupMenu = new JPopupMenu();
+
+        JMenuItem cutMenuItem = new JMenuItem("Cut");
+        cutMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                textArea.cut();
+            }
+        });
+        popupMenu.add(cutMenuItem);
+
+        JMenuItem copyMenuItem = new JMenuItem("Copy");
+        copyMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                textArea.copy();
+            }
+        });
+        popupMenu.add(copyMenuItem);
+
+        JMenuItem pasteMenuItem = new JMenuItem("Paste");
+        pasteMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                textArea.paste();
+            }
+        });
+        popupMenu.add(pasteMenuItem);
+
+        textArea.setComponentPopupMenu(popupMenu);
+    }
 
     /**
      * Saves the instructions from the text area to the file.
