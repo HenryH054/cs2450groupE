@@ -265,6 +265,7 @@ public class UVSimGUI extends javax.swing.JFrame {
     private void runProgram() {
         cpu.execute();
         appendOutput("Program executed.\n");
+
     }
 
     /**

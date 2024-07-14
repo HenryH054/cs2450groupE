@@ -31,9 +31,7 @@ public class Memory {
      * @param value the value to set
      */
     public void setData(int operand, int value) {
-
-            data[operand] = truncateToFourDigits(value);
-
+        data[operand] = truncateToFourDigits(value);
     }
 
     public int size() {
