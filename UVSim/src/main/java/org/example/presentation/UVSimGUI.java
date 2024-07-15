@@ -279,10 +279,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         }
         cpu.execute();
         appendOutput("Program executed.\n");
-<<<<<<< Updated upstream
-=======
         reRun = true;
->>>>>>> Stashed changes
     }
 
     /**
