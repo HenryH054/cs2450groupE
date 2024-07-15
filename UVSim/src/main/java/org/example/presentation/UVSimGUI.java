@@ -1,27 +1,29 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package org.example.presentation;
 
-import org.example.business.CPU;
-
-import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import org.example.business.CPU;
 
 /**
- * UVSimGUI is the main graphical user interface for the UVSim application.
- * It allows users to load, run, and reset programs.
  *
  * @author Damon Morgan
  */
 public class UVSimGUI extends javax.swing.JFrame {
-
     private CPU cpu;
     private File selectedFile;
     private boolean reRun;
-
+    
     /**
-     * Constructor for UVSimGUI
+     * Creates new form UVSimGUI
      */
     public UVSimGUI() {
         cpu = new CPU(this);
@@ -30,7 +32,8 @@ public class UVSimGUI extends javax.swing.JFrame {
         initComponents();
         runProgramButton.setEnabled(false);
     }
-
+    
+    
     public void setCpu(CPU cpu) {
         this.cpu = cpu;
     }
@@ -38,6 +41,7 @@ public class UVSimGUI extends javax.swing.JFrame {
     public JTextArea getOutputArea() {
         return outputArea;
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,83 +53,94 @@ public class UVSimGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
-        loadProgramButton = new javax.swing.JButton();
-        runProgramButton = new javax.swing.JButton();
-        resetProgramButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         outputArea = new javax.swing.JTextArea();
+        loadProgramButton = new javax.swing.JButton();
+        runProgramButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        // Change the main panel background to the specified dark green
-        mainPanel.setBackground(new java.awt.Color(76, 114, 29)); // Dark green background #4C721D
+        outputArea.setColumns(20);
+        outputArea.setRows(5);
+        jScrollPane1.setViewportView(outputArea);
 
-        // Change the buttons' background to white
-        loadProgramButton.setBackground(java.awt.Color.WHITE); // White background
-        loadProgramButton.setText("Load Program");
+        loadProgramButton.setText("Load program");
         loadProgramButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadProgramButtonActionPerformed(evt);
             }
         });
 
-        runProgramButton.setBackground(java.awt.Color.WHITE); // White background
-        runProgramButton.setText("Run Program");
+        runProgramButton.setText("Run program");
         runProgramButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runProgramButtonActionPerformed(evt);
             }
         });
 
-        resetProgramButton.setBackground(java.awt.Color.WHITE); // White background
-        resetProgramButton.setText("Reset Program");
-        resetProgramButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetProgramButtonActionPerformed(evt);
-            }
-        });
-
-        outputArea.setColumns(20);
-        outputArea.setRows(5);
-        outputArea.setName("outputArea");
-        jScrollPane1.setViewportView(outputArea);
-
-        // Change the label's text color to white for better contrast
-        jLabel1.setForeground(java.awt.Color.WHITE); // White text color
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel1.setText("    UVSIM");
+        jLabel1.setText("UVSIM");
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(mainPanelLayout.createSequentialGroup().addContainerGap().addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1).addGroup(mainPanelLayout.createSequentialGroup().addComponent(loadProgramButton).addGap(18, 18, 18).addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(runProgramButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)).addGap(18, 18, 18).addComponent(resetProgramButton).addGap(0, 0, Short.MAX_VALUE))).addContainerGap()));
-        mainPanelLayout.setVerticalGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(mainPanelLayout.createSequentialGroup().addContainerGap(12, Short.MAX_VALUE).addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(runProgramButton).addComponent(loadProgramButton).addComponent(resetProgramButton)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(loadProgramButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addComponent(runProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(158, 158, 158)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(loadProgramButton)
+                    .addComponent(runProgramButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         pack();
-    }
+    }// </editor-fold>//GEN-END:initComponents
 
-    void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
-        // TODO add your handling code here:
-        runProgram();
-    }//GEN-LAST:event_runProgramButtonActionPerformed
-
-    void loadProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadProgramButtonActionPerformed
+    private void loadProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadProgramButtonActionPerformed
         // TODO add your handling code here:
         outputArea.setText("Loading Program...");
         loadProgram();
     }//GEN-LAST:event_loadProgramButtonActionPerformed
 
-    void resetProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetProgramButtonActionPerformed
+    private void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
         // TODO add your handling code here:
-        resetProgram();
-    }//GEN-LAST:event_resetProgramButtonActionPerformed
+        runProgram();
+    }//GEN-LAST:event_runProgramButtonActionPerformed
 
-    /**
+     /**
      * Appends a message to the output area.
      *
      * @param message the message to append
@@ -141,8 +156,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Welcome to the UV Sim!\n" +
                 "Click the Load program button to load a program file from your local machine.\n" +
                 "Click the run program button to run the program from the file\n" +
-                "When prompted enter a 4 digit instruction.\n\n" +
-                "To reset the simulator and run a new program, click the reset button");
+                "When prompted enter a 4 digit instruction.\n\n");
         outputArea.setEditable(false);
         setContentPane(mainPanel);
         setTitle("UVSIM");
@@ -151,8 +165,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         setVisible(true);
         appendOutput("Welcome to UVSIM!\nA software simulator that interprets BasicML\n\n" +
                 "Step 1: Click the \"Load Program\" button to load the program\n" +
-                "Step 2: Click the \"Run Program\" button to run the program\n" +
-                "Step 3: Click the \"Reset Program\" button to reset the simulator\nand run a new program\n");
+                "Step 2: Click the \"Run Program\" button to run the program\n");
     }
 
     /**
@@ -293,13 +306,12 @@ public class UVSimGUI extends javax.swing.JFrame {
         reRun = false;
     }
 
-    // Variables declaration - do not modify
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton loadProgramButton;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextArea outputArea;
-    private javax.swing.JButton resetProgramButton;
     private javax.swing.JButton runProgramButton;
-    // End of variables declaration
+    // End of variables declaration//GEN-END:variables
 }
