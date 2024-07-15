@@ -115,9 +115,11 @@ public class CPU {
                 break;
             }
         }
+        reset();
     }
 
     public void reset() {
+        getMemory().clear();
         accumulator = 0;
         programCounter = 0;
     }

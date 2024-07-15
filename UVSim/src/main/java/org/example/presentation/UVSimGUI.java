@@ -17,13 +17,18 @@ import java.util.Scanner;
 public class UVSimGUI extends javax.swing.JFrame {
 
     private CPU cpu;
+    private File selectedFile;
+    private boolean reRun;
 
     /**
      * Constructor for UVSimGUI
      */
     public UVSimGUI() {
         cpu = new CPU(this);
+        selectedFile = null;
+        reRun = false;
         initComponents();
+        runProgramButton.setEnabled(false);
     }
 
     public void setCpu(CPU cpu) {
@@ -133,7 +138,7 @@ public class UVSimGUI extends javax.swing.JFrame {
      * Displays the GUI.
      */
     public void createAndShowGUI() {
-        JOptionPane.showMessageDialog(null, "Welcome         to the UV Sim!\n" +
+        JOptionPane.showMessageDialog(null, "Welcome to the UV Sim!\n" +
                 "Click the Load program button to load a program file from your local machine.\n" +
                 "Click the run program button to run the program from the file\n" +
                 "When prompted enter a 4 digit instruction.\n\n" +
@@ -179,11 +184,12 @@ public class UVSimGUI extends javax.swing.JFrame {
      * Loads a program from a file into memory.
      */
     private void loadProgram() {
+        runProgramButton.setEnabled(true);
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(mainPanel);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
+            selectedFile = fileChooser.getSelectedFile();
             String path = selectedFile.getAbsolutePath();
 
             List<Integer> instructions = getInstructions(selectedFile);
@@ -263,8 +269,20 @@ public class UVSimGUI extends javax.swing.JFrame {
      * Runs the loaded program.
      */
     private void runProgram() {
+        System.out.println("reRun: " + reRun);
+        if(reRun) {
+            List<Integer> instructions = getInstructions(selectedFile);
+            for (Integer instruction : instructions) {
+                System.out.println("Instruction: " + instruction);
+            }
+            writeToMemoryFromIntegerList(instructions);
+        }
         cpu.execute();
         appendOutput("Program executed.\n");
+<<<<<<< Updated upstream
+=======
+        reRun = true;
+>>>>>>> Stashed changes
     }
 
     /**
@@ -275,6 +293,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         cpu.reset();
         outputArea.setText("");
         appendOutput("Program reset.\n");
+        reRun = false;
     }
 
     // Variables declaration - do not modify
