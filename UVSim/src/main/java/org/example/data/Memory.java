@@ -50,8 +50,8 @@ public class Memory {
         String sign = number < 0 ? "-" : "";
 
         // If the number has more than four digits, get the first four digits
-        if (numStr.length() > 4) {
-            numStr = numStr.substring(0, 4);
+        if (numStr.length() > 6) {
+            numStr = numStr.substring(0, 6);
         }
 
         // Convert back to an integer and return

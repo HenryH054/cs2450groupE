@@ -2,68 +2,52 @@ package org.example.presentation;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles the conversion of file formats by processing instructions.
+ * @author Damon Morgan
+ */
 public class FileFormatHandler {
 
-    public static boolean isOldFormat(List<String> instructions) {
-        for (String instruction : instructions) {
-            if (instruction.substring(1).length() < 6) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static List<String> convertToNewFormat(List<String> oldInstructions) {
-        List<String> newInstructions = new ArrayList<>();
-        for (String instruction : oldInstructions) {
-            if (instruction.length() <= 2) {
-                newInstructions.add(String.format("%06d", Integer.parseInt(instruction)));
-            } else {
-                int value = Integer.parseInt(instruction);
-                if (value / 100 >= 10 && value / 100 <= 43) {
-                    // It's a function code
-                    newInstructions.add(String.format("%03d%03d", value / 100, value % 100));
-                } else {
-                    // It's a number
-                    newInstructions.add(String.format("%06d", value));
-                }
-            }
-        }
-        return newInstructions;
-    }
-
-    public static List<Integer> fourToSixDigitConverter(List<Integer> instructions) {
+    public static List<Integer> convertInstructionsToNewFormat(List<Integer> instructions) {
        List<Integer> newInstructions = new ArrayList<>();
         for (Integer instruction : instructions) {
-            int operation = instruction / 100;
-            int operand = instruction % 100;
-            boolean isOperation = (operation == 10 || operation == 11 || operation == 20 || operation == 21
-                    || operation == 31 || operation == 32 || operation == 40
-                    || operation == 41 || operation == 42 || operation == 43);
+            boolean isOperation = isFunctionalCode(instruction);
             if(isOperation) {
-                String stringOperation = String.format("%03d", operation);
-                String stringOperand = String.format("%03d", operand);
-                String stringInstruction = stringOperation + stringOperand;
-                instruction = Integer.parseInt(stringInstruction);
-                newInstructions.add(instruction);
+                convertInstruction(instruction, newInstructions);
             }else{
                 newInstructions.add(instruction);
             }
         }
-
-
         return newInstructions;
     }
 
-    public static boolean isOldFormatInteger(List<Integer> oldInstructions) {
+    /**
+     * Determines if the given instruction is a functional code.
+     *
+     * @param instruction Integer representing the instruction.
+     * @return true if the instruction is a functional code, false otherwise.
+     */
+    private static boolean isFunctionalCode(int instruction) {
+        int operation = instruction / 100;
+        return (operation == 10 || operation == 11 || operation == 20
+                || operation == 21 || operation == 30 || operation == 31
+                || operation == 32 || operation == 33 || operation == 40
+                || operation == 41 || operation == 42 || operation == 43);
+    }
 
-        for (Integer instruction : oldInstructions) {
-            String intstructionString = String.valueOf(instruction);
-            if (intstructionString.substring(1).length() > 4) {
-                return false;
-            }
-        }
-        return true;
-
+    /**
+     * Converts an instruction to the new format and adds it to the list.
+     *
+     * @param instruction Integer representing the instruction to be converted.
+     * @param newInstructions List of integers where the converted instruction is added.
+     */
+    private static void convertInstruction(Integer instruction, List<Integer> newInstructions) {
+        int operation = instruction / 100;
+        int operand = instruction % 100;
+        String stringOperation = String.format("%03d", operation);
+        String stringOperand = String.format("%03d", operand);
+        String stringInstruction = stringOperation + stringOperand;
+        instruction = Integer.parseInt(stringInstruction);
+        newInstructions.add(instruction);
     }
 }

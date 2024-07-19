@@ -48,7 +48,7 @@ public class CPU {
         // Execution loop
         while (programCounter < 100 && programCounter >= 0) { // FC: Loop condition updated to use program counter
             instruction = Math.abs(memory.getData(programCounter));
-            int operation = instruction / 100;
+            int operation = instruction / 1000;
             int operand = instruction % 100;
             switch (operation) {
                 case 10:

@@ -200,11 +200,14 @@ public class EditWindow extends javax.swing.JFrame {
         List<Integer> instructions = extractInstructionsFromTextAreaInt();
 
         if(formatConvertCheckBox.isSelected()){
-            List<Integer> newInstructions = FileFormatHandler.fourToSixDigitConverter(instructions);
-            for (Integer newInstruction : newInstructions) {
-                System.out.println("newInstruction: " + newInstruction);
+            instructions = FileFormatHandler.convertInstructionsToNewFormat(instructions);
+            for (Integer instruction : instructions) {
+                int operation = instruction / 1000;
+                int operand = instruction % 100;
+                System.out.println("newInstruction: " + instruction);
+                System.out.println("operation: " + operation);
+                System.out.println("operand: " + operand);
             }
-
         }
 
         if(saveChangesCheckBox.isSelected()) {
@@ -289,24 +292,6 @@ public class EditWindow extends javax.swing.JFrame {
     public void appendText(String text) {
         textArea.append(text);
     }
-
-//    /**
-//     * Appends a list of instructions to the text area.
-//     *
-//     * @param instructions the list of instructions to append
-//     */
-//    public void appendInstructions(List<Integer> instructions) {
-//        // append text to instructionWindow
-//        for (int j = 0; j < 100 && j < instructions.size(); j++) {
-//            int instruction = instructions.get(j);
-//            if(instruction > 0) {
-//                textArea.append("+" + instruction + "\n");
-//            }else{
-//                textArea.append(instruction + "\n");
-//            }
-//
-//        }
-//    }
 
     /**
      * Appends a list of instructions to the text area.

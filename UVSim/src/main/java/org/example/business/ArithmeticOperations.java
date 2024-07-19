@@ -30,6 +30,8 @@ public class ArithmeticOperations {
 
     public void multiply(int operand) {
         int accumulator = cpu.getAccumulator();
-        cpu.setAccumulator(accumulator * cpu.getMemory().getData(operand));
+        int num1 =cpu.getMemory().getData(operand);
+        int num2 = accumulator * num1;
+        cpu.setAccumulator(num2);
     }
 }

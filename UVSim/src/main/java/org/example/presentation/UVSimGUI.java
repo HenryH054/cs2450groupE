@@ -19,14 +19,12 @@ public class UVSimGUI extends javax.swing.JFrame {
     private CPU cpu;
     private File selectedFile;
     private boolean reRun;
-    private AppController appController;
     
     /**
      * Creates new form UVSimGUI
      */
     public UVSimGUI() {
         cpu = new CPU(this);
-        appController = new AppController(this, cpu);
         selectedFile = null;
         reRun = false;
         initComponents();
@@ -173,7 +171,7 @@ public class UVSimGUI extends javax.swing.JFrame {
      */
     public int getInputField() {
         String inputText = inputDialog();
-        while (!inputText.matches("^[-]?\\d{4}$")) {
+        while (!inputText.matches("^[-]?\\d{6}$")) {
             inputText = inputDialog();
         }
 
@@ -186,9 +184,10 @@ public class UVSimGUI extends javax.swing.JFrame {
      * @return the inputted instruction as a string
      */
     private static String inputDialog() {
-        return JOptionPane.showInputDialog("Please enter a four-digit instruction:\n" +
-                "- Use '-' for negative numbers\n" +
-                "- Positive numbers do not need a sign");
+        return JOptionPane.showInputDialog("Please enter a six-digit numerical value or instruction:\n" +
+                "Insturction format: \"010132\"\n" +
+                "Functional code: \"010\"\n" +
+                "Address: \"132\" ");
     }
 
     /**
