@@ -4,8 +4,6 @@ import org.example.business.CPU;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -46,7 +44,7 @@ public class UVSimGUIUnitTest {
     }
 
     @Test
-    public void testGetInstructionsFromFile() throws IOException {
+    public void testGetInstructionsAsIntegerListFromFile() throws IOException {
         UVSimGUI uvSimGUI = spy(new UVSimGUI());
         Random rnd = new Random();
 
@@ -62,7 +60,7 @@ public class UVSimGUIUnitTest {
             }
         }
 
-        List<Integer> actualInstructions = uvSimGUI.getInstructions(tempFile);
+        List<Integer> actualInstructions = FileUtil.readFileAsIntegerList(tempFile);
 
         assertEquals(100, actualInstructions.size());
         for (int i = 0; i < 100; i++) {
@@ -71,7 +69,7 @@ public class UVSimGUIUnitTest {
     }
 
     @Test
-    public void testGetInstructionsFromFile_NegativeValues() throws IOException {
+    public void testGetInstructionsAsIntegerListFromFile_NegativeValues() throws IOException {
         UVSimGUI uvSimGUI = spy(new UVSimGUI());
         Random rnd = new Random();
 
@@ -87,7 +85,7 @@ public class UVSimGUIUnitTest {
             }
         }
 
-        List<Integer> actualInstructions = uvSimGUI.getInstructions(tempFile);
+        List<Integer> actualInstructions = FileUtil.readFileAsIntegerList(tempFile);
 
         assertEquals(100, actualInstructions.size());
         for (int i = 0; i < 100; i++) {
@@ -96,16 +94,16 @@ public class UVSimGUIUnitTest {
     }
 
     @Test
-    public void testGetInstructionsFromEmptyFile() throws IOException {
+    public void testGetInstructionsAsIntegerListFromEmptyFile() throws IOException {
         File tempFile = File.createTempFile("empty", ".txt");
 
-        List<Integer> instructions = uvSimGUI.getInstructions(tempFile);
+        List<Integer> instructions = FileUtil.readFileAsIntegerList(tempFile);
 
         assertTrue(instructions.isEmpty());
     }
 
     @Test
-    public void testGetInstructionsFromFileWithNonNumericData() throws IOException {
+    public void testGetInstructionsAsIntegerListFromFileWithNonNumericData() throws IOException {
         File tempFile = File.createTempFile("non_numeric", ".txt");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile))) {
             bw.write("abcd");
@@ -115,7 +113,7 @@ public class UVSimGUIUnitTest {
             bw.write("xyz");
         }
 
-        List<Integer> instructions = uvSimGUI.getInstructions(tempFile);
+        List<Integer> instructions = FileUtil.readFileAsIntegerList(tempFile);
 
         assertEquals(1, instructions.size());
         assertEquals(Integer.valueOf(1234), instructions.getFirst());

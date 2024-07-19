@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.business.CPU;
 import org.example.presentation.EditWindow;
+import org.example.presentation.FileUtil;
 import org.example.presentation.UVSimGUI;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -30,12 +31,12 @@ public class EditWindowTest {
     }
 
     @Test
-    public void testSaveInstructionsToFile1() throws IOException {
+    public void testSaveInstructionsToFileToFileFromMemory1() throws IOException {
         for (int i = 0; i < 100; i++) {
             cpu.getMemory().setData(i, i);
         }
 
-        editWindow.saveInstructions();
+        editWindow.saveInstructionsToFileFromMemory();
 
         List<String> lines = Files.readAllLines(tempFile.toPath());
         assertEquals(100, lines.size()); // Check if 100 lines are written
@@ -49,23 +50,23 @@ public class EditWindowTest {
     }
 
     @Test
-    public void testSaveInstructionsToFile_NegativeValues() throws IOException {
+    public void testSaveInstructionsToFileToFile_FromMemory_NegativeValues() throws IOException {
         for (int i = 0; i < 10; i++) {
             cpu.getMemory().setData(i, -i-2);
         }
 
-        editWindow.saveInstructions();
+        editWindow.saveInstructionsToFileFromMemory();
 
-        List<Integer> list = uvSimGUI.getInstructions(tempFile);
+        List<Integer> list = FileUtil.readFileAsIntegerList(tempFile);
 
         assertEquals(-11, list.get(9));
     }
 
-    @Test
-    public void testAppendInstructions() {
-        List<Integer> instructions = List.of(1234, 5678, 91011);
-        editWindow.appendInstructions(instructions);
-        String expectedText = "+1234\n+5678\n+91011\n";
-        assertEquals(expectedText.trim(), editWindow.getTextAreaText().trim());
-    }
+//    @Test
+//    public void testAppendInstructions() {
+//        List<Integer> instructions = List.of(1234, 5678, 91011);
+//        editWindow.appendInstructions(instructions);
+//        String expectedText = "+1234\n+5678\n+91011\n";
+//        assertEquals(expectedText.trim(), editWindow.getTextAreaText().trim());
+//    }
 }

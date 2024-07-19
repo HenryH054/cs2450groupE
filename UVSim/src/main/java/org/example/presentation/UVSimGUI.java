@@ -5,9 +5,7 @@
 package org.example.presentation;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -21,18 +19,19 @@ public class UVSimGUI extends javax.swing.JFrame {
     private CPU cpu;
     private File selectedFile;
     private boolean reRun;
+    private AppController appController;
     
     /**
      * Creates new form UVSimGUI
      */
     public UVSimGUI() {
         cpu = new CPU(this);
+        appController = new AppController(this, cpu);
         selectedFile = null;
         reRun = false;
         initComponents();
         runProgramButton.setEnabled(false);
     }
-    
     
     public void setCpu(CPU cpu) {
         this.cpu = cpu;
@@ -41,7 +40,6 @@ public class UVSimGUI extends javax.swing.JFrame {
     public JTextArea getOutputArea() {
         return outputArea;
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -135,7 +133,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         loadProgram();
     }//GEN-LAST:event_loadProgramButtonActionPerformed
 
-    private void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
+    void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
         // TODO add your handling code here:
         runProgram();
     }//GEN-LAST:event_runProgramButtonActionPerformed
@@ -205,7 +203,7 @@ public class UVSimGUI extends javax.swing.JFrame {
             selectedFile = fileChooser.getSelectedFile();
             String path = selectedFile.getAbsolutePath();
 
-            List<Integer> instructions = getInstructions(selectedFile);
+            List<String> instructions = FileUtil.readFileAsStringList(selectedFile);
 
             createAndShowEditWindow(path, instructions);
 
@@ -248,7 +246,7 @@ public class UVSimGUI extends javax.swing.JFrame {
      * @param path the file path of the program
      * @param instructions the list of instructions
      */
-    public void createAndShowEditWindow(String path, List<Integer> instructions) {
+    public void createAndShowEditWindow(String path, List<String> instructions) {
         EditWindow editWindow = new EditWindow(cpu);
         editWindow.setUvSimGUI(this);
         editWindow.setVisible(true);
@@ -257,34 +255,11 @@ public class UVSimGUI extends javax.swing.JFrame {
     }
 
     /**
-     * Retrieves instructions from the specified file.
-     *
-     * @param file the file to read instructions from
-     * @return the list of instructions
-     */
-    public List<Integer> getInstructions(File file) {
-        List<Integer> instructions = new ArrayList<>();
-        try (Scanner scnr = new Scanner(file)) {
-            while (scnr.hasNext()) {
-                if (scnr.hasNextInt()) {
-                    instructions.add(scnr.nextInt());
-                } else {
-                    scnr.nextLine();
-                }
-            }
-        } catch (Exception e) {
-            appendOutput("Error reading instructions: " + e.getMessage() + "\n");
-        }
-        return instructions;
-    }
-
-    /**
      * Runs the loaded program.
      */
     private void runProgram() {
-        System.out.println("reRun: " + reRun);
         if(reRun) {
-            List<Integer> instructions = getInstructions(selectedFile);
+            List<Integer> instructions = FileUtil.readFileAsIntegerList(selectedFile);
             for (Integer instruction : instructions) {
                 System.out.println("Instruction: " + instruction);
             }

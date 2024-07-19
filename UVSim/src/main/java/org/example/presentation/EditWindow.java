@@ -62,6 +62,7 @@ public class EditWindow extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         scrollToTopButton = new javax.swing.JButton();
+        formatConvertCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,6 +130,8 @@ public class EditWindow extends javax.swing.JFrame {
             }
         });
 
+        formatConvertCheckBox.setText("Convert to 6 digit instruction format");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,15 +141,17 @@ public class EditWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(259, 259, 259)
-                                .addComponent(jLabel3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(saveChangesCheckBox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(saveAsButton))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(374, 374, 374)
+                                    .addComponent(jLabel3))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(saveChangesCheckBox)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(saveAsButton))
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(formatConvertCheckBox))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(doneButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,18 +172,24 @@ public class EditWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(saveChangesCheckBox)
-                            .addComponent(saveAsButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(scrollToTopButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(saveChangesCheckBox)
+                                    .addComponent(saveAsButton))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(formatConvertCheckBox)
+                                .addGap(6, 6, 6)))
+                        .addComponent(jLabel3))))
         );
 
         pack();
@@ -186,15 +197,23 @@ public class EditWindow extends javax.swing.JFrame {
 
     private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
         // TODO add your handling code here:
-        List<String> instructions = extractInstructionsFromTextArea();
+        List<Integer> instructions = extractInstructionsFromTextAreaInt();
+
+        if(formatConvertCheckBox.isSelected()){
+            List<Integer> newInstructions = FileFormatHandler.fourToSixDigitConverter(instructions);
+            for (Integer newInstruction : newInstructions) {
+                System.out.println("newInstruction: " + newInstruction);
+            }
+
+        }
 
         if(saveChangesCheckBox.isSelected()) {
-            uvSimGUI.writeToMemoryFromStringList(instructions);
-            saveInstructions();
+            uvSimGUI.writeToMemoryFromIntegerList(instructions);
+            saveInstructionsToFileFromMemory();
         }else{
-            List<Integer> list = uvSimGUI.getInstructions(new File(filePath));
+            List<Integer> list = FileUtil.readFileAsIntegerList(new File(filePath));
             uvSimGUI.writeToMemoryFromIntegerList(list);
-            saveInstructions();
+            saveInstructionsToFileFromMemory();
         }
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
@@ -211,10 +230,151 @@ public class EditWindow extends javax.swing.JFrame {
     private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
         // TODO add your handling code here:
         List<String> instructions = extractInstructionsFromTextArea();
+
         uvSimGUI.writeToMemoryFromStringList(instructions);
-        saveAsInstructions();
+        saveAsInstructionsToFileFromMemory();
 
     }//GEN-LAST:event_saveAsButtonActionPerformed
+
+    /**
+     * Saves the instructions from the text area to the file.
+     */
+    public void saveInstructionsToFileFromMemory() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath))) {
+            for (int i = 0; i < cpu.getMemory().size(); i++) {
+                int data = cpu.getMemory().getData(i);
+                String item = String.valueOf(data);
+                if (item.charAt(0) == '-' || data == 0) {
+                    writer.write(item);
+                    writer.newLine();
+                } else {
+                    writer.write("+" + item);
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void saveAsInstructionsToFileFromMemory() {
+        JFileChooser fileChooser = new JFileChooser();
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave))) {
+                for (int i = 0; i < cpu.getMemory().size(); i++) {
+                    int data = cpu.getMemory().getData(i);
+                    String item = String.valueOf(data);
+                    if (item.charAt(0) == '-' || data == 0) {
+                        writer.write(item);
+                        writer.newLine();
+                    } else {
+                        writer.write("+" + item);
+                        writer.newLine();
+                    }
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    /**
+     * Appends the given text to the text area.
+     *
+     * @param text the text to append
+     */
+    public void appendText(String text) {
+        textArea.append(text);
+    }
+
+//    /**
+//     * Appends a list of instructions to the text area.
+//     *
+//     * @param instructions the list of instructions to append
+//     */
+//    public void appendInstructions(List<Integer> instructions) {
+//        // append text to instructionWindow
+//        for (int j = 0; j < 100 && j < instructions.size(); j++) {
+//            int instruction = instructions.get(j);
+//            if(instruction > 0) {
+//                textArea.append("+" + instruction + "\n");
+//            }else{
+//                textArea.append(instruction + "\n");
+//            }
+//
+//        }
+//    }
+
+    /**
+     * Appends a list of instructions to the text area.
+     *
+     * @param instructions the list of instructions to append
+     */
+    public void appendInstructions(List<String> instructions) {
+        // append text to instructionWindow
+        for (int j = 0; j < 100 && j < instructions.size(); j++) {
+            String instruction = instructions.get(j);
+            textArea.append(instruction + "\n");
+        }
+    }
+
+    /**
+     * Sets the file path for saving instructions.
+     *
+     * @param filePath the file path
+     */
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    /**
+     * Retrieves text from the text area.
+     *
+     * @return the list of instructions
+     */
+    private List<String> extractInstructionsFromTextArea() {
+        List<String > instructions = new ArrayList<>();
+
+        String text = textArea.getText();
+
+        String[] lines = text.split("\\n");
+
+        int i = 0;
+        for (String line : lines) {
+            instructions.add(line);
+            System.out.println("line: " + i + ": " + line);
+            i++;
+        }
+        return instructions;
+    }
+
+    private List<Integer> extractInstructionsFromTextAreaInt() {
+        List<Integer> instructions = new ArrayList<>();
+
+        String text = textArea.getText();
+
+        String[] lines = text.split("\\n");
+
+        int i = 0;
+        for (String line : lines) {
+            instructions.add(Integer.parseInt(line));
+            System.out.println("line: " + i + ": " + line);
+            i++;
+        }
+        return instructions;
+    }
+
+    /**
+     * Gets the text from the text area.
+     *
+     * @return the text from the text area
+     */
+    public String getTextAreaText() {
+        return textArea.getText();
+    }
 
     /**
      * By Ernesto Felix
@@ -250,119 +410,9 @@ public class EditWindow extends javax.swing.JFrame {
         textArea.setComponentPopupMenu(popupMenu);
     }
 
-    /**
-     * Saves the instructions from the text area to the file.
-     */
-    public void saveInstructions() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath))) {
-            for (int i = 0; i < cpu.getMemory().size(); i++) {
-                int data = cpu.getMemory().getData(i);
-                String item = String.valueOf(data);
-                if (item.charAt(0) == '-' || data == 0) {
-                    writer.write(item);
-                    writer.newLine();
-                } else {
-                    writer.write("+" + item);
-                    writer.newLine();
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void saveAsInstructions() {
-        JFileChooser fileChooser = new JFileChooser();
-        int userSelection = fileChooser.showSaveDialog(null);
-
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave))) {
-                for (int i = 0; i < cpu.getMemory().size(); i++) {
-                    int data = cpu.getMemory().getData(i);
-                    String item = String.valueOf(data);
-                    if (item.charAt(0) == '-' || data == 0) {
-                        writer.write(item);
-                        writer.newLine();
-                    } else {
-                        writer.write("+" + item);
-                        writer.newLine();
-                    }
-                }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-
-    /**
-     * Appends the given text to the text area.
-     *
-     * @param text the text to append
-     */
-    public void appendText(String text) {
-        textArea.append(text);
-    }
-
-    /**
-     * Appends a list of instructions to the text area.
-     *
-     * @param instructions the list of instructions to append
-     */
-    public void appendInstructions(List<Integer> instructions) {
-        // append text to instructionWindow
-        for (int j = 0; j < 100 && j < instructions.size(); j++) {
-            int instruction = instructions.get(j);
-            if(instruction > 0) {
-                textArea.append("+" + instruction + "\n");
-            }else{
-                textArea.append(instruction + "\n");
-            }
-
-        }
-    }
-
-    /**
-     * Sets the file path for saving instructions.
-     *
-     * @param filePath the file path
-     */
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    /**
-     * Retrieves text from the text area.
-     *
-     * @return the list of instructions
-     */
-    private List<String> extractInstructionsFromTextArea() {
-        List<String > instructions = new ArrayList<>();
-
-        String text = textArea.getText();
-
-        String[] lines = text.split("\\n");
-
-        int i = 0;
-        for (String line : lines) {
-            instructions.add(line);
-            System.out.println("line: " + i + ": " + line);
-            i++;
-        }
-        return instructions;
-    }
-
-    /**
-     * Gets the text from the text area.
-     *
-     * @return the text from the text area
-     */
-    public String getTextAreaText() {
-        return textArea.getText();
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton doneButton;
+    private javax.swing.JCheckBox formatConvertCheckBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
