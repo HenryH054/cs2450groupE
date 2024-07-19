@@ -39,7 +39,7 @@ public class Memory {
     }
 
     /**
-     * Truncates a number to four digits.
+     * Truncates a number to six digits.
      *
      * @param number the number to truncate
      * @return the truncated number

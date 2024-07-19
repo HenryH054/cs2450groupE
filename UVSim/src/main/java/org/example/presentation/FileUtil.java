@@ -7,9 +7,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+/**
+ * Utility class for file operations, including reading and writing instructions.
+ * @author Damon Morgan
+ */
 public class FileUtil {
 
+    /**
+     * Reads a file and returns its content as a list of strings.
+     *
+     * @param file The file to read.
+     * @return List of strings representing the file content.
+     */
     public static List<String> readFileAsStringList(File file) {
         List<String> instructions = new ArrayList<>();
         try (Scanner scanner = new Scanner(file)) {
@@ -22,6 +31,12 @@ public class FileUtil {
         return instructions;
     }
 
+    /**
+     * Reads a file and returns its content as a list of integers.
+     *
+     * @param file The file to read.
+     * @return List of integers representing the file content.
+     */
     public static List<Integer> readFileAsIntegerList(File file) {
         List<Integer> instructions = new ArrayList<>();
         try (Scanner scanner = new Scanner(file)) {
@@ -34,6 +49,12 @@ public class FileUtil {
         return instructions;
     }
 
+    /**
+     * Writes a list of instructions to a file.
+     *
+     * @param instructions List of integers representing the instructions.
+     * @param filePath The path to the file to write.
+     */
     public static void writeInstructionsToFile(List<Integer> instructions, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (int instruction : instructions) {
