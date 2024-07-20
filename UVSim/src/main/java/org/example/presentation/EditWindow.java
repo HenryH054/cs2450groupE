@@ -4,7 +4,9 @@
  */
 package org.example.presentation;
 
-import org.example.business.CPU;
+import org.example.file.FileUtil;
+import org.example.file.FormatHandler;
+import org.example.controller.AppController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,27 +21,16 @@ import java.util.List;
  */
 public class EditWindow extends javax.swing.JFrame {
     private String filePath;
-    private UVSimGUI uvSimGUI;
-    private CPU cpu;
-    private JPopupMenu popupMenu;
+    private AppController appController;
 
     /**
      * Creates new form InstructionWindow
      */
-    public EditWindow(CPU cpu) {
+    public EditWindow(AppController appController) {
+        this.appController = appController;
         filePath = "instructions.txt";
-        this.cpu = cpu;
         initComponents();
         addPopupMenu();
-    }
-
-    /**
-     * Sets the UVSimGUI instance for this window.
-     *
-     * @param uvSimGUI the UVSimGUI instance
-     */
-    public void setUvSimGUI(UVSimGUI uvSimGUI) {
-        this.uvSimGUI = uvSimGUI;
     }
 
     /**
@@ -200,7 +191,7 @@ public class EditWindow extends javax.swing.JFrame {
         List<Integer> instructions = extractInstructionsFromTextAreaInt();
 
         if(formatConvertCheckBox.isSelected()){
-            instructions = FileFormatHandler.convertInstructionsToNewFormat(instructions);
+            instructions = FormatHandler.convertInstructionsToNewFormat(instructions);
             for (Integer instruction : instructions) {
                 int operation = instruction / 1000;
                 int operand = instruction % 100;
@@ -211,12 +202,12 @@ public class EditWindow extends javax.swing.JFrame {
         }
 
         if(saveChangesCheckBox.isSelected()) {
-            uvSimGUI.writeToMemoryFromIntegerList(instructions);
-            saveInstructionsToFileFromMemory();
+            appController.getMemoryManager().writeToMemoryFromIntegerList(instructions);
+            appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
         }else{
             List<Integer> list = FileUtil.readFileAsIntegerList(new File(filePath));
-            uvSimGUI.writeToMemoryFromIntegerList(list);
-            saveInstructionsToFileFromMemory();
+            appController.getMemoryManager().writeToMemoryFromIntegerList(list);
+            appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
         }
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
@@ -234,63 +225,21 @@ public class EditWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         List<String> instructions = extractInstructionsFromTextArea();
 
-        uvSimGUI.writeToMemoryFromStringList(instructions);
-        saveAsInstructionsToFileFromMemory();
+        appController.getMemoryManager().writeToMemoryFromStringList(instructions);
+        appController.getFileManager().saveAsInstructionsToFileFromMemory();
 
     }//GEN-LAST:event_saveAsButtonActionPerformed
 
     /**
-     * Saves the instructions from the text area to the file.
-     */
-    public void saveInstructionsToFileFromMemory() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath))) {
-            for (int i = 0; i < cpu.getMemory().size(); i++) {
-                int data = cpu.getMemory().getData(i);
-                String item = String.valueOf(data);
-                if (item.charAt(0) == '-' || data == 0) {
-                    writer.write(item);
-                    writer.newLine();
-                } else {
-                    writer.write("+" + item);
-                    writer.newLine();
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void saveAsInstructionsToFileFromMemory() {
-        JFileChooser fileChooser = new JFileChooser();
-        int userSelection = fileChooser.showSaveDialog(null);
-
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave))) {
-                for (int i = 0; i < cpu.getMemory().size(); i++) {
-                    int data = cpu.getMemory().getData(i);
-                    String item = String.valueOf(data);
-                    if (item.charAt(0) == '-' || data == 0) {
-                        writer.write(item);
-                        writer.newLine();
-                    } else {
-                        writer.write("+" + item);
-                        writer.newLine();
-                    }
-                }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "Error saving instructions: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-
-    /**
-     * Appends the given text to the text area.
+     * Creates and shows the instruction window with the given file path and instructions.
      *
-     * @param text the text to append
+     * @param path the file path of the program
+     * @param instructions the list of instructions
      */
-    public void appendText(String text) {
-        textArea.append(text);
+    public void createAndShowEditWindow(String path, List<String> instructions) {
+        setVisible(true);
+        setFilePath(path);
+        appendInstructions(instructions);
     }
 
     /**
@@ -299,7 +248,6 @@ public class EditWindow extends javax.swing.JFrame {
      * @param instructions the list of instructions to append
      */
     public void appendInstructions(List<String> instructions) {
-        // append text to instructionWindow
         for (int j = 0; j < 100 && j < instructions.size(); j++) {
             String instruction = instructions.get(j);
             textArea.append(instruction + "\n");
@@ -353,20 +301,11 @@ public class EditWindow extends javax.swing.JFrame {
     }
 
     /**
-     * Gets the text from the text area.
-     *
-     * @return the text from the text area
-     */
-    public String getTextAreaText() {
-        return textArea.getText();
-    }
-
-    /**
      * By Ernesto Felix
      * Adds a popup menu with Cut, Copy, and Paste functionality to the text area.
      */
     private void addPopupMenu() {
-        popupMenu = new JPopupMenu();
+        JPopupMenu popupMenu = new JPopupMenu();
 
         JMenuItem cutMenuItem = new JMenuItem("Cut");
         cutMenuItem.addActionListener(new ActionListener() {

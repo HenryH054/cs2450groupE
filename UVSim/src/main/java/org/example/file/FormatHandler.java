@@ -1,4 +1,4 @@
-package org.example.presentation;
+package org.example.file;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,7 +6,7 @@ import java.util.List;
  * Handles the conversion of file formats by processing instructions.
  * @author Damon Morgan
  */
-public class FileFormatHandler {
+public class FormatHandler {
 
     public static List<Integer> convertInstructionsToNewFormat(List<Integer> instructions) {
        List<Integer> newInstructions = new ArrayList<>();

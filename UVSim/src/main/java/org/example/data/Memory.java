@@ -31,7 +31,7 @@ public class Memory {
      * @param value the value to set
      */
     public void setData(int operand, int value) {
-        data[operand] = truncateToFourDigits(value);
+        data[operand] = truncateToSixDigits(value);
     }
 
     public int size() {
@@ -44,7 +44,7 @@ public class Memory {
      * @param number the number to truncate
      * @return the truncated number
      */
-    private int truncateToFourDigits(int number) {
+    private int truncateToSixDigits(int number) {
         // Convert the number to a string
         String numStr = String.valueOf(Math.abs(number));
         String sign = number < 0 ? "-" : "";

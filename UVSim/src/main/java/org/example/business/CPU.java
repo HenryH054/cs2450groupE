@@ -11,9 +11,9 @@ public class CPU {
     private BranchOperations branchOperations;
     private IOHandler ioHandler;
 
-    public CPU(UVSimGUI uvSimGUI) {
-        this.memory = new Memory();
-        this.arithmeticOperations = new ArithmeticOperations(this);
+    public CPU(UVSimGUI uvSimGUI, Memory memory) {
+        this.memory = memory;
+        this.arithmeticOperations = new ArithmeticOperations(memory, this);
         this.branchOperations = new BranchOperations(this);
         this.ioHandler = new IOHandler(memory, uvSimGUI);
     }
@@ -32,14 +32,6 @@ public class CPU {
 
     public void setAccumulator(int accumulator) {
         this.accumulator = accumulator;
-    }
-
-    public Memory getMemory() {
-        return memory;
-    }
-
-    public void setMemory(Memory memory) {
-        this.memory = memory;
     }
 
     public void execute() {
@@ -119,7 +111,7 @@ public class CPU {
     }
 
     public void reset() {
-        getMemory().clear();
+        memory.clear();
         accumulator = 0;
         programCounter = 0;
     }

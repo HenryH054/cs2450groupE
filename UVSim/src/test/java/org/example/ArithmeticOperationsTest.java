@@ -15,13 +15,14 @@ class ArithmeticOperationsTest {
 
     @BeforeEach
     public void setUp() {
-        cpu = new CPU(null );
-        arithmeticOperations = new ArithmeticOperations(cpu);
+        cpu = new CPU(null, null );
+        memory = new Memory();
+        arithmeticOperations = new ArithmeticOperations(memory, cpu);
     }
 
     @Test
     public void testAdd() {
-        cpu.getMemory().setData(10, 5);
+        memory.setData(10, 5);
         cpu.setAccumulator(3);
         arithmeticOperations.add(10);
         assertEquals(8, cpu.getAccumulator());
@@ -29,7 +30,7 @@ class ArithmeticOperationsTest {
 
     @Test
     public void testSubtract() {
-        cpu.getMemory().setData(10, 5);
+        memory.setData(10, 5);
         cpu.setAccumulator(10);
         arithmeticOperations.subtract(10);
         assertEquals(5, cpu.getAccumulator());
@@ -37,7 +38,7 @@ class ArithmeticOperationsTest {
 
     @Test
     public void testDivide() {
-        cpu.getMemory().setData(10, 5);
+        memory.setData(10, 5);
         cpu.setAccumulator(10);
         arithmeticOperations.divide(10);
         assertEquals(2, cpu.getAccumulator());
@@ -45,14 +46,14 @@ class ArithmeticOperationsTest {
 
     @Test
     public void testDivideByZero() {
-        cpu.getMemory().setData(10, 0);
+        memory.setData(10, 0);
         cpu.setAccumulator(10);
         assertThrows(ArithmeticException.class, () -> arithmeticOperations.divide(10));
     }
 
     @Test
     public void testMultiply() {
-        cpu.getMemory().setData(10, 5);
+        memory.setData(10, 5);
         cpu.setAccumulator(3);
         arithmeticOperations.multiply(10);
         assertEquals(15, cpu.getAccumulator());

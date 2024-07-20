@@ -1,0 +1,65 @@
+package org.example.file;
+
+import org.example.data.Memory;
+import org.example.presentation.UVSimGUI;
+
+import javax.swing.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileManager {
+    private Memory memory;
+    private UVSimGUI uvSimGUI;
+
+    public FileManager(Memory memory, UVSimGUI uvSimGUI) {
+        this.memory = memory;
+        this.uvSimGUI = uvSimGUI;
+    }
+
+    /**
+     * Saves the instructions from the text area to the file.
+     */
+    public void saveInstructionsToFileFromMemory(String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (int i = 0; i < memory.size(); i++) {
+                int data = memory.getData(i);
+                String item = String.valueOf(data);
+                if (item.charAt(0) == '-' || data == 0) {
+                    writer.write(item);
+                    writer.newLine();
+                } else {
+                    writer.write("+" + item);
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            uvSimGUI.appendOutput("Could not save instructions to " + filePath);
+        }
+    }
+
+    public void saveAsInstructionsToFileFromMemory() {
+        JFileChooser fileChooser = new JFileChooser();
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave))) {
+                for (int i = 0; i < memory.size(); i++) {
+                    int data = memory.getData(i);
+                    String item = String.valueOf(data);
+                    if (item.charAt(0) == '-' || data == 0) {
+                        writer.write(item);
+                        writer.newLine();
+                    } else {
+                        writer.write("+" + item);
+                        writer.newLine();
+                    }
+                }
+            } catch (IOException e) {
+                uvSimGUI.appendOutput("Could not save instructions to " + fileToSave.getAbsolutePath());
+            }
+        }
+    }
+}
