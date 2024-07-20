@@ -1,4 +1,4 @@
-package org.example.presentation;
+package org.example.file;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,17 +7,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 /**
- * Utility class for file operations, including reading and writing instructions.
+ * Provides utility methods for reading from and writing to files.
  * @author Damon Morgan
  */
 public class FileUtil {
 
     /**
-     * Reads a file and returns its content as a list of strings.
+     * Reads the contents of a file and returns them as a list of strings.
      *
-     * @param file The file to read.
-     * @return List of strings representing the file content.
+     * @param file the file to read from
+     * @return a list of strings read from the file
      */
     public static List<String> readFileAsStringList(File file) {
         List<String> instructions = new ArrayList<>();
@@ -32,10 +33,10 @@ public class FileUtil {
     }
 
     /**
-     * Reads a file and returns its content as a list of integers.
+     * Reads the contents of a file and returns them as a list of integers.
      *
-     * @param file The file to read.
-     * @return List of integers representing the file content.
+     * @param file the file to read from
+     * @return a list of integers read from the file
      */
     public static List<Integer> readFileAsIntegerList(File file) {
         List<Integer> instructions = new ArrayList<>();
@@ -50,10 +51,10 @@ public class FileUtil {
     }
 
     /**
-     * Writes a list of instructions to a file.
+     * Writes a list of integers to a file, prefixing positive numbers with a "+" sign.
      *
-     * @param instructions List of integers representing the instructions.
-     * @param filePath The path to the file to write.
+     * @param instructions the list of integers to write
+     * @param filePath the path of the file to write to
      */
     public static void writeInstructionsToFile(List<Integer> instructions, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {

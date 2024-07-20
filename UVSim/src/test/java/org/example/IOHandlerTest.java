@@ -1,7 +1,7 @@
 package org.example;
 
 import org.example.business.IOHandler;
-import org.example.presentation.UVSimGUI;
+import org.example.ui.UVSimGUI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.example.data.Memory;

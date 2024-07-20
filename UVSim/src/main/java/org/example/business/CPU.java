@@ -1,7 +1,6 @@
 package org.example.business;
-
 import org.example.data.Memory;
-import org.example.presentation.UVSimGUI;
+
 
 public class CPU {
     private int programCounter;
@@ -11,11 +10,11 @@ public class CPU {
     private BranchOperations branchOperations;
     private IOHandler ioHandler;
 
-    public CPU(UVSimGUI uvSimGUI) {
-        this.memory = new Memory();
-        this.arithmeticOperations = new ArithmeticOperations(this);
+    public CPU(IOHandler ioHandler, Memory memory) {
+        this.memory = memory;
+        this.arithmeticOperations = new ArithmeticOperations(memory, this);
         this.branchOperations = new BranchOperations(this);
-        this.ioHandler = new IOHandler(memory, uvSimGUI);
+        this.ioHandler = ioHandler;
     }
 
     public int getProgramCounter() {
@@ -34,18 +33,10 @@ public class CPU {
         this.accumulator = accumulator;
     }
 
-    public Memory getMemory() {
-        return memory;
-    }
-
-    public void setMemory(Memory memory) {
-        this.memory = memory;
-    }
-
     public void execute() {
         Memory memory = this.memory;
         int instruction;
-        // Execution loop
+
         while (programCounter < 100 && programCounter >= 0) { // FC: Loop condition updated to use program counter
             instruction = Math.abs(memory.getData(programCounter));
             int operation = instruction / 1000;
@@ -57,7 +48,7 @@ public class CPU {
                     break;
                 case 11:
                     //WRITE = 11 Write a word from a specific location in memory to screen.
-                   ioHandler.write(operand);
+                    ioHandler.write(operand);
                     break;
                 case 20:
                     //LOAD = 20 Load a word from a specific location in memory into the accumulator.
@@ -119,7 +110,7 @@ public class CPU {
     }
 
     public void reset() {
-        getMemory().clear();
+        memory.clear();
         accumulator = 0;
         programCounter = 0;
     }
