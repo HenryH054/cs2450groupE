@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package org.example.presentation;
+package org.example.ui;
 
 import org.example.file.FileUtil;
 import org.example.file.FormatHandler;
@@ -88,10 +88,10 @@ public class EditWindow extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel2.setText("Max instructions: 100");
+        jLabel2.setText("Max instructions: 250");
 
         jLabel4.setForeground(new java.awt.Color(255, 0, 51));
-        jLabel4.setText("Instructions exceeding 100 will be removed");
+        jLabel4.setText("Instructions exceeding 250 will be removed");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

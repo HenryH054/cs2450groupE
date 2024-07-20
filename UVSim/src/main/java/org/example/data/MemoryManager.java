@@ -1,11 +1,15 @@
 package org.example.data;
-import org.example.presentation.UVSimGUI;
+import org.example.ui.UVSimGUI;
 import java.util.List;
 
 public class MemoryManager {
     private UVSimGUI uvSimGUI;
     private Memory memory;
 
+    /**
+     * Manages memory operations, including writing instructions to memory.
+     * @author Damon Morgan
+     */
     public MemoryManager(UVSimGUI uvSimGUI, Memory memory) {
         this.uvSimGUI = uvSimGUI;
         this.memory = memory;

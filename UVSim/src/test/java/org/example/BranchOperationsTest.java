@@ -1,7 +1,7 @@
 package org.example;
 
 import org.example.business.IOHandler;
-import org.example.presentation.UVSimGUI;
+import org.example.ui.UVSimGUI;
 import org.example.data.Memory;
 import org.example.business.CPU;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +20,7 @@ public class BranchOperationsTest {
         UVSimGUI gui = mock(UVSimGUI.class );
         Memory mem = new Memory();
         IOHandler io = new IOHandler(mem, gui);
-        cpu = new CPU(gui, mem);
+        cpu = new CPU(io, mem);
     }
 
     @Test

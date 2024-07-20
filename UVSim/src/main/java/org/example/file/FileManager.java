@@ -1,7 +1,7 @@
 package org.example.file;
 
 import org.example.data.Memory;
-import org.example.presentation.UVSimGUI;
+import org.example.ui.UVSimGUI;
 
 import javax.swing.*;
 import java.io.BufferedWriter;
@@ -9,6 +9,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Manages file operations related to saving memory contents.
+ * @author Damon Morgan
+ */
 public class FileManager {
     private Memory memory;
     private UVSimGUI uvSimGUI;
