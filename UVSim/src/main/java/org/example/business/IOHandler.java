@@ -1,7 +1,7 @@
 package org.example.business;
 
 import org.example.data.Memory;
-import org.example.presentation.UVSimGUI;
+import org.example.ui.UVSimGUI;
 
 /**
  * Handles input and output operations for the UVSim application.

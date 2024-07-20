@@ -5,7 +5,7 @@ package org.example.data;
  */
 public class Memory {
     private int[] data;
-    public final static int SIZE = 100;
+    public final static int SIZE = 250;
 
     /**
      * Constructs a Memory object with a fixed size array of 100 elements.
@@ -31,7 +31,7 @@ public class Memory {
      * @param value the value to set
      */
     public void setData(int operand, int value) {
-        data[operand] = truncateToFourDigits(value);
+        data[operand] = truncateToSixDigits(value);
     }
 
     public int size() {
@@ -39,19 +39,19 @@ public class Memory {
     }
 
     /**
-     * Truncates a number to four digits.
+     * Truncates a number to six digits.
      *
      * @param number the number to truncate
      * @return the truncated number
      */
-    private int truncateToFourDigits(int number) {
+    private int truncateToSixDigits(int number) {
         // Convert the number to a string
         String numStr = String.valueOf(Math.abs(number));
         String sign = number < 0 ? "-" : "";
 
         // If the number has more than four digits, get the first four digits
-        if (numStr.length() > 4) {
-            numStr = numStr.substring(0, 4);
+        if (numStr.length() > 6) {
+            numStr = numStr.substring(0, 6);
         }
 
         // Convert back to an integer and return

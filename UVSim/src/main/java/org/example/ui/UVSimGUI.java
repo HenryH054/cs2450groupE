@@ -2,46 +2,37 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package org.example.presentation;
+package org.example.ui;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
-import org.example.business.CPU;
+
+import org.example.file.FileUtil;
+import org.example.controller.AppController;
 
 /**
  *
  * @author Damon Morgan
  */
 public class UVSimGUI extends javax.swing.JFrame {
-    private CPU cpu;
     private File selectedFile;
     private boolean reRun;
+    private EditWindow editWindow;
+    private AppController appController;
     
     /**
      * Creates new form UVSimGUI
      */
-    public UVSimGUI() {
-        cpu = new CPU(this);
+    public UVSimGUI(AppController appController, EditWindow editWindow) {
+        this.appController = appController;
+        this.editWindow = editWindow;
         selectedFile = null;
         reRun = false;
         initComponents();
         runProgramButton.setEnabled(false);
     }
-    
-    
-    public void setCpu(CPU cpu) {
-        this.cpu = cpu;
-    }
-
-    public JTextArea getOutputArea() {
-        return outputArea;
-    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,13 +122,13 @@ public class UVSimGUI extends javax.swing.JFrame {
 
     private void loadProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadProgramButtonActionPerformed
         // TODO add your handling code here:
-        outputArea.setText("Loading Program...");
-        loadProgram();
+        loadAndDisplayProgram();
     }//GEN-LAST:event_loadProgramButtonActionPerformed
 
-    private void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
+    void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
         // TODO add your handling code here:
-        runProgram();
+        appController.getRunner().runProgram(reRun, selectedFile);
+        reRun = true;
     }//GEN-LAST:event_runProgramButtonActionPerformed
 
      /**
@@ -175,7 +166,7 @@ public class UVSimGUI extends javax.swing.JFrame {
      */
     public int getInputField() {
         String inputText = inputDialog();
-        while (!inputText.matches("^[-]?\\d{4}$")) {
+        while (!inputText.matches("^[-]?\\d{6}$")) {
             inputText = inputDialog();
         }
 
@@ -188,123 +179,53 @@ public class UVSimGUI extends javax.swing.JFrame {
      * @return the inputted instruction as a string
      */
     private static String inputDialog() {
-        return JOptionPane.showInputDialog("Please enter a four-digit instruction:\n" +
-                "- Use '-' for negative numbers\n" +
-                "- Positive numbers do not need a sign");
+        return JOptionPane.showInputDialog("Please enter a six-digit numerical value or instruction:\n" +
+                "Insturction format: \"010132\"\n" +
+                "Functional code: \"010\"\n" +
+                "Address: \"132\" ");
     }
 
     /**
-     * Loads a program from a file into memory.
+     * Writes instructions from a file to a List.
      */
-    private void loadProgram() {
-        runProgramButton.setEnabled(true);
+    private File selectProgramFile() {
+        File file;
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(mainPanel);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
-            String path = selectedFile.getAbsolutePath();
-
-            List<Integer> instructions = getInstructions(selectedFile);
-
-            createAndShowEditWindow(path, instructions);
-
-            appendOutput("Program loaded successfully.\n");
+            file = fileChooser.getSelectedFile();
+            return file;
         }
+        return null;
     }
 
     /**
-     * Writes the given instructions to memory from a list of Strings..
-     *
-     * @param instructions the list of instructions to write
+     * Loads a program from a file, displays its content, and enables the run button.
      */
-    public void writeToMemoryFromStringList(List<String> instructions) {
-        for (int i = 0; i < 100 && i < instructions.size(); i++) {
-            try {
-                int instruction = Integer.parseInt(instructions.get(i));
-                cpu.getMemory().setData(i, instruction);
-            } catch (NumberFormatException e) {
-                this.appendOutput("Invalid instruction:\n" +
-                        instructions.get(i) + " is either too large or an incorrect input\nPlease enter a four digit number.");
-            }
+    private void loadAndDisplayProgram() {
+        outputArea.setText("Loading Program...");
+        selectedFile = selectProgramFile();
+
+        if (selectedFile == null) {
+            appendOutput("No file selected.\n");
+            return;
         }
-    }
 
-    /**
-     * Writes the given instructions to memory from a list of integers.
-     *
-     * @param instructions the list of instructions to write
-     */
-    public void writeToMemoryFromIntegerList(List<Integer> instructions) {
-        for (int i = 0; i < 100 && i < instructions.size(); i++) {
-            int instruction = instructions.get(i);
-            cpu.getMemory().setData(i, instruction);
+        List<String> instructions;
+        try {
+            instructions = FileUtil.readFileAsStringList(selectedFile);
+        } catch (RuntimeException e) {
+            appendOutput("Error loading program: " + e.getMessage() + "\n");
+            return;
         }
+
+        String path = selectedFile.getAbsolutePath();
+        editWindow.createAndShowEditWindow(path, instructions);
+        runProgramButton.setEnabled(true);
+        appendOutput("Program loaded successfully.\n");
     }
 
-    /**
-     * Creates and shows the instruction window with the given file path and instructions.
-     *
-     * @param path the file path of the program
-     * @param instructions the list of instructions
-     */
-    public void createAndShowEditWindow(String path, List<Integer> instructions) {
-        EditWindow editWindow = new EditWindow(cpu);
-        editWindow.setUvSimGUI(this);
-        editWindow.setVisible(true);
-        editWindow.setFilePath(path);
-        editWindow.appendInstructions(instructions);
-    }
-
-    /**
-     * Retrieves instructions from the specified file.
-     *
-     * @param file the file to read instructions from
-     * @return the list of instructions
-     */
-    public List<Integer> getInstructions(File file) {
-        List<Integer> instructions = new ArrayList<>();
-        try (Scanner scnr = new Scanner(file)) {
-            while (scnr.hasNext()) {
-                if (scnr.hasNextInt()) {
-                    instructions.add(scnr.nextInt());
-                } else {
-                    scnr.nextLine();
-                }
-            }
-        } catch (Exception e) {
-            appendOutput("Error reading instructions: " + e.getMessage() + "\n");
-        }
-        return instructions;
-    }
-
-    /**
-     * Runs the loaded program.
-     */
-    private void runProgram() {
-        System.out.println("reRun: " + reRun);
-        if(reRun) {
-            List<Integer> instructions = getInstructions(selectedFile);
-            for (Integer instruction : instructions) {
-                System.out.println("Instruction: " + instruction);
-            }
-            writeToMemoryFromIntegerList(instructions);
-        }
-        cpu.execute();
-        appendOutput("Program executed.\n");
-        reRun = true;
-    }
-
-    /**
-     * Resets the simulator.
-     */
-    private void resetProgram() {
-        cpu.getMemory().clear();
-        cpu.reset();
-        outputArea.setText("");
-        appendOutput("Program reset.\n");
-        reRun = false;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
