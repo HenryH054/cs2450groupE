@@ -40,10 +40,11 @@ public class CPU {
         Memory memory = this.memory;
         int instruction;
 
-        while (programCounter < 100 && programCounter >= 0) { // FC: Loop condition updated to use program counter
+        while (programCounter < 250 && programCounter >= 0) { // FC: Loop condition updated to use program counter
             instruction = Math.abs(memory.getData(programCounter));
             int operation = instruction / 1000;
             int operand = instruction % 100;
+            System.out.println("Instruction: " + instruction + " Operation: " + operation + " Operand: " + operand);
             switch (operation) {
                 case 10:
                     //READ = 10 Read a word from the keyboard into a specific location in memory.

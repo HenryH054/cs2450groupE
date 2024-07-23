@@ -26,7 +26,7 @@ public class FileManager {
      * Saves the instructions from the text area to the file.
      */
     public void saveInstructionsToFileFromMemory(String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
             for (int i = 0; i < memory.size(); i++) {
                 int data = memory.getData(i);
                 String item = String.valueOf(data);
@@ -43,7 +43,7 @@ public class FileManager {
         }
     }
 
-    public void saveAsInstructionsToFileFromMemory() {
+    public File saveAsInstructionsToFileFromMemory() {
         JFileChooser fileChooser = new JFileChooser();
         int userSelection = fileChooser.showSaveDialog(null);
 
@@ -63,7 +63,10 @@ public class FileManager {
                 }
             } catch (IOException e) {
                 uvSimGUI.appendMessageToTextArea("Could not save instructions to " + fileToSave.getAbsolutePath());
+                return null;
             }
+            return fileToSave;
         }
+        return null;
     }
 }

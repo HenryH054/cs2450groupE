@@ -122,7 +122,12 @@ public class EditWindow extends javax.swing.JFrame {
             }
         });
 
-        formatConvertCheckBox.setText("Convert to 6 digit instruction format");
+        formatConvertCheckBox.setText("Use Legacy Mode(4 Digit Instruction)");
+        formatConvertCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                formatConvertCheckBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -188,7 +193,6 @@ public class EditWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
-        // TODO add your handling code here:
         List<Integer> instructions = extractInstructionsFromTextAreaInt();
 
         if(formatConvertCheckBox.isSelected()){
@@ -196,9 +200,7 @@ public class EditWindow extends javax.swing.JFrame {
             for (Integer instruction : instructions) {
                 int operation = instruction / 1000;
                 int operand = instruction % 100;
-                System.out.println("newInstruction: " + instruction);
-                System.out.println("operation: " + operation);
-                System.out.println("operand: " + operand);
+                System.out.println("newInstruction: " + instruction + " Operation: " + operation + " Operand: " + operand);
             }
         }
 
@@ -206,9 +208,7 @@ public class EditWindow extends javax.swing.JFrame {
             appController.getMemoryManager().writeToMemoryFromIntegerList(instructions);
             appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
         }else{
-            List<Integer> list = FileUtil.readFileAsIntegerList(new File(filePath));
-            appController.getMemoryManager().writeToMemoryFromIntegerList(list);
-            appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
+            appController.getMemoryManager().writeToMemoryFromIntegerList(instructions);
         }
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
@@ -227,9 +227,15 @@ public class EditWindow extends javax.swing.JFrame {
         List<String> instructions = extractInstructionsFromTextArea();
 
         appController.getMemoryManager().writeToMemoryFromStringList(instructions);
-        appController.getFileManager().saveAsInstructionsToFileFromMemory();
+        File file = appController.getFileManager().saveAsInstructionsToFileFromMemory();
+        this.setFilePath(file.getAbsolutePath());
+        System.out.println(file.getAbsolutePath());
 
     }//GEN-LAST:event_saveAsButtonActionPerformed
+
+    private void formatConvertCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatConvertCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formatConvertCheckBoxActionPerformed
 
     /**
      * Creates and shows the instruction window with the given file path and instructions.
