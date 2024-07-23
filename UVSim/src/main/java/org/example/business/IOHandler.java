@@ -9,16 +9,16 @@ import org.example.ui.UVSimGUI;
  */
 public class IOHandler {
     private Memory memory;
-    private UVSimGUI uvSimGUI;
+    private UVSimGUI gui;
 
     /**
      * Constructs an IOHandler with the specified memory and GUI.
      *
      * @param memory the memory to interact with
      */
-    public IOHandler(Memory memory, UVSimGUI uvSimGUI) {
+    public IOHandler(Memory memory, UVSimGUI gui) {
         this.memory = memory;
-        this.uvSimGUI = uvSimGUI;
+        this.gui = gui;
     }
 
     /**
@@ -27,7 +27,7 @@ public class IOHandler {
      * @param index the index in memory to store the integer
      */
     public void read(int index) {
-        int digit = uvSimGUI.getInputField();
+        int digit = gui.getInputField();
         memory.setData(index, digit);
     }
 
@@ -37,6 +37,6 @@ public class IOHandler {
      * @param index the index in memory to read the data from
      */
     public void write(int index) {
-        uvSimGUI.appendOutput(String.valueOf(memory.getData(index)));
+        gui.appendInstructionToTextArea(String.valueOf(memory.getData(index)));
     }
 }

@@ -39,7 +39,7 @@ public class FileManager {
                 }
             }
         } catch (IOException e) {
-            uvSimGUI.appendOutput("Could not save instructions to " + filePath);
+            uvSimGUI.appendMessageToTextArea("Could not save instructions to " + filePath);
         }
     }
 
@@ -62,7 +62,7 @@ public class FileManager {
                     }
                 }
             } catch (IOException e) {
-                uvSimGUI.appendOutput("Could not save instructions to " + fileToSave.getAbsolutePath());
+                uvSimGUI.appendMessageToTextArea("Could not save instructions to " + fileToSave.getAbsolutePath());
             }
         }
     }

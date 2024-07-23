@@ -13,23 +13,22 @@ import org.example.file.FileUtil;
 import org.example.controller.AppController;
 
 /**
- *
  * @author Damon Morgan
  */
 public class UVSimGUI extends javax.swing.JFrame {
     private File selectedFile;
-    private boolean reRun;
+    private boolean isReRun;
     private EditWindow editWindow;
     private AppController appController;
-    
+
     /**
      * Creates new form UVSimGUI
      */
-    public UVSimGUI(AppController appController, EditWindow editWindow) {
+    public UVSimGUI(AppController appController) {
         this.appController = appController;
-        this.editWindow = editWindow;
+        editWindow = new EditWindow(appController);
         selectedFile = null;
-        reRun = false;
+        isReRun = false;
         initComponents();
         runProgramButton.setEnabled(false);
     }
@@ -76,45 +75,45 @@ public class UVSimGUI extends javax.swing.JFrame {
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(loadProgramButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
-                .addComponent(runProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGap(158, 158, 158)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane1)
+                                .addContainerGap())
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(loadProgramButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                                .addComponent(runProgramButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(51, 51, 51))
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(158, 158, 158)
+                                .addComponent(jLabel1)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(loadProgramButton)
-                    .addComponent(runProgramButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(loadProgramButton)
+                                        .addComponent(runProgramButton))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -127,17 +126,27 @@ public class UVSimGUI extends javax.swing.JFrame {
 
     void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
         // TODO add your handling code here:
-        appController.getRunner().runProgram(reRun, selectedFile);
-        reRun = true;
+        appController.getRunner().runProgram(isReRun, selectedFile);
+        isReRun = true;
     }//GEN-LAST:event_runProgramButtonActionPerformed
 
-     /**
+    /**
      * Appends a message to the output area.
      *
      * @param message the message to append
      */
-    public void appendOutput(String message) {
+    public void appendMessageToTextArea(String message) {
         outputArea.append(message + "\n");
+    }
+
+    /**
+     * Appends a message to the output area.
+     *
+     * @param instruction the message to append
+     */
+    public void appendInstructionToTextArea(String instruction) {
+        instruction = FileUtil.prependZerosToStringInstruction(instruction);
+        outputArea.append(instruction + "\n");
     }
 
     /**
@@ -154,7 +163,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-        appendOutput("Welcome to UVSIM!\nA software simulator that interprets BasicML\n\n" +
+        appendMessageToTextArea("Welcome to UVSIM!\nA software simulator that interprets BasicML\n\n" +
                 "Step 1: Click the \"Load Program\" button to load the program\n" +
                 "Step 2: Click the \"Run Program\" button to run the program\n");
     }
@@ -208,7 +217,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         selectedFile = selectProgramFile();
 
         if (selectedFile == null) {
-            appendOutput("No file selected.\n");
+            appendMessageToTextArea("No file selected.\n");
             return;
         }
 
@@ -216,14 +225,14 @@ public class UVSimGUI extends javax.swing.JFrame {
         try {
             instructions = FileUtil.readFileAsStringList(selectedFile);
         } catch (RuntimeException e) {
-            appendOutput("Error loading program: " + e.getMessage() + "\n");
+            appendMessageToTextArea("Error loading program: " + e.getMessage() + "\n");
             return;
         }
 
         String path = selectedFile.getAbsolutePath();
         editWindow.createAndShowEditWindow(path, instructions);
         runProgramButton.setEnabled(true);
-        appendOutput("Program loaded successfully.\n");
+        appendMessageToTextArea("Program loaded successfully.\n");
     }
 
 

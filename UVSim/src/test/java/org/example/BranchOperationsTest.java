@@ -20,7 +20,7 @@ public class BranchOperationsTest {
         UVSimGUI gui = mock(UVSimGUI.class );
         Memory mem = new Memory();
         IOHandler io = new IOHandler(mem, gui);
-        cpu = new CPU(io, mem);
+        cpu = new CPU(gui, mem);
     }
 
     @Test

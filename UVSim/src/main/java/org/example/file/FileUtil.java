@@ -51,6 +51,24 @@ public class FileUtil {
     }
 
     /**
+     * Appends a message to the output area.
+     *
+     * @param instruction the message to append
+     */
+    public static String prependZerosToStringInstruction(String instruction) {
+        int numDigits = 6;
+        StringBuilder sb = new StringBuilder();
+        if (instruction != null) {
+            for (int i = instruction.length(); i < numDigits; i++) {
+                sb.append("0");
+            }
+            sb.append(instruction);
+            return sb.toString();
+        }
+        return null;
+    }
+
+    /**
      * Writes a list of integers to a file, prefixing positive numbers with a "+" sign.
      *
      * @param instructions the list of integers to write

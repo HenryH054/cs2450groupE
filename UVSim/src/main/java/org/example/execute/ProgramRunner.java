@@ -41,6 +41,6 @@ public class ProgramRunner {
             memoryManager.writeToMemoryFromIntegerList(instructions);
         }
         cpu.execute();
-        uvSimGUI.appendOutput("Program executed.\n");
+        uvSimGUI.appendMessageToTextArea("Program executed.\n");
     }
 }
