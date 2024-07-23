@@ -4,6 +4,7 @@
  */
 package org.example.ui;
 
+import org.example.data.Memory;
 import org.example.file.FileUtil;
 import org.example.file.FormatHandler;
 import org.example.controller.AppController;
@@ -237,9 +238,10 @@ public class EditWindow extends javax.swing.JFrame {
      * @param instructions the list of instructions
      */
     public void createAndShowEditWindow(String path, List<String> instructions) {
-        setVisible(true);
-        setFilePath(path);
-        appendInstructions(instructions);
+        EditWindow editWindow = new EditWindow(appController);
+        editWindow.setVisible(true);
+        editWindow.setFilePath(path);
+        editWindow.appendInstructions(instructions);
     }
 
     /**
@@ -248,7 +250,8 @@ public class EditWindow extends javax.swing.JFrame {
      * @param instructions the list of instructions to append
      */
     public void appendInstructions(List<String> instructions) {
-        for (int j = 0; j < 100 && j < instructions.size(); j++) {
+        int memorySize = Memory.SIZE;
+        for (int j = 0; j < memorySize && j < instructions.size(); j++) {
             String instruction = instructions.get(j);
             textArea.append(instruction + "\n");
         }

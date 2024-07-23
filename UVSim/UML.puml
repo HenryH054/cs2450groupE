@@ -1,0 +1,86 @@
+@startuml
+annotation java.lang.SuppressWarnings
+class java.awt.event.ActionEvent
+class java.awt.event.ActionListener
+class java.io.BufferedWriter
+class java.io.File
+class java.io.FileWriter
+class java.io.IOException
+class java.util.ArrayList
+class java.util.List
+class java.util.Scanner
+class javax.swing.JFileChooser
+class javax.swing.JFrame
+class javax.swing.JOptionPane
+class org.example.UVSim
+class org.example.business.ArithmeticOperations
+class org.example.business.BranchOperations
+class org.example.business.CPU
+class org.example.business.IOHandler
+class org.example.business.LoadStoreOperations
+class org.example.controller.AppController
+class org.example.data.Memory
+class org.example.data.MemoryManager
+class org.example.execute.ProgramRunner
+class org.example.file.FileManager
+class org.example.file.FileUtil
+class org.example.file.FormatHandler
+class org.example.ui.EditWindow
+class org.example.ui.UVSimGUI
+org.example.UVSim ..> org.example.controller.AppController
+org.example.business.ArithmeticOperations ..> org.example.data.Memory
+org.example.business.BranchOperations ..> org.example.business.CPU
+org.example.business.CPU ..> org.example.data.Memory
+org.example.business.CPU ..> org.example.ui.UVSimGUI
+org.example.business.IOHandler ..> org.example.data.Memory
+org.example.business.IOHandler ..> org.example.ui.UVSimGUI
+org.example.business.LoadStoreOperations ..> org.example.data.Memory
+org.example.controller.AppController ..> org.example.business.CPU
+org.example.controller.AppController ..> org.example.data.Memory
+org.example.controller.AppController ..> org.example.data.MemoryManager
+org.example.controller.AppController ..> org.example.execute.ProgramRunner
+org.example.controller.AppController ..> org.example.file.FileManager
+org.example.controller.AppController ..> org.example.ui.EditWindow
+org.example.controller.AppController ..> org.example.ui.UVSimGUI
+org.example.data.MemoryManager ..> java.util.List
+org.example.data.MemoryManager ..> org.example.ui.UVSimGUI
+org.example.execute.ProgramRunner ..> java.io.File
+org.example.execute.ProgramRunner ..> java.util.List
+org.example.execute.ProgramRunner ..> org.example.business.CPU
+org.example.execute.ProgramRunner ..> org.example.data.MemoryManager
+org.example.execute.ProgramRunner ..> org.example.file.FileUtil
+org.example.execute.ProgramRunner ..> org.example.ui.UVSimGUI
+org.example.file.FileManager ..> java.io.BufferedWriter
+org.example.file.FileManager ..> java.io.File
+org.example.file.FileManager ..> java.io.FileWriter
+org.example.file.FileManager ..> java.io.IOException
+org.example.file.FileManager ..> org.example.data.Memory
+org.example.file.FileManager ..> org.example.ui.UVSimGUI
+org.example.file.FileUtil ..> java.io.BufferedWriter
+org.example.file.FileUtil ..> java.io.File
+org.example.file.FileUtil ..> java.io.FileWriter
+org.example.file.FileUtil ..> java.io.IOException
+org.example.file.FileUtil ..> java.util.ArrayList
+org.example.file.FileUtil ..> java.util.List
+org.example.file.FileUtil ..> java.util.Scanner
+org.example.file.FormatHandler ..> java.util.ArrayList
+org.example.file.FormatHandler ..> java.util.List
+org.example.ui.EditWindow ..> java.lang.SuppressWarnings
+org.example.ui.EditWindow ..> java.awt.event.ActionEvent
+org.example.ui.EditWindow ..> java.awt.event.ActionListener
+org.example.ui.EditWindow ..> java.util.ArrayList
+org.example.ui.EditWindow ..> java.util.List
+org.example.ui.EditWindow --|> javax.swing.JFrame
+org.example.ui.EditWindow ..> org.example.controller.AppController
+org.example.ui.EditWindow ..> org.example.data.Memory
+org.example.ui.EditWindow ..> org.example.file.FileUtil
+org.example.ui.EditWindow ..> org.example.file.FormatHandler
+org.example.ui.UVSimGUI ..> java.lang.SuppressWarnings
+org.example.ui.UVSimGUI ..> java.io.File
+org.example.ui.UVSimGUI ..> java.util.List
+org.example.ui.UVSimGUI ..> javax.swing.JFileChooser
+org.example.ui.UVSimGUI --|> javax.swing.JFrame
+org.example.ui.UVSimGUI ..> javax.swing.JOptionPane
+org.example.ui.UVSimGUI ..> org.example.controller.AppController
+org.example.ui.UVSimGUI ..> org.example.file.FileUtil
+@enduml

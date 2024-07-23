@@ -65,7 +65,7 @@ class IOHandlerTest {
 
         ioHandler.write(index);
 
-        verify(uvSimGUI).appendOutput(String.valueOf(valueInMemory));
+        verify(uvSimGUI).appendMessageToTextArea(String.valueOf(valueInMemory));
     }
 
     @Test
@@ -76,7 +76,7 @@ class IOHandlerTest {
 
         ioHandler.write(index);
 
-        verify(uvSimGUI).appendOutput(String.valueOf(zeroValue));
+        verify(uvSimGUI).appendMessageToTextArea(String.valueOf(zeroValue));
     }
 
     @Test
@@ -87,7 +87,7 @@ class IOHandlerTest {
 
         ioHandler.write(index);
 
-        verify(uvSimGUI).appendOutput(String.valueOf(negativeValue));
+        verify(uvSimGUI).appendMessageToTextArea(String.valueOf(negativeValue));
     }
 
 }

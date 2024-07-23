@@ -26,7 +26,7 @@ public class MemoryManager {
                 int instruction = Integer.parseInt(instructions.get(i));
                 memory.setData(i, instruction);
             } catch (NumberFormatException e) {
-                uvSimGUI.appendOutput("Invalid instruction:\n" +
+                uvSimGUI.appendMessageToTextArea("Invalid instruction:\n" +
                         instructions.get(i) + " is either too large or an incorrect input\nPlease enter a four digit number.");
             }
         }

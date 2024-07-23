@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import org.example.business.IOHandler;
 import org.example.execute.ProgramRunner;
 import org.example.file.FileManager;
 import org.example.business.CPU;
@@ -15,27 +14,23 @@ import org.example.ui.UVSimGUI;
  * @author Damon Morgan
  */
 public class AppController {
-    private UVSimGUI uvSimGUI;
-    private EditWindow editWindow;
+    private UVSimGUI gui;
     private CPU cpu;
     private Memory memory;
     private MemoryManager memoryManager;
     private FileManager fileManager;
     private ProgramRunner runner;
-    private IOHandler ioHandler;
 
     /**
      * Initializes the core components of the application.
      */
     public AppController() {
-        editWindow = new EditWindow(this);
-        uvSimGUI = new UVSimGUI(this, editWindow);
+        gui = new UVSimGUI(this);
         memory = new Memory();
-        ioHandler = new IOHandler(memory, uvSimGUI);
-        cpu = new CPU(ioHandler, memory);
-        this.memoryManager = new MemoryManager(uvSimGUI, memory);
-        this.fileManager = new FileManager(memory, uvSimGUI);
-        this.runner = new ProgramRunner(uvSimGUI, cpu, memoryManager);
+        cpu = new CPU(gui, memory);
+        this.memoryManager = new MemoryManager(gui, memory);
+        this.fileManager = new FileManager(memory, gui);
+        this.runner = new ProgramRunner(gui, cpu, memoryManager);
     }
 
     /**
@@ -44,7 +39,7 @@ public class AppController {
      * @return the UVSimGUI instance
      */
     public UVSimGUI getGui() {
-        return uvSimGUI;
+        return gui;
     }
 
     /**
@@ -73,4 +68,5 @@ public class AppController {
     public ProgramRunner getRunner() {
         return runner;
     }
+
 }

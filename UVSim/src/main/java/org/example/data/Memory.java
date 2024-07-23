@@ -4,8 +4,8 @@ package org.example.data;
  * @author Damon Morgan
  */
 public class Memory {
-    private int[] data;
     public final static int SIZE = 250;
+    private int[] data;
 
     /**
      * Constructs a Memory object with a fixed size array of 100 elements.

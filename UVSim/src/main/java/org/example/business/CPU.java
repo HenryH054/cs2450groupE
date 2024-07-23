@@ -1,5 +1,6 @@
 package org.example.business;
 import org.example.data.Memory;
+import org.example.ui.UVSimGUI;
 
 
 public class CPU {
@@ -9,12 +10,14 @@ public class CPU {
     private ArithmeticOperations arithmeticOperations;
     private BranchOperations branchOperations;
     private IOHandler ioHandler;
+    private LoadStoreOperations loadStoreOperations;
 
-    public CPU(IOHandler ioHandler, Memory memory) {
+    public CPU(UVSimGUI gui, Memory memory) {
         this.memory = memory;
         this.arithmeticOperations = new ArithmeticOperations(memory, this);
         this.branchOperations = new BranchOperations(this);
-        this.ioHandler = ioHandler;
+        this.ioHandler = new IOHandler(memory, gui);
+        loadStoreOperations = new LoadStoreOperations(this, memory);
     }
 
     public int getProgramCounter() {
@@ -52,11 +55,11 @@ public class CPU {
                     break;
                 case 20:
                     //LOAD = 20 Load a word from a specific location in memory into the accumulator.
-                    load(operand);
+                    loadStoreOperations.load(operand);
                     break;
                 case 21:
                     //STORE = 21 Store a word from the accumulator into a specific location in memory.
-                    store(operand, accumulator);
+                    loadStoreOperations.store(operand, accumulator);
                     break;
             }
 
@@ -113,13 +116,5 @@ public class CPU {
         memory.clear();
         accumulator = 0;
         programCounter = 0;
-    }
-
-    private void load(int operand) {
-        accumulator = memory.getData(operand);
-    }
-
-    private void store(int operand, int accumulator) {
-        memory.setData(operand, accumulator);
     }
 }
