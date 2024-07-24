@@ -69,7 +69,7 @@ public class EditWindow extends javax.swing.JFrame {
             }
         });
 
-        saveChangesCheckBox.setText("Save changes");
+        saveChangesCheckBox.setText("Quick save");
         saveChangesCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveChangesCheckBoxActionPerformed(evt);
@@ -122,7 +122,7 @@ public class EditWindow extends javax.swing.JFrame {
             }
         });
 
-        formatConvertCheckBox.setText("Use Legacy Mode(4 Digit Instruction)");
+        formatConvertCheckBox.setText("Convert legacy format to new format");
         formatConvertCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 formatConvertCheckBoxActionPerformed(evt);
@@ -208,7 +208,9 @@ public class EditWindow extends javax.swing.JFrame {
             appController.getMemoryManager().writeToMemoryFromIntegerList(instructions);
             appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
         }else{
-            appController.getMemoryManager().writeToMemoryFromIntegerList(instructions);
+            List<Integer> list = FileUtil.readFileAsIntegerList(new File(filePath));
+            appController.getMemoryManager().writeToMemoryFromIntegerList(list);
+            appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
         }
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
@@ -300,12 +302,19 @@ public class EditWindow extends javax.swing.JFrame {
 
         String[] lines = text.split("\\n");
 
-        int i = 0;
-        for (String line : lines) {
-            instructions.add(Integer.parseInt(line));
-            System.out.println("line: " + i + ": " + line);
-            i++;
+
+            int i = 0;
+            for (String line : lines) {
+                try{
+                instructions.add(Integer.parseInt(line));
+                System.out.println("line: " + i + ": " + line);
+                i++;
+                }catch (NumberFormatException e) {
+                    instructions.add(0);
+                    appController.getGui().appendMessageToTextArea("invalid instruction: " + line);
+            }
         }
+
         return instructions;
     }
 

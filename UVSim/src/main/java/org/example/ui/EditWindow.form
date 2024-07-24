@@ -124,7 +124,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="saveChangesCheckBox">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Save changes"/>
+        <Property name="text" type="java.lang.String" value="Quick save"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveChangesCheckBoxActionPerformed"/>
@@ -209,7 +209,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="formatConvertCheckBox">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Use Legacy Mode(4 Digit Instruction)"/>
+        <Property name="text" type="java.lang.String" value="Convert legacy format to new format"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="formatConvertCheckBoxActionPerformed"/>

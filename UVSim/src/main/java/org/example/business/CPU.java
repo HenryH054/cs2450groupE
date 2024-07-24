@@ -40,7 +40,7 @@ public class CPU {
         Memory memory = this.memory;
         int instruction;
 
-        while (programCounter < 250 && programCounter >= 0) { // FC: Loop condition updated to use program counter
+        while (programCounter < Memory.SIZE && programCounter >= 0) { // FC: Loop condition updated to use program counter
             instruction = Math.abs(memory.getData(programCounter));
             int operation = instruction / 1000;
             int operand = instruction % 100;
