@@ -38,7 +38,7 @@ public class MemoryManager {
      * @param instructions the list of instructions to write
      */
     public void writeToMemoryFromIntegerList(List<Integer> instructions) {
-        for (int i = 0; i < 100 && i < instructions.size(); i++) {
+        for (int i = 0; i < Memory.SIZE && i < instructions.size(); i++) {
             int instruction = instructions.get(i);
             memory.setData(i, instruction);
         }

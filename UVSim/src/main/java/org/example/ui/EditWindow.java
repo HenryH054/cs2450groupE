@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,7 +55,7 @@ public class EditWindow extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         scrollToTopButton = new javax.swing.JButton();
-        formatConvertCheckBox = new javax.swing.JCheckBox();
+        convertButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,10 +123,10 @@ public class EditWindow extends javax.swing.JFrame {
             }
         });
 
-        formatConvertCheckBox.setText("Convert legacy format to new format");
-        formatConvertCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        convertButton.setText("Convert from legacy to new format");
+        convertButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                formatConvertCheckBoxActionPerformed(evt);
+                convertButtonActionPerformed(evt);
             }
         });
 
@@ -143,13 +144,13 @@ public class EditWindow extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(374, 374, 374)
                                     .addComponent(jLabel3))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(saveChangesCheckBox)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(saveAsButton))
                                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(formatConvertCheckBox))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(saveChangesCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(saveAsButton))
+                            .addComponent(convertButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(doneButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(scrollToTopButton, javax.swing.GroupLayout.Alignment.TRAILING))))
@@ -170,22 +171,18 @@ public class EditWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(scrollToTopButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                         .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(saveChangesCheckBox)
-                                    .addComponent(saveAsButton))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(formatConvertCheckBox)
-                                .addGap(6, 6, 6)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(convertButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(saveAsButton)
+                            .addComponent(saveChangesCheckBox))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3))))
         );
 
@@ -194,15 +191,6 @@ public class EditWindow extends javax.swing.JFrame {
 
     private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
         List<Integer> instructions = extractInstructionsFromTextAreaInt();
-
-        if(formatConvertCheckBox.isSelected()){
-            instructions = FormatHandler.convertInstructionsToNewFormat(instructions);
-            for (Integer instruction : instructions) {
-                int operation = instruction / 1000;
-                int operand = instruction % 100;
-                System.out.println("newInstruction: " + instruction + " Operation: " + operation + " Operand: " + operand);
-            }
-        }
 
         if(saveChangesCheckBox.isSelected()) {
             appController.getMemoryManager().writeToMemoryFromIntegerList(instructions);
@@ -231,13 +219,30 @@ public class EditWindow extends javax.swing.JFrame {
         appController.getMemoryManager().writeToMemoryFromStringList(instructions);
         File file = appController.getFileManager().saveAsInstructionsToFileFromMemory();
         this.setFilePath(file.getAbsolutePath());
+        appController.getGui().setSelectedFile(file);
+
         System.out.println(file.getAbsolutePath());
 
     }//GEN-LAST:event_saveAsButtonActionPerformed
 
-    private void formatConvertCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatConvertCheckBoxActionPerformed
+    private void convertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_convertButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_formatConvertCheckBoxActionPerformed
+        List<Integer> instructions = extractInstructionsFromTextAreaInt();
+
+        instructions = FormatHandler.convertInstructionsToNewFormat(instructions);
+        for (Integer instruction : instructions) {
+            int operation = instruction / 1000;
+            int operand = instruction % 100;
+            System.out.println("newInstruction: " + instruction + " Operation: " + operation + " Operand: " + operand);
+        }
+        List<String> stringList = new ArrayList<>();
+        for (Integer instruction : instructions) {
+            stringList.add(String.valueOf(instruction));
+        }
+        textArea.setText(null);
+        appendInstructions(stringList);
+
+    }//GEN-LAST:event_convertButtonActionPerformed
 
     /**
      * Creates and shows the instruction window with the given file path and instructions.
@@ -353,8 +358,8 @@ public class EditWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton convertButton;
     private javax.swing.JButton doneButton;
-    private javax.swing.JCheckBox formatConvertCheckBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

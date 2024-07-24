@@ -235,6 +235,10 @@ public class UVSimGUI extends javax.swing.JFrame {
         appendMessageToTextArea("Program loaded successfully.\n");
     }
 
+    public void setSelectedFile(File selectedFile) {
+        this.selectedFile = selectedFile;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
