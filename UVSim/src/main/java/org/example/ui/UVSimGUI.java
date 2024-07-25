@@ -212,11 +212,17 @@ public class UVSimGUI extends javax.swing.JFrame {
      */
     public int getInputField() {
         String inputText = inputDialog();
-        while (!inputText.matches("^[-]?\\d{6}$")) {
-            inputText = inputDialog();
+
+        if (inputText != null) {
+
+            while (!inputText.matches("^[-]?\\d+$")) {
+                inputText = inputDialog();
+            }
+
+            return Integer.parseInt(inputText);
         }
 
-        return Integer.parseInt(inputText);
+        return 0;
     }
 
     /**
