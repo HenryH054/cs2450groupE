@@ -27,7 +27,7 @@ public class FileManager {
      */
     public void saveInstructionsToFileFromMemory(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
-            for (int i = 0; i < memory.size(); i++) {
+            for (int i = 0; i < Memory.SIZE; i++) {
                 int data = memory.getData(i);
                 String item = String.valueOf(data);
                 if (item.charAt(0) == '-' || data == 0) {
@@ -50,7 +50,7 @@ public class FileManager {
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave))) {
-                for (int i = 0; i < memory.size(); i++) {
+                for (int i = 0; i < Memory.SIZE; i++) {
                     int data = memory.getData(i);
                     String item = String.valueOf(data);
                     if (item.charAt(0) == '-' || data == 0) {
