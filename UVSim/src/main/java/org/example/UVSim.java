@@ -4,7 +4,6 @@ import org.example.controller.AppController;
 
 /**
  * Entry point for the UVSim application.
- * @author Damon Morgan
  */
 public class UVSim {
 
