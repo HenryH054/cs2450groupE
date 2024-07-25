@@ -48,7 +48,6 @@ public class EditWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
         continueButton = new javax.swing.JButton();
-        saveChangesCheckBox = new javax.swing.JCheckBox();
         saveAsButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -73,13 +72,6 @@ public class EditWindow extends javax.swing.JFrame {
         continueButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 continueButtonActionPerformed(evt);
-            }
-        });
-
-        saveChangesCheckBox.setText("Quick save");
-        saveChangesCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveChangesCheckBoxActionPerformed(evt);
             }
         });
 
@@ -189,9 +181,7 @@ public class EditWindow extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(convertButton)
                                         .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(saveAsButton)
-                                            .addComponent(saveChangesCheckBox)))
+                                        .addComponent(saveAsButton))
                                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,10 +219,7 @@ public class EditWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(continueButton, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
                     .addComponent(convertButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(saveAsButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveChangesCheckBox)))
+                    .addComponent(saveAsButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3))
         );
@@ -243,14 +230,9 @@ public class EditWindow extends javax.swing.JFrame {
     private void continueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButtonActionPerformed
         List<Integer> instructions = extractInstructionsFromTextAreaInt();
 
-        if(saveChangesCheckBox.isSelected()) {
-            appController.getMemoryManager().writeToMemoryFromIntegerList(instructions);
-            appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
-        }else{
-            List<Integer> list = FileUtil.readFileAsIntegerList(new File(filePath));
-            appController.getMemoryManager().writeToMemoryFromIntegerList(list);
-            appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
-        }
+        appController.getMemoryManager().writeToMemoryFromIntegerList(instructions);
+        appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
+
         File file = new File(filePath);
         appController.getGui().getRunProgramButton().setEnabled(true);
         appController.getGui().setSelectedFile(file);
@@ -259,10 +241,6 @@ public class EditWindow extends javax.swing.JFrame {
         appController.getGui().appendMessageToTextArea(file.getName() + " loaded successfully.\n");
         dispose();
     }//GEN-LAST:event_continueButtonActionPerformed
-
-    private void saveChangesCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_saveChangesCheckBoxActionPerformed
 
     private void scrollToTopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scrollToTopButtonActionPerformed
         // TODO add your handling code here:
@@ -432,7 +410,6 @@ public class EditWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton saveAsButton;
-    private javax.swing.JCheckBox saveChangesCheckBox;
     private javax.swing.JButton scrollToTopButton;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
