@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,8 +54,9 @@ public class EditWindow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         scrollToTopButton = new javax.swing.JButton();
-        formatConvertCheckBox = new javax.swing.JCheckBox();
+        convertButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,7 +71,7 @@ public class EditWindow extends javax.swing.JFrame {
             }
         });
 
-        saveChangesCheckBox.setText("Save changes");
+        saveChangesCheckBox.setText("Quick save");
         saveChangesCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveChangesCheckBoxActionPerformed(evt);
@@ -92,7 +94,10 @@ public class EditWindow extends javax.swing.JFrame {
         jLabel2.setText("Max instructions: 250");
 
         jLabel4.setForeground(new java.awt.Color(255, 0, 51));
-        jLabel4.setText("Instructions exceeding 250 will be removed");
+        jLabel4.setText("Legacy (4 digit) format no longer supported");
+
+        jLabel5.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel5.setText("Legacy instructions must be converted by clicking the button below");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,7 +107,8 @@ public class EditWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -112,7 +118,9 @@ public class EditWindow extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         scrollToTopButton.setText("Scroll to top");
@@ -122,10 +130,10 @@ public class EditWindow extends javax.swing.JFrame {
             }
         });
 
-        formatConvertCheckBox.setText("Use Legacy Mode(4 Digit Instruction)");
-        formatConvertCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        convertButton.setText("Convert from legacy to new format");
+        convertButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                formatConvertCheckBoxActionPerformed(evt);
+                convertButtonActionPerformed(evt);
             }
         });
 
@@ -134,30 +142,35 @@ public class EditWindow extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(374, 374, 374)
-                                    .addComponent(jLabel3))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(saveChangesCheckBox)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(saveAsButton))
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(formatConvertCheckBox))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(doneButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(scrollToTopButton, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(374, 374, 374)
+                                        .addComponent(jLabel3))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(saveChangesCheckBox)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(saveAsButton))
+                                            .addComponent(convertButton)
+                                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(doneButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(scrollToTopButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(11, 11, 11))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,18 +187,14 @@ public class EditWindow extends javax.swing.JFrame {
                         .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(saveChangesCheckBox)
-                                    .addComponent(saveAsButton))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(formatConvertCheckBox)
-                                .addGap(6, 6, 6)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(convertButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(saveChangesCheckBox)
+                            .addComponent(saveAsButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3))))
         );
 
@@ -195,20 +204,13 @@ public class EditWindow extends javax.swing.JFrame {
     private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
         List<Integer> instructions = extractInstructionsFromTextAreaInt();
 
-        if(formatConvertCheckBox.isSelected()){
-            instructions = FormatHandler.convertInstructionsToNewFormat(instructions);
-            for (Integer instruction : instructions) {
-                int operation = instruction / 1000;
-                int operand = instruction % 100;
-                System.out.println("newInstruction: " + instruction + " Operation: " + operation + " Operand: " + operand);
-            }
-        }
-
         if(saveChangesCheckBox.isSelected()) {
             appController.getMemoryManager().writeToMemoryFromIntegerList(instructions);
             appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
         }else{
-            appController.getMemoryManager().writeToMemoryFromIntegerList(instructions);
+            List<Integer> list = FileUtil.readFileAsIntegerList(new File(filePath));
+            appController.getMemoryManager().writeToMemoryFromIntegerList(list);
+            appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
         }
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
@@ -229,13 +231,30 @@ public class EditWindow extends javax.swing.JFrame {
         appController.getMemoryManager().writeToMemoryFromStringList(instructions);
         File file = appController.getFileManager().saveAsInstructionsToFileFromMemory();
         this.setFilePath(file.getAbsolutePath());
+        appController.getGui().setSelectedFile(file);
+
         System.out.println(file.getAbsolutePath());
 
     }//GEN-LAST:event_saveAsButtonActionPerformed
 
-    private void formatConvertCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatConvertCheckBoxActionPerformed
+    private void convertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_convertButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_formatConvertCheckBoxActionPerformed
+        List<Integer> instructions = extractInstructionsFromTextAreaInt();
+
+        instructions = FormatHandler.convertInstructionsToNewFormat(instructions);
+        for (Integer instruction : instructions) {
+            int operation = instruction / 1000;
+            int operand = instruction % 100;
+            System.out.println("newInstruction: " + instruction + " Operation: " + operation + " Operand: " + operand);
+        }
+        List<String> stringList = new ArrayList<>();
+        for (Integer instruction : instructions) {
+            stringList.add(String.valueOf(instruction));
+        }
+        textArea.setText(null);
+        appendInstructions(stringList);
+
+    }//GEN-LAST:event_convertButtonActionPerformed
 
     /**
      * Creates and shows the instruction window with the given file path and instructions.
@@ -300,12 +319,19 @@ public class EditWindow extends javax.swing.JFrame {
 
         String[] lines = text.split("\\n");
 
-        int i = 0;
-        for (String line : lines) {
-            instructions.add(Integer.parseInt(line));
-            System.out.println("line: " + i + ": " + line);
-            i++;
+
+            int i = 0;
+            for (String line : lines) {
+                try{
+                instructions.add(Integer.parseInt(line));
+                System.out.println("line: " + i + ": " + line);
+                i++;
+                }catch (NumberFormatException e) {
+                    instructions.add(0);
+                    appController.getGui().appendMessageToTextArea("invalid instruction: " + line);
+            }
         }
+
         return instructions;
     }
 
@@ -344,12 +370,13 @@ public class EditWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton convertButton;
     private javax.swing.JButton doneButton;
-    private javax.swing.JCheckBox formatConvertCheckBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton saveAsButton;
