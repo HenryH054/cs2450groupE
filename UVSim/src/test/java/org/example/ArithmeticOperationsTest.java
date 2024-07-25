@@ -15,8 +15,8 @@ class ArithmeticOperationsTest {
 
     @BeforeEach
     public void setUp() {
-        cpu = new CPU(null, null );
         memory = new Memory();
+        cpu = new CPU(null, memory );
         arithmeticOperations = new ArithmeticOperations(memory, cpu);
     }
 

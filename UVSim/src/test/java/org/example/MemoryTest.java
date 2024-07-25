@@ -1,4 +1,4 @@
-package test.java.org.example;
+package org.example;
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,20 +30,20 @@ class MemoryTest {
     @Test
     public void testSetData_LargestPositiveInteger() {
         memory.setData(10, 999999);
-        assertThat(memory.getData(10)).isEqualTo(9999);
+        assertThat(memory.getData(10)).isEqualTo(999999);
     }
 
     @Test
     public void testSetData_SmallestNegativeInteger() {
         memory.setData(10, -999999);
-        assertThat(memory.getData(10)).isEqualTo(-9999);
+        assertThat(memory.getData(10)).isEqualTo(-999999);
     }
 
     @Test
     public void testSetDataTruncatesToFourDigits_positiveValue() {
         int index = 5;
-        int inputValue = 123456;
-        int expectedValue = 1234;
+        int inputValue = 12345678;
+        int expectedValue = 123456;
 
         memory.setData(index, inputValue);
 
@@ -53,8 +53,8 @@ class MemoryTest {
     @Test
     public void testSetDataTruncatesToFourDigits_negativeValue() {
         int index = 5;
-        int inputValue = -123456;
-        int expectedValue = -1234;
+        int inputValue = -12345678;
+        int expectedValue = -123456;
 
         memory.setData(index, inputValue);
 
@@ -64,8 +64,8 @@ class MemoryTest {
     @Test
     public void testSetDataHandlesNegativeValue() {
         int index = 5;
-        int inputValue = -123456;
-        int expectedValue = -1234;
+        int inputValue = -12345678;
+        int expectedValue = -123456;
 
         memory.setData(index, inputValue);
 
@@ -99,7 +99,7 @@ class MemoryTest {
             memory.setData(i, i);
         }
 
-        assertThat(memory.getData(Memory.SIZE-1)).isEqualTo(99);
+        assertThat(memory.getData(Memory.SIZE-1)).isEqualTo(249);
 
         memory.clear();
 

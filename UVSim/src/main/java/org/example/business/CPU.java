@@ -36,11 +36,19 @@ public class CPU {
         this.accumulator = accumulator;
     }
 
+    public void setMemory(Memory memory) {
+        this.memory = memory;
+        this.loadStoreOperations = new LoadStoreOperations(this, this.memory);
+        this.arithmeticOperations = new ArithmeticOperations(this.memory, this);
+        this.ioHandler = new IOHandler(memory, null);
+    }
+
     public void execute() {
         Memory memory = this.memory;
         int instruction;
 
         while (programCounter < Memory.SIZE && programCounter >= 0) { // FC: Loop condition updated to use program counter
+            System.out.println(accumulator);
             instruction = Math.abs(memory.getData(programCounter));
             int operation = instruction / 1000;
             int operand = instruction % 100;
@@ -107,10 +115,10 @@ public class CPU {
 
             // FC: If halted, break the loop
             if (programCounter == -1) {
+                reset();
                 break;
             }
         }
-        reset();
     }
 
     public void reset() {

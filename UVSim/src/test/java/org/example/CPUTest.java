@@ -47,11 +47,12 @@ public class CPUTest {
     public void execute() {
         // Tests that the execute class functions appropriately by loading a value from memory.
         Memory mem = new Memory();
-        mem.setData(0, 2001);
-        mem.setData(1, 4300);
+        mem.setData(0, 20001);
+        mem.setData(1, 400000);
+        cpu.setMemory(mem);
         cpu.setProgramCounter(0);
         cpu.execute();
-        assert(cpu.getAccumulator() == 4300);
+        assert(cpu.getAccumulator() == 400000);
         }
 }
 

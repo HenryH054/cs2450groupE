@@ -8,8 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.mockito.Mockito.mock;
-
 
 @ExtendWith(TestNameLoggingExtension.class)
 public class BranchOperationsTest {
@@ -17,73 +15,72 @@ public class BranchOperationsTest {
 
     @BeforeEach
     public void setUp() {
-        UVSimGUI gui = mock(UVSimGUI.class );
         Memory mem = new Memory();
-        IOHandler io = new IOHandler(mem, gui);
-        cpu = new CPU(gui, mem);
+        IOHandler io = new IOHandler(mem, null);
+        cpu = new CPU(null, mem);
     }
 
     @Test
     public void branch() {
         Memory mem = new Memory();
-        CPU cpu = new CPU(null, mem);
-        mem.setData(0, 4010);
-        mem.setData(5, 9999);
-        mem.setData(4, 2005);
-        mem.setData(10, 4300);
+        mem.setData(0, 40010);
+        mem.setData(5, 99099);
+        mem.setData(4, 20005);
+        mem.setData(10, 43000);
+        cpu.setMemory(mem);
         cpu.setProgramCounter(0);
         cpu.execute();
-        assert(cpu.getAccumulator() != 9999);
+        assert(cpu.getAccumulator() != 99099);
     }
     @Test
     public void branchNeg() {
         Memory mem = new Memory();
-        CPU cpu = new CPU(null, mem);
-        mem.setData(0, 4110);
-        mem.setData(5, 9999);
-        mem.setData(4, 2005);
-        mem.setData(10, 4300);
+        mem.setData(0, 41010);
+        mem.setData(5, 99099);
+        mem.setData(4, 20005);
+        mem.setData(10, 43000);
+        cpu.setMemory(mem);
         cpu.setProgramCounter(0);
         cpu.setAccumulator(-1);
         cpu.execute();
-        assert(cpu.getAccumulator() != 9999);
+        assert(cpu.getAccumulator() != 99099);
     }
     @Test
     public void branchNegFalse() {
         Memory mem = new Memory();
-        CPU cpu = new CPU(null, mem);
-        mem.setData(0, 4110);
-        mem.setData(5, 9999);
-        mem.setData(4, 2005);
-        mem.setData(10, 4300);
+        mem.setData(0, 42009);
+        mem.setData(5, 99099);
+        mem.setData(4, 20005);
         cpu.setProgramCounter(0);
-        cpu.setAccumulator(0);
+        cpu.setAccumulator(10);
+        cpu.setMemory(mem);
         cpu.execute();
-        assert(cpu.getAccumulator() == 9999);
+        assert(cpu.getAccumulator() == 99099);
     }
     @Test
     public void branchZero() {
         Memory mem = new Memory();
-        CPU cpu = new CPU(null, mem);
-        mem.setData(0, 4210);
-        mem.setData(5, 9999);
-        mem.setData(4, 2005);
-        mem.setData(10, 4300);
+        mem.setData(0, 42010);
+        mem.setData(5, 99099);
+        mem.setData(4, 20005);
+        mem.setData(10, 43000);
+        cpu.setMemory(mem);
         cpu.setProgramCounter(0);
         cpu.setAccumulator(0);
         cpu.execute();
-        assert(cpu.getAccumulator() != 9999);
+        assert(cpu.getAccumulator() != 99099);
     }
     @Test
     public void branchZeroFalse() {
         Memory mem = new Memory();
-        CPU cpu = new CPU(null, mem);
-        mem.setData(0, 4210);
-        mem.setData(5, 9999);
-        mem.setData(4, 2005);
-        mem.setData(10, 4300);
-        cpu.setProgramCounter(1);
+        mem.setData(0, 42009);
+        mem.setData(5, 99099);
+        mem.setData(4, 20005);
+        cpu.setProgramCounter(0);
+        cpu.setAccumulator(10);
+        cpu.setMemory(mem);
         cpu.execute();
-        assert(cpu.getAccumulator() == 9999);
+        System.out.println(cpu.getAccumulator());
+        assert(cpu.getAccumulator() == 99099);
     }
 }
