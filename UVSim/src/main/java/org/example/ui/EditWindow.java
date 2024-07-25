@@ -57,6 +57,7 @@ public class EditWindow extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         scrollToTopButton = new javax.swing.JButton();
         convertButton = new javax.swing.JButton();
+        filePathLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,6 +138,8 @@ public class EditWindow extends javax.swing.JFrame {
             }
         });
 
+        filePathLabel.setText("file path");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -167,8 +170,13 @@ public class EditWindow extends javax.swing.JFrame {
                                     .addComponent(scrollToTopButton, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addGap(11, 11, 11))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(173, 173, 173)
+                                .addComponent(filePathLabel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(143, 143, 143)
+                                .addComponent(jLabel1)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -177,7 +185,9 @@ public class EditWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(filePathLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,7 +201,7 @@ public class EditWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(convertButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(saveChangesCheckBox)
                             .addComponent(saveAsButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -212,6 +222,8 @@ public class EditWindow extends javax.swing.JFrame {
             appController.getMemoryManager().writeToMemoryFromIntegerList(list);
             appController.getFileManager().saveInstructionsToFileFromMemory(filePath);
         }
+        File file = new File(filePath);
+        appController.getGui().setSelectedFile(file);
         dispose();
     }//GEN-LAST:event_doneButtonActionPerformed
 
@@ -233,6 +245,7 @@ public class EditWindow extends javax.swing.JFrame {
         this.setFilePath(file.getAbsolutePath());
         appController.getGui().setSelectedFile(file);
 
+        filePathLabel.setText(file.getAbsolutePath());
         System.out.println(file.getAbsolutePath());
 
     }//GEN-LAST:event_saveAsButtonActionPerformed
@@ -264,8 +277,10 @@ public class EditWindow extends javax.swing.JFrame {
      */
     public void createAndShowEditWindow(String path, List<String> instructions) {
         EditWindow editWindow = new EditWindow(appController);
+        editWindow.setLocationByPlatform(true);
         editWindow.setVisible(true);
         editWindow.setFilePath(path);
+        editWindow.filePathLabel.setText(path);
         editWindow.appendInstructions(instructions);
     }
 
@@ -372,6 +387,7 @@ public class EditWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton convertButton;
     private javax.swing.JButton doneButton;
+    private javax.swing.JLabel filePathLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
