@@ -95,7 +95,7 @@ class MemoryTest {
 
     @Test
     public void testClear() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < Memory.SIZE; i++) {
             memory.setData(i, i);
         }
 
