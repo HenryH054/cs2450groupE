@@ -18,6 +18,7 @@ public class BranchOperationsTest {
         Memory mem = new Memory();
         IOHandler io = new IOHandler(mem, null);
         cpu = new CPU(null, mem);
+        cpu.TestFlag = 1;
     }
 
     @Test

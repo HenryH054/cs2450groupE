@@ -11,6 +11,7 @@ public class CPU {
     private BranchOperations branchOperations;
     private IOHandler ioHandler;
     private LoadStoreOperations loadStoreOperations;
+    public int TestFlag = 0;
 
     public CPU(UVSimGUI gui, Memory memory) {
         this.memory = memory;
@@ -115,9 +116,11 @@ public class CPU {
 
             // FC: If halted, break the loop
             if (programCounter == -1) {
-                reset();
                 break;
             }
+        }
+        if (TestFlag == 0) {
+            reset();
         }
     }
 

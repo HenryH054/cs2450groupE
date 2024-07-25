@@ -17,6 +17,7 @@ class ArithmeticOperationsTest {
     public void setUp() {
         memory = new Memory();
         cpu = new CPU(null, memory );
+        cpu.TestFlag = 1;
         arithmeticOperations = new ArithmeticOperations(memory, cpu);
     }
 
