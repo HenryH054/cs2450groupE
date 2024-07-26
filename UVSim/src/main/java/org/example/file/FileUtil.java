@@ -63,6 +63,10 @@ public class FileUtil {
         int numDigits = 6;
         StringBuilder sb = new StringBuilder();
         if (instruction != null) {
+            if(instruction.charAt(0) == '-') {
+                instruction = instruction.substring(1);
+                sb.append("-");
+            }
             for (int i = instruction.length(); i < numDigits; i++) {
                 sb.append("0");
             }

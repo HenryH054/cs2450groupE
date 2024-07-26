@@ -161,7 +161,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         loadAndDisplayProgram();
     }//GEN-LAST:event_loadProgramButtonActionPerformed
 
-    void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
+    public void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
         // TODO add your handling code here:
         if (selectedFile == null) {
             fileLoadedLabel.setText("no file selected");

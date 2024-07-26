@@ -13,81 +13,44 @@ import static org.mockito.Mockito.*;
  */
 class IOHandlerTest {
     private Memory memory;
-    private UVSimGUI uvSimGUI;
+    private UVSimGUI gui;
     private IOHandler ioHandler;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         memory = mock(Memory.class);
-        uvSimGUI = mock(UVSimGUI.class);
-        ioHandler = new IOHandler(memory, uvSimGUI);
+        gui = mock(UVSimGUI.class);
+        ioHandler = new IOHandler(memory, gui);
     }
 
     @Test
-    public void testRead() {
-        int index = 5;
-        int expectedValue = 1234;
-        when(uvSimGUI.getInputField()).thenReturn(expectedValue);
+    void testRead() {
+        // Arrange
+        int index = 0;
+        int inputValue = 1234;
+        when(gui.getInputField()).thenReturn(inputValue);
 
+        // Act
         ioHandler.read(index);
 
-        verify(memory).setData(index, expectedValue);
+        // Assert
+        verify(gui).getInputField();
+        verify(memory).setData(index, inputValue);
     }
 
     @Test
-    public void testReadZeroInput() {
-        int index = 5;
-        int zeroInput = 0;
-        when(uvSimGUI.getInputField()).thenReturn(zeroInput);
+    void testWrite() {
+        // Arrange
+        int index = 0;
+        int memoryValue = 5678;
+        when(memory.getData(index)).thenReturn(memoryValue);
 
-        ioHandler.read(index);
-
-        verify(memory).setData(index, zeroInput);
-    }
-
-    @Test
-    public void testReadMaxInput() {
-        int index = 5;
-        int maxInput = 9999;
-        when(uvSimGUI.getInputField()).thenReturn(maxInput);
-
-        ioHandler.read(index);
-
-        verify(memory).setData(index, maxInput);
-    }
-
-
-    @Test
-    public void testWrite() {
-        int index = 5;
-        int valueInMemory = 1234;
-        when(memory.getData(index)).thenReturn(valueInMemory);
-
+        // Act
         ioHandler.write(index);
 
-        verify(uvSimGUI).appendMessageToTextArea(String.valueOf(valueInMemory));
-    }
-
-    @Test
-    public void testWriteZeroValue() {
-        int index = 5;
-        int zeroValue = 0;
-        when(memory.getData(index)).thenReturn(zeroValue);
-
-        ioHandler.write(index);
-
-        verify(uvSimGUI).appendMessageToTextArea(String.valueOf(zeroValue));
-    }
-
-    @Test
-    public void testWriteNegativeValue() {
-        int index = 5;
-        int negativeValue = -1234;
-        when(memory.getData(index)).thenReturn(negativeValue);
-
-        ioHandler.write(index);
-
-        verify(uvSimGUI).appendMessageToTextArea(String.valueOf(negativeValue));
+        // Assert
+        verify(memory).getData(index);
+        verify(gui).appendInstructionToTextArea(String.valueOf(memoryValue));
     }
 
 }

@@ -27,7 +27,7 @@ public class FormatHandler {
      * @param instruction Integer representing the instruction.
      * @return true if the instruction is a functional code, false otherwise.
      */
-    private static boolean isFunctionalCode(int instruction) {
+    public static boolean isFunctionalCode(int instruction) {
         int operation = instruction / 100;
         return (operation == 10 || operation == 11 || operation == 20
                 || operation == 21 || operation == 30 || operation == 31
@@ -41,7 +41,7 @@ public class FormatHandler {
      * @param instruction Integer representing the instruction to be converted.
      * @param newInstructions List of integers where the converted instruction is added.
      */
-    private static void convertInstruction(Integer instruction, List<Integer> newInstructions) {
+    public static void convertInstruction(Integer instruction, List<Integer> newInstructions) {
         int operation = instruction / 100;
         int operand = instruction % 100;
         String stringOperation = String.format("%03d", operation);
