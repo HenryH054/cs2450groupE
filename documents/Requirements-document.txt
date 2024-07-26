@@ -1,36 +1,61 @@
-﻿Requirements Documentation
+﻿Functional
 
-Functional:
-1. The system shall provide a button to execute the loaded BasicML program by selecting the “run program” button in the GUI.
-2. The system shall allow the user to load a BasicML program from a text file by selecting the “load program” button in the GUI and selecting the file in the pop-up window.
-3. The system shall load a BasicML program into memory starting at location 00.
-4. The system shall provide an input field for user input.
-5. The system shall provide an output area to display results and messages.
-6. The system shall allow the user to input data when a READ (10) instruction is executed.
-7. The system shall display output to the user when a WRITE (11) instruction is executed.
-8. The system shall increment the program counter after executing an instruction, except for branch and halt instructions.
-9. The system shall truncate any instruction to four digits before loading it into memory.
-10. The system shall handle each BasicML instruction and data word as a signed four-digit integer.
-11. The system shall add a value from memory to the accumulator when an ADD (30) instruction is executed.
-12. The system shall subtract a value from memory from the accumulator when a SUBTRACT (31) instruction is executed.
-13. The system shall divide the accumulator by a value from memory when a DIVIDE (32) instruction is executed.
-14. The system shall multiply the accumulator by a value from memory when a MULTIPLY (33) instruction is executed.
-15. The system shall provide buttons to load and run programs.
+    Program Execution:
+        The system shall provide a button to execute the loaded BasicML program by selecting the “run program” button in the GUI.
 
-Updates:
-16. The system shall allow users to view and edit the loaded program through an edit window.
-17. The system shall provide a "Save changes" checkbox, allowing users to persist modifications made to program instructions when closing the edit window.
-18. The system shall provide a "Done" button in the edit window that, when clicked, closes the edit window and applies any saved changes to the program instructions in memory.
-19. The system shall provide a "Scroll to top" button in the edit window, allowing users to quickly navigate to the beginning of the instruction list.
-20. The system shall limit the number of instructions to a maximum of 100, automatically truncating any excess instructions when saving or running the program.
+    Program Loading:
+        The system shall allow the user to load a BasicML program from a text file by selecting the “load program” button in the GUI and selecting the file in the pop-up window.
+        The system shall load a BasicML program into memory starting at location 000.
 
+    Input and Output:
+        The system shall provide an input field for user input.
+        The system shall provide an output area to display results and messages.
+        The system shall allow the user to input data when a READ (010) instruction is executed.
+        The system shall display output to the user when a WRITE (011) instruction is executed.
+
+    Program Execution Flow:
+        The system shall increment the program counter after executing an instruction, except for branch and halt instructions.
+
+    Instruction Handling:
+        The system shall handle each BasicML instruction and data word as a signed six-digit integer.
+        The system shall add a value from memory to the accumulator when an ADD (030) instruction is executed.
+        The system shall subtract a value from memory from the accumulator when a SUBTRACT (031) instruction is executed.
+        The system shall divide the accumulator by a value from memory when a DIVIDE (032) instruction is executed.
+        The system shall multiply the accumulator by a value from memory when a MULTIPLY (033) instruction is executed.
+
+    Program Modification:
+        The system shall allow users to view and edit the loaded program through an edit window.
+        The system shall provide a "Save changes" checkbox, allowing users to persist modifications made to program instructions when closing the edit window.
+        The system shall provide a "Done" button in the edit window that, when clicked, closes the edit window and applies any saved changes to the program instructions in memory.
+        The system shall provide a "Scroll to top" button in the edit window, allowing users to quickly navigate to the beginning of the instruction list.
+        The system shall limit the number of instructions to a maximum of 250, automatically truncating any excess instructions when saving or running the program.
+        The system shall display a warning message in the edit window, notifying users that instructions exceeding the 250-instruction limit will be removed.
+
+    File Format Support:
+        The system shall support both 4-digit and 6-digit word files, with a way to differentiate them at load or run time.
+        The system shall prevent mixing and matching 4-digit and 6-digit words within an individual file.
+        The system shall provide a conversion process feature to convert 4-digit files to 6-digit form by appending leading zeroes, saving the converted file to the new format.
+
+    Multi-file Management:
+        The system shall implement a system to open multiple files within the application instance (e.g., GUI tabs, sub-windows).
+        The system shall allow users to switch between, edit, and execute each file in any order.
+        The system shall ensure only one file can be executed at a time.
+        The system shall allow users to edit or execute another file only after the current file execution has finished or is manually stopped.
 
 Non-Functional
-1. The program must be written in Java.
-2. The system shall be designed to allow the addition of new instruction types without requiring changes to the main program loop or memory management code.
-3. The system shall be compatible with Windows, macOS, and Linux operating systems.
 
-Updates:
-4: The system shall provide scrolling functionality for the output area and edit window to accommodate longer programs or output.
-5: The system shall use a consistent color scheme and layout for the GUI components.
-6. The system shall display a warning message in the edit window, notifying users that instructions exceeding the 100-instruction limit will be removed.
+    Programming Language:
+        The program must be written in Java.
+
+    System Design:
+        The system shall be designed to allow the addition of new instruction types without requiring changes to the main program loop or memory management code.
+
+    Operating System Compatibility:
+        The system shall be compatible with Windows, macOS, and Linux operating systems.
+
+    User Interface:
+        The system shall provide scrolling functionality for the output area and edit window to accommodate longer programs or output.
+        The system shall use a consistent color scheme and layout for the GUI components.
+
+    Instruction Limits:
+        The system shall display a warning message in the edit window, notifying users that instructions exceeding the 250-instruction limit will be removed.

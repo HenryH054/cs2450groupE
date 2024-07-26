@@ -196,7 +196,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Welcome to the UV Sim!\n" +
                 "Click the Load program button to load a program file from your local machine.\n" +
                 "Click the run program button to run the program from the file\n" +
-                "When prompted enter a 4 digit instruction.\n\n");
+                "When prompted enter a 6 digit instruction.\n\n");
         outputArea.setEditable(false);
         setContentPane(mainPanel);
         setTitle("UVSIM");
