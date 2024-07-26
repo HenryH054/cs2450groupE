@@ -65,9 +65,6 @@ Interactive Controls
 Use the GUI controls to interact with the virtual machine:
 •	Load: Load a new BasicML file.
 •	Run: Execute the loaded program.
-•	Step: Execute one instruction at a time for debugging.
-•	Reset: Reset the virtual machine to its initial state.
-•	Exit: Close the GUI application.
 Customization
 The GUI now supports custom color schemes. You can configure the primary and off-colors through the GUI or a configuration file.
 Editing and Saving Files
