@@ -248,7 +248,7 @@ public class EditWindow extends javax.swing.JFrame {
         jScrollPane1.getVerticalScrollBar().setValue(0);
     }//GEN-LAST:event_scrollToTopButtonActionPerformed
 
-    private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
+    public void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
         // TODO add your handling code here:
         List<String> instructions = extractInstructionsFromTextArea();
 
@@ -324,7 +324,7 @@ public class EditWindow extends javax.swing.JFrame {
      *
      * @return the list of instructions
      */
-    private List<String> extractInstructionsFromTextArea() {
+    public List<String> extractInstructionsFromTextArea() {
         List<String > instructions = new ArrayList<>();
 
         String text = textArea.getText();
@@ -340,13 +340,12 @@ public class EditWindow extends javax.swing.JFrame {
         return instructions;
     }
 
-    private List<Integer> extractInstructionsFromTextAreaInt() {
+    public List<Integer> extractInstructionsFromTextAreaInt() {
         List<Integer> instructions = new ArrayList<>();
 
         String text = textArea.getText();
 
         String[] lines = text.split("\\n");
-
 
             int i = 0;
             for (String line : lines) {
@@ -397,6 +396,10 @@ public class EditWindow extends javax.swing.JFrame {
         textArea.setComponentPopupMenu(popupMenu);
     }
 
+    public JTextArea getTextArea() {
+        return textArea;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton continueButton;
     private javax.swing.JButton convertButton;
@@ -410,7 +413,7 @@ public class EditWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton saveAsButton;
+    public javax.swing.JButton saveAsButton;
     private javax.swing.JButton scrollToTopButton;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables

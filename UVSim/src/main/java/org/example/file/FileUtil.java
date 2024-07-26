@@ -40,6 +40,10 @@ public class FileUtil {
      */
     public static List<Integer> readFileAsIntegerList(File file) {
         List<Integer> instructions = new ArrayList<>();
+        if(file == null) {
+            return instructions;
+        }
+
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextInt()) {
                 instructions.add(scanner.nextInt());
@@ -59,6 +63,10 @@ public class FileUtil {
         int numDigits = 6;
         StringBuilder sb = new StringBuilder();
         if (instruction != null) {
+            if(instruction.charAt(0) == '-') {
+                instruction = instruction.substring(1);
+                sb.append("-");
+            }
             for (int i = instruction.length(); i < numDigits; i++) {
                 sb.append("0");
             }
