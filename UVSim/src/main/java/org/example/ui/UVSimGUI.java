@@ -163,6 +163,9 @@ public class UVSimGUI extends javax.swing.JFrame {
 
     void runProgramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runProgramButtonActionPerformed
         // TODO add your handling code here:
+        if (selectedFile == null) {
+            fileLoadedLabel.setText("no file selected");
+        }
         appController.getRunner().runProgram(isReRun, selectedFile);
         isReRun = true;
     }//GEN-LAST:event_runProgramButtonActionPerformed
@@ -260,6 +263,7 @@ public class UVSimGUI extends javax.swing.JFrame {
         selectedFile = selectProgramFile();
 
         if (selectedFile == null) {
+            fileLoadedLabel.setText("no file selected");
             appendMessageToTextArea("No file selected.\n");
             return;
         }

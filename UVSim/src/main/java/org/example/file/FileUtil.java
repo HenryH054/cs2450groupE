@@ -40,6 +40,10 @@ public class FileUtil {
      */
     public static List<Integer> readFileAsIntegerList(File file) {
         List<Integer> instructions = new ArrayList<>();
+        if(file == null) {
+            return instructions;
+        }
+
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextInt()) {
                 instructions.add(scanner.nextInt());
