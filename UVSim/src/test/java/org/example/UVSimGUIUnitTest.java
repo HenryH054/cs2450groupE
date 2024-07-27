@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.business.CPU;
 import org.example.controller.AppController;
+import org.example.data.Memory;
 import org.example.file.FileUtil;
 import org.example.ui.UVSimGUI;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +42,7 @@ public class UVSimGUIUnitTest {
         List<Integer> expectedInstructions = new ArrayList<>();
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile))) {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < Memory.SIZE; i++) {
                 int random4Digit = 1000 + rnd.nextInt(9000);
                 expectedInstructions.add(random4Digit);
                 bw.write(String.valueOf(random4Digit));
@@ -51,8 +52,8 @@ public class UVSimGUIUnitTest {
 
         List<Integer> actualInstructions = FileUtil.readFileAsIntegerList(tempFile);
 
-        assertEquals(100, actualInstructions.size());
-        for (int i = 0; i < 100; i++) {
+        assertEquals(250, actualInstructions.size());
+        for (int i = 0; i < Memory.SIZE; i++) {
             assertEquals(expectedInstructions.get(i), actualInstructions.get(i));
         }
     }
@@ -65,7 +66,7 @@ public class UVSimGUIUnitTest {
         List<Integer> expectedInstructions = new ArrayList<>();
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile))) {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < Memory.SIZE; i++) {
                 int random4Digit = 1000 + rnd.nextInt(9000) * -1;
                 expectedInstructions.add(random4Digit);
                 bw.write(String.valueOf(random4Digit));
@@ -75,8 +76,8 @@ public class UVSimGUIUnitTest {
 
         List<Integer> actualInstructions = FileUtil.readFileAsIntegerList(tempFile);
 
-        assertEquals(100, actualInstructions.size());
-        for (int i = 0; i < 100; i++) {
+        assertEquals(250, actualInstructions.size());
+        for (int i = 0; i < Memory.SIZE; i++) {
             assertEquals(expectedInstructions.get(i), actualInstructions.get(i));
         }
     }
